@@ -1,40 +1,48 @@
-import express from "express";
-import bodyParser from "body-parser";
+/**
+ * @name        PantherBot
+ * @version     0.6.0
+ * @author      GSUGuide21 <https://github.com/GSUGuide21>
+ **/
+// import express from "express";
+// import bodyParser from "body-parser";
 import Discord from "discord.js";
 import { Message } from "discord.js";
-import { BotClient } from "discord.js";
-import { MongoClient } from "mongodb";
-import Commands from "./commands";
-import Events from "./events";
-import config from "./config";
+import { Client } from "discord.js";
+// import { MongoClient } from "mongodb";
+import roles from "./roles.js";
+import Commands from "./commands.js";
+// import Events from "./events";
+// import config from "./config";
 
-const app = express( );
-const bot = new BotClient( );
-
-app.use( bodyParser.json( ) );
-
-app.post( "/", handleRequest );
-app.post( "/:guildId", handleRequest );
-
-const handleRequest = ( req, res ) => { 
-    const ev = req.get( "X-Github-Event" );
-    if ( ev ) {
-        const msg = Events[ ev ]( req.body );
-        const repo = req.body.repository.full_name.toLowerCase( );
-        sendMessages( repo, msg, req.params.guildId );
-        res.sendStatus( 200 );
+// const app = express( );
+const bot = new Client( );
+const token = "NzU3MDQ2MTU4MTQ4MzcwNDcz.X2asLQ.JPpBHgmK_B9EGovbpcwJaEfgroA";
+const parse = ( { content } ) => { 
+    const [ command, ...args ] = content.split( /\s+/g );
+    const commandName = command.replace( /^(?:\!|\/)/, "" );
+    if ( typeof Commands[ commandName ] === "function" ) { 
+        return { commandName, args, valid : true };
     } else {
-        res.sendStatus( 400 );
+        return { commandName, valid : false }
     }
 };
 
-app.get( "/", ( req, res ) => { 
-    res.send( "This address is not meant to be accessed by a web browser." );
+bot.on( "message", msg => { 
+    const { author: { id } } = msg;
+    if ( id === bot.user.id ) return;
+    const { valid, commandName, args } = parse( msg );
+    const { channel: { send } } = msg;
+    if ( valid ) { 
+        const val = Commands[ commandName ]( msg, args );
+        if ( val !== void 0 ) send( val );
+    } else {
+        msg.reply( `The following command is invalid: ${ commandName }.` );
+        // Commands.help( );
+    }
 } );
 
-const sendMessages = ( repo, msg, guildId ) => { 
-    MongoClient.connect( config.db, ( err, db ) => { 
-        if ( err ) reject( err );
-        db.collection( "subscriptions" ).find( { } )
-    } );
-};
+bot.on( "ready", ( ) => { 
+    console.log( "Bot is now connected!" );
+} );
+
+bot.login( token );
