@@ -1,0 +1,35 @@
+> Commands
+
+***Core commands***
+
+**!signal**: Sends a link to one of The Signal's articles.
+**!help**: Shows a description of each command.
+
+***Music commands***
+
+**!play**: Plays a song from a YouTube link.
+**!skip**: Skips a song on the queue.
+**!stop**: Stops the song and ends the queue.
+
+***Random commands***
+
+||**!fy**: Allows PantherBot to reply "fuck you."||
+||**!nc**: Creates an embed to a certain Uncyclopedia article.||
+**!random**: Sends a random integer.
+**!ping**: The bot replies back to you with "pong!"
+**!rickroll**: Sends a YouTube embed to Rick Astley\'s *Never Gonna Give You Up*.
+**!yt**: Sends a more detailed YouTube embed from a Watch URL.
+**!binary**: Converts your message to binary code.
+
+***Moderator commands***
+
+**!kick**: Kicks a member from the server.
+**!ban**: Bans a member from the server.
+
+> Responses
+
+Coming soon!
+
+> Questions
+
+Coming soon!

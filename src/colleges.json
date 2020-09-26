@@ -1,0 +1,89 @@
+{ 
+    "J. Mack Robinson College of Business" : {
+        "aliases" : [ 
+            "RCB",
+            "Robinson College of Business",
+            "College of Business"
+        ],
+        "majors" : [ 
+            "Accounting",
+            "Managerial Sciences",
+            "Finance",
+            "Risk Management & Insurance",
+            "Actuarial Science",
+            "Computer Information Systems",
+            "Hospitality Administration",
+            "Marketing",
+            "Real Estate",
+            "Business Economics",
+            "Entrepreneurship"
+        ]
+    },
+    "Andrew Young School of Policy Studies" : { 
+        "aliases" : [ 
+            "AYPS",
+            "AYSPS",
+            "School of Policy Studies"
+        ],
+        "majors" : [ 
+            "Criminal Justice",
+            "Economics",
+            "Public Management & Policy",
+            "Social Work",
+            "Urban Studies"
+        ]
+    },
+    "College of the Arts" : { 
+        "aliases" : [ ],
+        "majors" : [ 
+            "Film",
+            "Media Entrepreneurship",
+            "Art"
+        ]
+    },
+    "College of Law" : { 
+        "aliases" : [ ],
+        "majors" : [ 
+            "Law"
+        ]
+    },
+    "College of Arts & Sciences" : { 
+        "aliases" : [ 
+            "Arts & Sciences",
+            "Mathematics"
+        ],
+        "majors" : [ 
+            ""
+        ]
+    },
+    "Byrdine F. Lewis College of Nursing and Health Professions" : { 
+        "aliases" : [ 
+            "College of Nursing"
+        ],
+        "majors" : [ 
+            "Health Sciences",
+            "Nutrition",
+            "Nursing",
+            "Occupational Therapy"
+        ]
+    },
+    "Institute for Biomedical Sciences" : { 
+        "aliases" : [ ],
+        "majors" : [ 
+            ""
+        ]
+    },
+    "School of Public Health" : { 
+        "aliases" : [ ],
+        "majors" : [ 
+            ""
+        ]
+    },
+    "College of Education & Human Development" : { 
+        "aliases" : [ ],
+        "majors" : [ 
+            "Exercise Science",
+            "Early Childhood & Elementary Education"
+        ]
+    }
+}

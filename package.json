@@ -1,9 +1,16 @@
 {
 	"name": "pantherbot",
-	"version": "0.6.0",
+	"version": "1.0.1",
+	"main": "index.js",
+	"module": "main.js", 
 	"description": "A Discord bot that posts announcements and updates. Note: This bot is not affiliated with Georgia State University.",
 	"engines": {
 		"node": "6.5.0"
+	},
+	"scripts": { 
+		"start": "node -r esm src/main.js",
+		"dev": "nodemon -r esm src/main.js",
+		"test": "echo \"Test!\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
@@ -12,8 +19,11 @@
 	"keywords": [
 		"Discord",
 		"Bot",
+		"PantherBot",
+		"GSUGuide21",
 		"GSU"
 	],
+	"author": "GSUGuide21",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/GSUGuide21/PantherBot/issues"
@@ -23,9 +33,17 @@
 		"body-parser": "^1.15.2",
 		"discord.js": "^9.3.1",
 		"esm": "^3.2.25",
-		"express": "^4.14.0",
+		"express": "^4.17.1",
 		"mongodb": "^2.2.10",
 		"request": "^2.74.0",
-		"rollup": "^0.35.11"
-	}
+		"rollup": "^0.35.11",
+		"ytdl-core": "^3.3.0",
+		"axios": "^0.20.0",
+		"dotenv": "^8.2.0",
+		"fs-extra": "^3.0",
+		"opusscript": "0.0.7",
+		"snoowrap": "^1.21.0",
+		"nodemon": "^2.0.4"
+	},
+	"devDependencies": {}
 }
