@@ -1,0 +1,1 @@
+// ESM syntax is supported.
