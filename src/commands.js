@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 import axios from "axios";
-import fs from "fs";
+import fs from "fs-extra";
 import ytdl from "ytdl-core";
 
 const MAX_SAFE_INTEGER = Math.pow( 10, 10 ) - 1;
