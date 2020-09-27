@@ -14,6 +14,8 @@ import responses from "./src/responses.js";
 import Commands from "./src/commands.js";
 // Messages
 import messages from "./src/messages.js";
+// Questions
+import questions from "./src/questions.js";
 // Roles
 import roles from "./src/roles.js";
 // Create date function
