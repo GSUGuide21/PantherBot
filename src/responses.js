@@ -64,7 +64,7 @@ export default [
             return a.includes( content );
         },
         result : ( { channel } ) => {
-            fs.readFile( `${ __dirname }/riddles.txt`, 'utf-8', ( err, data ) => { 
+            fs.readFile( `${ __dirname }/src/riddles.txt`, 'utf-8', ( err, data ) => { 
                 if ( err ) { 
                     channel.send( "I don't have any riddles to tell you today." );
                 } else { 
