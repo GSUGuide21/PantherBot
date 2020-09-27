@@ -31,8 +31,6 @@ const COMMAND_PREFIX = "!";
 
 console.log( `PantherBot token: ${ token }` );
 
-const { join } = messages;
-
 bot.on( "ready", ( ) => { 
     const { user : { tag } } = bot;
     console.log( `${ tag } has connected to the group chat!` );
