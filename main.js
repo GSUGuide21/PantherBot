@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 // Responses
 import responses from "./src/responses.js";
 // Commands
-import Commands from "./src/Commands.js";
+import Commands from "./src/commands.js";
 // Messages
 import messages from "./src/messages.js";
 // Roles
