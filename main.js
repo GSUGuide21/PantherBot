@@ -41,6 +41,7 @@ bot.on( "ready", ( ) => {
 bot.on( "message", ( msg ) => { 
     const { content, author, channel, guild } = msg;
     if ( author.bot ) return;
+    let responded = false;
     if ( content.startsWith( COMMAND_PREFIX ) ) { 
         const [ CMD_NAME, ...CMD_ARGS ] = content
             .trim( )
@@ -54,8 +55,6 @@ bot.on( "message", ( msg ) => {
             channel.send( Commands[ CMD_NAME ] );
         }
     } else { 
-        let responded = false;
-
         responses.forEach( ( response ) => { 
             if ( responded ) return false;
             const { trigger, result } = response;
