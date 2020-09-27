@@ -5,25 +5,19 @@
  **/
 
 // Discord.js
-const Discord = require( "discord.js" );
-
+import Discord from "discord.js";
 // dotenv
-const dotenv = require( "dotenv" );
-
+import dotenv from "dotenv";
 // Responses
-const responses = require( `./src/responses` );
-
+import responses from "./src/responses";
 // Commands
-const commands = require( "./src/commands" );
-
+import commands from "./src/commands";
 // Messages
-const messages = require( "./src/messages" );
-
+import messages from "./src/messages";
 // Roles
-const roles = require( "./src/roles.js" );
-
+import roles from "./src/roles";
 // Create date function
-const createDate = require( "./src/date.js" );
+import createDate from "./src/date";
 
 // Configuring the environment variables
 dotenv.config( );
