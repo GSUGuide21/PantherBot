@@ -81,10 +81,10 @@ bot.on( "message", ( msg ) => {
 bot.on( "message", msg => { 
     const { content, author, channel } = msg;
     if ( author.bot ) return;
-    if ( content.startsWith( PREFIX ) ) {
+    if ( content.startsWith( COMMAND_PREFIX ) ) {
         const [ CMD_NAME, ...args ] = content
             .trim( )
-            .substring( PREFIX.length )
+            .substring( COMMAND_PREFIX.length )
             .split( /\s+/g );
         if ( typeof Commands[ CMD_NAME ] === "function" ) {
             const command = Commands[ CMD_NAME ];
