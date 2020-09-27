@@ -8,9 +8,8 @@
 		"node": "6.5.0"
 	},
 	"scripts": {
-		"start": "node -r esm src/main.js",
-		"dev": "nodemon -r esm src/main.js",
-		"test": "echo \"Test!\" && exit 1"
+		"start": "node main.js",
+		"test": "echo \"Hello World\" && exit 1"
 	},
 	"repository": {
 		"type": "git",

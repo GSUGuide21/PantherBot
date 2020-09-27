@@ -20,10 +20,10 @@ const commands = require( "./src/commands" );
 const messages = require( "./src/messages" );
 
 // Roles
-const roles = require( "./src/roles" );
+const roles = require( "./src/roles.js" );
 
 // Create date function
-const createDate = require( "./src/date" );
+const createDate = require( "./src/date.js" );
 
 // Configuring the environment variables
 dotenv.config( );
