@@ -9,15 +9,15 @@ import Discord from "discord.js";
 // dotenv
 import dotenv from "dotenv";
 // Responses
-import responses from "./src/responses";
+import responses from "./src/responses.js";
 // Commands
-import commands from "./src/commands";
+import commands from "./src/commands.js";
 // Messages
-import messages from "./src/messages";
+import messages from "./src/messages.js";
 // Roles
-import roles from "./src/roles";
+import roles from "./src/roles.js";
 // Create date function
-import createDate from "./src/date";
+import createDate from "./src/date.js";
 
 // Configuring the environment variables
 dotenv.config( );
