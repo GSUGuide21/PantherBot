@@ -236,7 +236,7 @@ export default class Commands {
     }
     // Help command
     static help( { channel } ) { 
-        fs.readFile( `./help.txt`, "utf-8", ( err, data ) => { 
+        fs.readFile( `/help.txt`, "utf-8", ( err, data ) => { 
             if ( err ) {
                 console.log( err );
                 return channel.send( "There is no command directory for this bot." );
