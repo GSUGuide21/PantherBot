@@ -13,7 +13,7 @@ import responses from "./src/responses.js";
 // Commands
 import Commands from "./src/commands.js";
 // Messages
-import messages from "./src/messages.js";
+import { join, leave, ban, kick } from "./src/messages.js";
 // Roles
 import roles from "./src/roles.js";
 // Create date function
@@ -78,34 +78,6 @@ bot.on( "message", ( msg ) => {
     }
 } );
 
-bot.on( "message", msg => { 
-    const { content, author, channel } = msg;
-    if ( author.bot ) return;
-    if ( content.startsWith( COMMAND_PREFIX ) ) {
-        const [ CMD_NAME, ...args ] = content
-            .trim( )
-            .substring( COMMAND_PREFIX.length )
-            .split( /\s+/g );
-        if ( typeof Commands[ CMD_NAME ] === "function" ) {
-            const command = Commands[ CMD_NAME ];
-            command( { channel, msg, args } );
-        }
-    } else { 
-        let responded = false;
-        responses.forEach( response => { 
-            if ( responded ) return false;
-            const { ask, result } = response;
-            if ( ask( { channel, msg, content, author } ) ) {
-                result( { channel, msg, content, author } );
-            }
-        } );
-
-        /*questions.forEach( questions => { 
-            if ( responded ) return false;
-        } );*/
-    }
-} );
-
 bot.on( "guildMemberAdd", member => { 
     const { guild, user } = member;
     const { channels } = guild;
@@ -114,18 +86,19 @@ bot.on( "guildMemberAdd", member => {
 
     if ( updateChannel ) {
         const embed = new Discord.MessageEmbed( );
+        const { username, tag, avatarURL } = user;
         embed
             .setColor( "#374057" )
-            .setThumbnail( user.avatarURL )
+            .setThumbnail( avatarURL )
             .setTitle( "User Information" )
             .addFields( [ 
                 { 
                     name : "Nickname",
-                    value : user.username
+                    value : username
                 },
                 { 
                     name : "Tag",
-                    value : user.tag
+                    value : tag
                 },
                 { 
                     name : "Joined",
@@ -134,6 +107,7 @@ bot.on( "guildMemberAdd", member => {
             ] );
         updateChannel.send( embed )
     }
+
     if ( lobbyChannel ) {
         join.send( { channel, user } );
     }

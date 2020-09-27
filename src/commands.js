@@ -14,10 +14,25 @@ export default class Commands {
             .setColor( );        
     }
     // Moderator commands
-    static kick( { channel, msg, args } ) { 
+    static kick( { channel, msg, args, guild } ) { 
+        if ( args.length === 0 ) { 
+            return channel.send( "You need to specify a user to kick." );
+        }
+        const user = msg.mentions.users.first( );
 
+        if ( user ) { 
+            const member = guild.member( user );
+            if ( member ) {
+                const reason = args.slice( 1 ) 
+                member.kick( reason ).then( ( ) => { 
+                    channel.send( '' );
+                } ).catch( ( ) => { 
+                    
+                });
+            }
+        }
     }
-    static ban( { channel, msg, args } ) {
+    static ban( { channel, msg, args, guild } ) {
 
     }
     // Music commands
@@ -221,7 +236,7 @@ export default class Commands {
     }
     // Help command
     static help( { channel } ) { 
-        fs.readFile( `${ __dirname }/help.txt`, "utf-8", ( err, data ) => { 
+        fs.readFile( `./help.txt`, "utf-8", ( err, data ) => { 
             if ( err ) {
                 console.log( err );
                 return channel.send( "There is no command directory for this bot." );
