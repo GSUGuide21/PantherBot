@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 // Responses
 import responses from "./src/responses.js";
 // Commands
-import commands from "./src/commands.js";
+import Commands from "./src/Commands.js";
 // Messages
 import messages from "./src/messages.js";
 // Roles
@@ -46,12 +46,12 @@ bot.on( "message", ( msg ) => {
             .trim( )
             .substring( COMMAND_PREFIX.length )
             .split( /\s+/g );
-        if ( typeof commands[ CMD_NAME ] === "function" ) { 
-            const command = commands[ CMD_NAME ];
+        if ( typeof Commands[ CMD_NAME ] === "function" ) { 
+            const command = Commands[ CMD_NAME ];
             const args = CMD_ARGS.filter( x => x !== "" );
             command( { channel, msg, args, guild } );
-        } else if ( typeof commands[ CMD_NAME ] === "string" ) { 
-            channel.send( commands[ CMD_NAME ] );
+        } else if ( typeof Commands[ CMD_NAME ] === "string" ) { 
+            channel.send( Commands[ CMD_NAME ] );
         }
     } else { 
         let responded = false;
