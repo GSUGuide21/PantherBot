@@ -13,7 +13,7 @@ import responses from "./src/responses.js";
 // Commands
 import Commands from "./src/commands.js";
 // Messages
-import { join, leave, ban, kick } from "./src/messages.js";
+import messages from "./src/messages.js";
 // Roles
 import roles from "./src/roles.js";
 // Create date function
@@ -28,6 +28,7 @@ const { Client } = Discord;
 const bot = new Client( );
 const { PANTHERBOT_TOKEN : token } = process.env;
 const COMMAND_PREFIX = "!";
+const { join, leave, kick, ban } = messages;
 
 console.log( `PantherBot token: ${ token }` );
 
