@@ -68,9 +68,9 @@ bot.on( "message", ( msg ) => {
 
         questions.forEach( ( question ) => { 
             if ( responded ) return false;
-            const { trigger, result } = question;
-            const toTrigger = trigger( { channel, msg, content, author, guild } );
-            if ( toTrigger ) { 
+            const { ask, result } = question;
+            const toAsk = ask( { channel, msg, content, author, guild } );
+            if ( toAsk ) { 
                 result( { channel, msg, content, author, guild } );
                 responded = true;
             }
