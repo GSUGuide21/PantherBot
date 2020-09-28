@@ -313,6 +313,9 @@ export default class Commands {
             .join( " " );
         channel.send( result );
     }
+    static test( { channel, author } ) { 
+        channel.send( `${ author } is testing PantherBot!` );
+    }
     // Help command
     static help( { channel } ) { 
         fs.readFile( `${ __dirname }/help.txt`, "utf-8", ( err, data ) => { 

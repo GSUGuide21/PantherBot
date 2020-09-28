@@ -83,20 +83,16 @@ bot.on( "guildMemberAdd", ( member ) => {
     const { guild, id } = member;
     const lobby = guild.channels.cache.find( c => c.name === "lobby" );
     if ( !lobby ) return;
-    const w = join.messages;
-    const i = Math.floor( Math.random( ) * w.length );
-    const r = w[ i ];
-    lobby.send( r.replace( "$id", id ) );
+    join.send( { channel : lobby, id } );
 } );
 
 bot.on( "guildMemberRemove", ( member ) => { 
-    const { guild, user } = member;
+    const { guild, user, id } = member;
     const { channels } = guild;
-    const updateChannel = channels.cache.find( c => c.name === "update" );
-    const lobbyChannel = channels.cache.find( c => c.name === "lobby" );
+    const lobby = channels.cache.find( c => c.name === "lobby" );
 
     if ( lobbyChannel ) { 
-        leave.send( { channel, user } );
+        leave.send( { channel : lobby, user, id } );
     }
 } );
 

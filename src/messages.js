@@ -17,19 +17,17 @@ const afterMessage = "Please read the rules on the #rules channel. Ignorance to 
 export default { 
     join : { 
         messages : [ 
-            "Welcome to the fray, **<@$id>**! Please read the rules on the #rules channel. Ignorance to the rules will not be excused.",
-            "Welcome aboard, **<@$id>**!! Please read the rules on the #rules channel. Ignorance to the rules will not be excused.",
-            "Thank you for coming, **<@$id>**!! I hope you enjoy your stay. Please read the rules on the #rules channel. Ignorance to the rules will not be excused."
+            "Welcome to the fray, **<@$id>**!",
+            "Welcome aboard, **<@$id>**!",
+            "Thank you for coming, **<@$id>**!"
         ],
         after : afterMessage,
-        send( { channel, user } ) { 
+        send( { channel, user, id } ) { 
             const messages = this.messages;
             const length = messages.length;
             const randomIndex = Math.floor( Math.random( ) * length );
             const message = messages[ randomIndex ];
-            const messageResult = message.replace( /\$([a-z\_\-]+)/gi, ( match, key ) => { 
-                return parse( { match, user, key } );
-            } );
+            const messageResult = message.replace( /\$id/g, id );
             const result = [ messageResult, this.after ].join( " " );
             channel.send( result );
         }
