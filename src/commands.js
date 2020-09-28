@@ -21,6 +21,8 @@ const slug = ( s ) => {
     return r;
 };
 
+const isNum = ( n ) => ( isFinite( n ) && !isNaN( n ) );
+
 export default class Commands { 
     // Integral commands
     static signal( { channel, args } ) { 
@@ -230,6 +232,30 @@ export default class Commands {
     }
     static ping( { channel } ) {
         channel.send( "pong!" );
+    }
+    static countdown( { channel, args } ) { 
+        const arr = [ 
+            "5...",
+            "4...",
+            "3...",
+            "2...",
+            "1...!",
+            "Blast off!"
+        ];
+        const d = args[ 0 ];
+        let delay = isNum( d ) ? parseInt( delay ) : 500;
+        if ( delay < 1 ) delay = 500;
+        let done = false;
+        let interval = setInterval( ( ) => { 
+            if ( done ) { 
+                clearInterval( interval );
+                interval = null;
+                return channel.send( "The countdown has been completed!" );
+            }
+            const item = arr.shift( );
+            channel.send( item );
+            if ( arr.length === 0 ) done = true;
+        }, delay );
     }
     static random( { channel, args } ) {
         let randomNumber = 0, 
