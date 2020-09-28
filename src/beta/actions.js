@@ -158,7 +158,7 @@ export default {
         channel.send( result );
     },
     random( { channel, args } ) { 
-        let randomNumber = 0, min, max;
+        let rand = 0, min, max;
         if ( args.length > 0 ) { 
             let [ x, y ] = args.map( ( e ) => parseInt( e, 10 ) );
             [ x, y ] = [
@@ -170,10 +170,23 @@ export default {
             [ min, max ] =[ -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER ];
         }
 
-        const rand = Math.floor( Math.random( ) * ( max - min + 1 ) ) + min; 
+        rand = Math.floor( Math.random( ) * ( max - min + 1 ) ) + min; 
         channel.send( rand );
     },
-    fibonacci( { } ) { },
+    fibonacci( { channel, args } ) { 
+        const n = parseInt( args[ 0 ] );
+        if ( !isNum( n ) ) { 
+            return channel.send( "This is either not a number or Infinity." );
+        }
+        let [ a, b ] = [ 1, 0 ], t;
+        while ( n >= 0 ) { 
+            t = a;
+            a = a + b;
+            b = t;
+            n--;
+        }
+        channel.send( String( b ) );
+    },
     // Moderator commands
     mute( { channel, msg, args, guild } ) { 
 

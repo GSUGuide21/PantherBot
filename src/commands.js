@@ -276,6 +276,20 @@ export default class Commands {
         }
         channel.send( randomNumber );
     }
+    static fibonacci( { channel, args } ) { 
+        const n = parseInt( args[ 0 ] );
+        if ( !isNum( n ) ) { 
+            return channel.send( "This is either not a number or Infinity." );
+        }
+        let [ a, b ] = [ 1, 0 ], t;
+        while ( n >= 0 ) { 
+            t = a;
+            a = a + b;
+            b = t;
+            n--;
+        }
+        channel.send( String( b ) );
+    }
     static binary( { channel, args } ) { 
         const string = args.join( " " );
         const result = Array.from( string )
