@@ -124,8 +124,116 @@ export default {
         }
     },
     // Random commands
+    yt( { channel, args } ) { 
+        if ( args.length === 0 ) { 
+            return channel.send( "A YouTube video ID or URL is required." );
+        }
+        const embed = new Discord.MessageEmbed( );
+        const arg = args[ 0 ];
+        const isYoutubeURL = /^(?:https?\:\/\/|)(?:www\.youtube\.com|youtu\.be)\/?/;
+
+        let isWatchURL = true, videoID;
+        if ( isYoutubeURL.test( arg ) ) { 
+            const s = arg.replace( isYoutubeURL, "" );
+            const isYbe = /^(?:https?\:\/\/|)youtu\.be/;
+
+            if ( isYbe.test( arg ) ) {
+                if ( !s ) return channel.send( "A YouTube video ID is required." );
+                videoID = isYbe.split( /[\/?&]/g )[ 0 ];
+                videoID = `https://www.youtube.com/watch?v=${ videoID }`;
+            } else {
+                const watchPrefix = /watch\?v=/;
+                const r = s.replace( watchPrefix, "" );
+                if ( !r ) return channel.send( "A YouTube video ID is required." );
+                videoID = arg;
+            }
+        } else {
+            isWatchURL = false;
+        }
+        const watchURL = isWatchURL ? videoID : `https://www.youtube.com/watch?v=${ videoID }`;
+        console.log( watchURL );
+        embed.setColor( "#dd0000" );
+        const reqURL = new URL( "https://www.youtube.com/oembed" );
+        reqURL.searchParams.append( "url", watchURL );
+        reqURL.searchParams.append( "format", "json" );
+
+        axios.get( reqURL.toString( ) ).then( response => { 
+            const { data } = response;
+            const { title, thumbnail_url, author_url, author_name } = data;
+            const finalThumbnailURL = thumbnail_url.replace( /hqdefault\.jpg$/, "maxresdefault.jpg" );
+            const authorInfo = [ "YouTube", "", "https://www.youtube.com" ];
+            const fieldInfo = [
+                [ "Creator", author_name, true ],
+                [ "Creator URL", author_url, true ],
+                [ "Video URL", watchURL ]
+            ];
+            embed
+                .setTitle( title )
+                .setAuthor( ...authorInfo )
+                .setImage( finalThumbnailURL )
+            fieldInfo.forEach( field => embed.addField( ...field ) );
+            channel.send( { embed } );
+        } ).catch( e => {
+            console.error( e );
+            channel.send( "Error loading data from YouTube." );
+        } );
+    },
+    ping( { channel } ) { 
+        channel.send( "pong!" );
+    },
+    fy( { msg } ) {
+        msg.reply( `fuck you!` );
+    },
+    rickroll( { channel } ) { 
+        const embed = new Discord.MessageEmbed( );
+        const authorImage = "https://yt3.ggpht.com/a/AATXAJy4EOYqoWGNS5eqtj0mc0C16I7U-s5cyZkkK5RI_Q=s48-c-k-c0xffffffff-no-nd-rj";
+        const authorURL = "https://www.youtube.com/channel/UCuAXFkgsw1L7xaCfnd5JJOw";
+        embed
+            .setColor( "#9d0000" )
+            .setAuthor( "Official Rick Astley", authorImage, authorURL )
+            .setURL( "https://www.youtube.com/watch?v=dQw4w9WgXcQ" )
+            .setImage( "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" )
+            .setTitle( "Rick Astley - Never Gonna Give You Up (Video)" )
+            .addFields( [ 
+                {
+                    name : "Video created",
+                    value : "Oct. 25, 2009",
+                    inline : true
+                },
+                { 
+                    name : "Released",
+                    value : "June 27, 1987",
+                    inline : true
+                },
+                { 
+                    name : "Writers",
+                    value : "Pete Waterman, Mike Stock, Matt Aitken"
+                }
+            ] );
+        channel.send( { embed } );
+    },
+    nc( { channel } ) { 
+        const embed = new Discord.MessageEmbed( );
+        embed
+            .setColor( "#999999" )
+            .setImage( "https://images.uncyclomedia.co/uncyclopedia/en/thumb/f/f8/Nojesus.jpg/400px-Nojesus.jpg" )
+            .setTitle( "Nobody cares." )
+            .setURL( "https://en.uncyclopedia.co/wiki/Nobody_cares" )
+            .setDescription( "Nobody cares is a policy employed by dictators, despots, democracy, the general public, and the wiki administration. It would be considered the largest epidemic facing the world today if it weren't for the fact that nobody gives a flying cow about epidemics." );
+        channel.send( { embed } );
+    },
     whois( { } ) { },
-    info( { } ) { },
+    info( { channel } ) { 
+        fs.readFile( `${ __dirname }/help.txt`, "utf-8", ( err, data ) => { 
+            if ( err ) {
+                console.log( err );
+                return channel.send( "There is no command directory for this bot." );
+            } else {
+                console.log( data );
+                channel.send( data );
+            }
+        } );
+    },
     countdown( { channel, args } ) { 
         const arr = [ 
             "5...",
@@ -135,7 +243,8 @@ export default {
             "1...!",
             "Blast off!"
         ];
-        let delay = isNum( delay ) ? parseInt( delay ) : 500;
+        let [ d ] = args;
+        let delay = isNum( d ) ? parseInt( d ) : 500;
         if ( delay < 1 ) delay = 500;
         let done = false;
         let interval = setInterval( ( ) => { 

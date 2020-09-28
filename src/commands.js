@@ -41,25 +41,40 @@ export default class Commands {
     }
     // Moderator commands
     static kick( { channel, msg, args, guild } ) { 
-        if ( args.length === 0 ) { 
-            return channel.send( "You need to specify a user to kick." );
-        }
-        const user = msg.mentions.users.first( );
-
+        const user = msg.mentions.user.first( );
         if ( user ) { 
             const member = guild.member( user );
-            if ( member ) {
-                const reason = args.slice( 1 ) 
+            if ( member ) { 
+                const reason = args.slice( 1 ).join( " " ).trim( );
                 member.kick( reason ).then( ( ) => { 
-                    channel.send( '' );
-                } ).catch( ( ) => { 
-                    
-                });
+                } ).catch( ( e ) => { 
+                    console.log( e );
+                    channel.send( "You are unable to kick that person." );
+                } );
+            } else { 
+                channel.send( "The user you are attempting to kick is not in this server." );
             }
+        } else { 
+            channel.send( "You need to specify a user to kick." );
         }
     }
     static ban( { channel, msg, args, guild } ) {
-
+        const user = msg.mentions.user.first( );
+        if ( user ) { 
+            const member = guild.member( user );
+            if ( member ) { 
+                const reason = args.slice( 1 ).join( " " ).trim( );
+                member.ban( { reason } ).then( ( ) => { 
+                } ).catch( ( e ) => { 
+                    console.log( e );
+                    channel.send( "You are unable to kick that person." );
+                } );
+            } else { 
+                channel.send( "The user you are attempting to kick is not in this server." );
+            }
+        } else { 
+            channel.send( "You need to specify a user to ban." );
+        }
     }
     // Music commands
     static play( { channel, msg, args } ) {
@@ -277,7 +292,7 @@ export default class Commands {
         channel.send( randomNumber );
     }
     static fibonacci( { channel, args } ) { 
-        const n = parseInt( args[ 0 ] );
+        let n = parseInt( args[ 0 ] );
         if ( !isNum( n ) ) { 
             return channel.send( "This is either not a number or Infinity." );
         }
