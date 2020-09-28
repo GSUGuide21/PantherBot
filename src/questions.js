@@ -5,7 +5,7 @@ import Discord from "discord.js";
 const QUESTION_SUFFIX = "?";
 
 export default [ 
-    { 
+    /*{ 
         ask( { content, channel } ) { 
             if ( !content.endsWith( QUESTION_SUFFIX ) ) return false;
             return this.trigger( { content, channel } );
@@ -21,5 +21,5 @@ export default [
                 const m = "";
             } );
         }
-    }
+    }*/
 ];
