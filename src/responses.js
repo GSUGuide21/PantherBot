@@ -1,4 +1,8 @@
 import fs from "fs";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname( fileURLToPath( import.meta.url ) );
 
 export default [ 
     // Hello, PantherBot
@@ -58,6 +62,8 @@ export default [
     {
         trigger : ( { content } ) => { 
             const a = [ 
+                "PantherBot, send us a riddle!",
+                "PantherBot, give a riddle!",
                 "PantherBot, give me a riddle!",
                 "Give me a riddle, PantherBot!"
             ];

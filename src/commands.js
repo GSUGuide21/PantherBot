@@ -2,6 +2,10 @@ import Discord from "discord.js";
 import axios from "axios";
 import fs from "fs-extra";
 import ytdl from "ytdl-core";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname( fileURLToPath( import.meta.url ) );
 
 const MAX_SAFE_INTEGER = Math.pow( 10, 10 ) - 1;
 const SERVERS = { };
@@ -236,7 +240,7 @@ export default class Commands {
     }
     // Help command
     static help( { channel } ) { 
-        fs.readFile( `/help.txt`, "utf-8", ( err, data ) => { 
+        fs.readFile( `${ __dirname }/help.txt`, "utf-8", ( err, data ) => { 
             if ( err ) {
                 console.log( err );
                 return channel.send( "There is no command directory for this bot." );
