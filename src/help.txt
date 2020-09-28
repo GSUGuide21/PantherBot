@@ -1,8 +1,6 @@
-> Commands
-
-***Core commands***
-
-**!signal**: Sends a link to one of The Signal's articles.
+***Commands***
+*Core commands*
+`!signal (type) (`: Sends a link to one of The Signal's articles.
 **!help**: Shows a description of each command.
 
 ***Music commands***

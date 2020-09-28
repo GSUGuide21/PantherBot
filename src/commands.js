@@ -10,12 +10,30 @@ const __dirname = dirname( fileURLToPath( import.meta.url ) );
 const MAX_SAFE_INTEGER = Math.pow( 10, 10 ) - 1;
 const SERVERS = { };
 
+const slug = ( s ) => { 
+    const r = String( s )
+        .toLowerCase( )
+        .replace( /\s+/g, "-" )
+        .replace( /[^\u0100-\uFFFF\w\-]/g, '-' )
+        .replace( /\-\-+/g, "-" )
+        .replace( /^-+/, "" )
+        .replace( /-+$/g, "" );
+    return r;
+};
+
 export default class Commands { 
     // Integral commands
-    static signal( { channel } ) { 
+    static signal( { channel, args } ) { 
         const embed = new Discord.MessageEmbed( );
+        const title = args.join( " " );
+        const slugged = slug( title );
+        const url = `https://www.georgiastatesignal.com/${ slugged }`;
         embed
-            .setColor( );        
+            .setColor( "#35bfef" )
+            .setThumbnail( "./signal-logo.png" )
+            .setTitle( title )
+            .setURL( url );
+        channel.send( { embed } );        
     }
     // Moderator commands
     static kick( { channel, msg, args, guild } ) { 
