@@ -78,7 +78,7 @@ bot.on( "message", ( msg ) => {
     }
 } );
 
-bot.on( "guildMemberAdd", member => { 
+bot.on( "guildMemberAdd", ( member ) => { 
     console.log( member );
     const { guild, id } = member;
     const lobby = guild.channels.find( c => c.name === "lobby" );
@@ -89,7 +89,7 @@ bot.on( "guildMemberAdd", member => {
     lobby.send( r.replace( "$id", id ) );
 } );
 
-bot.on( "guildMemberRemove", member => { 
+bot.on( "guildMemberRemove", ( member ) => { 
     const { guild, user } = member;
     const { channels } = guild;
     const updateChannel = channels.find( c => c.name === "update" );
