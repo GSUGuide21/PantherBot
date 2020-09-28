@@ -1,73 +1,87 @@
-import Discord from "discord.js";
-import axios from "axios";
-import fs from "fs-extra";
-import ytdl from "ytdl-core";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import responses from "./response-actions.js";
 
-const __dirname = dirname( fileURLToPath( import.meta.url ) );
-
-export default { 
-    hello : { 
-        trigger : /^Hello\,\s*PantherBot!?$/im,
-        result : ( { msg } ) => msg.reply( "hello!" )
-    },
-    roll : { 
-        trigger : [
-            /^PantherBot\,\s*roll (?:the dice|a die)!?$/im,
-            /^Roll (?:the dice|a die)\,\s*PantherBot!?$/im
-        ],
-        result : ( { channel } ) => { 
-            let a = [ 1, 2, 3, 4, 5, 6 ];
-            let r = Math.floor( Math.random( ) * a.length );
-            channel.send( `PantherBot rolled a ${ a[ r ] }` );
+export default class TextResponse { 
+    constructor( text ) { 
+        if ( new.target !== TextResponse ) { 
+            return new TextResponse( text );
         }
-    },
-    coin : { 
-        trigger : [
-            /^PantherBot\,\s*(?:heads or tails\?|flip a coin!)$/im,
-            /^(?:Heads or tails|Flip a coin)\,\s*PantherBot$/im
-        ],
-        result : ( { channel } ) => { 
-            const a = [ "heads", "tails" ];
-            let r = Math.floor( Math.random( ) * a.length );
-            channel.send( `PantherBot flipped a coin and got ${ a[ r ] }` );
-        }
-    },
-    riddle : { 
-        trigger : [ 
-            /^PantherBot\,\s*(?:send|give) (?:us |me |)a riddle!?$/im,
-            /^(?:Give|send) (?:us |me |)a riddle!?/im
-        ],
-        result : ( { channel } ) => { 
-            fs.readFile( `${ __dirname }/riddles.txt`, 'utf-8', ( err, data ) => { 
-                if ( err ) { 
-                    channel.send( "I don't have any riddles to tell you today." );
-                } else { 
-                    const pattern = /^\*\s*(.+)$/gm;
-                    const riddles = [ ];
-                    
-                    while ( ( v = pattern.exec( data ) ) ) {
-                        const [ , res ] = v;
-                        riddles.push( res.trim( ) );
-                    }
+        this.text = text;
+        this.dispatched = false;
+    }
 
-                    const { length } = riddles;
-                    const index = Math.floor( Math.random( ) * length );
+    async parse( ) { 
+        const { text } = this;
+        const keys = Object.keys( responses );
 
-                    const r = riddles[ index ];
-                    channel.send( r );
+        let r = null, o = { }, dispatch = false;
+
+        while ( keys.length ) { 
+            const key = keys.shift( );
+            const response = responses[ key ];
+            const { trigger, result } = response;
+
+            const triggerIsArray = Array.isArray( trigger );
+            const triggerIsPattern = Object( trigger ) instanceof RegExp;
+            const triggerIsString = typeof trigger === "string";
+            const triggerIsFunction = typeof trigger === "function";
+
+            if ( triggerIsArray ) { 
+                dispatch = trigger.flat( Infinity ).some( ( s ) => { 
+                    const isPattern = Object( s ) instanceof RegExp;
+                    const isString = typeof s === "string";
+                    const isFunction = typeof s === "function";
+
+                    if ( isPattern ) { 
+                        return s.test( text );
+                    } else if ( isString ) {
+                        return s === text;
+                    } else if ( isFunction ) {
+                        return s( { content : text } );
+                    } else return false;
+                } );
+            } else if ( triggerIsString ) { 
+                dispatch = trigger === text;
+            } else if ( triggerIsPattern ) { 
+                dispatch = trigger.test( text );
+            } else if ( triggerIsFunction ) { 
+                dispatch = trigger( { content : text } );
+            }
+
+            if ( dispatch ) { 
+                r = result;
+                o.result = r;
+                if ( generator ) { 
+                    o.generator = generator;
                 }
-            } );
+                break;
+            }
         }
-    },
-    fy : { 
-        trigger : [ 
-            /^Fuck you\,\s*PantherBot!?$/im,
-            /^PantherBot\,\s*fuck you!?$/im
-        ],
-        result : ( { msg } ) => {
-            msg.reply( "fuck you too!" );
+
+        if ( r === null ) { 
+            return { };
+        } else { 
+            return { result : r };
         }
+    }
+
+    send( { channel, msg, args, guild } ) { 
+        const parse = this.parse( );
+        return parse.then( ( o ) => { 
+            if ( !o.hasOwnProperty( "result" ) ) return;
+            const p = { channel, msg, args, guild };
+            if ( o.hasOwnProperty( "generator" ) ) { 
+                const { text } = this;
+                const { generator } = o;
+                const value = generator( { content : text } );
+                p.result = value ? value : "";
+            }
+            const { result } = o;
+            result( p );
+            this.dispatched = true;
+        } );
+    }
+
+    static parse( text ) {
+        return new TextResponse( text );
     }
 };

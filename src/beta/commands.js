@@ -1,4 +1,4 @@
-import actions from "./actions.js";
+import actions from "./command-actions.js";
 
 export default class Command { 
     // Creates a constructor for the Command class
