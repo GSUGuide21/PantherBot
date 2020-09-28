@@ -51,7 +51,7 @@ bot.on( "message", ( msg ) => {
         if ( typeof Commands[ CMD_NAME ] === "function" ) { 
             const command = Commands[ CMD_NAME ];
             const args = CMD_ARGS.filter( x => x !== "" );
-            command( { channel, msg, args, guild } );
+            command( { channel, msg, args, guild, author } );
         } else if ( typeof Commands[ CMD_NAME ] === "string" ) { 
             channel.send( Commands[ CMD_NAME ] );
         }
