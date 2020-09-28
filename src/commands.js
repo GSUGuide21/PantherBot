@@ -30,7 +30,7 @@ export default class Commands {
         const url = `https://www.georgiastatesignal.com/${ slugged }`;
         embed
             .setColor( "#35bfef" )
-            .setThumbnail( "./signal-logo.png" )
+            .setThumbnail( "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png" )
             .setTitle( title )
             .setURL( url );
         channel.send( { embed } );        
