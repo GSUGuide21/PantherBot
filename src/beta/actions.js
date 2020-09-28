@@ -174,7 +174,7 @@ export default {
         channel.send( rand );
     },
     fibonacci( { channel, args } ) { 
-        const n = parseInt( args[ 0 ] );
+        let n = parseInt( args[ 0 ] );
         if ( !isNum( n ) ) { 
             return channel.send( "This is either not a number or Infinity." );
         }
