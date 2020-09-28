@@ -17,9 +17,9 @@ const afterMessage = "Please read the rules on the #rules channel. Ignorance to 
 export default { 
     join : { 
         messages : [ 
-            "Welcome to the fray, **$username**!",
-            "Welcome aboard, **$username**!",
-            "Thank you for coming, **$username**! I hope you enjoy your stay."
+            "Welcome to the fray, **<@$id>**! Please read the rules on the #rules channel. Ignorance to the rules will not be excused.",
+            "Welcome aboard, **<@$id>**!! Please read the rules on the #rules channel. Ignorance to the rules will not be excused.",
+            "Thank you for coming, **<@$id>**!! I hope you enjoy your stay. Please read the rules on the #rules channel. Ignorance to the rules will not be excused."
         ],
         after : afterMessage,
         send( { channel, user } ) { 

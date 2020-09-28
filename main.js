@@ -79,38 +79,14 @@ bot.on( "message", ( msg ) => {
 } );
 
 bot.on( "guildMemberAdd", member => { 
-    const { guild, user } = member;
-    const { channels } = guild;
-    const updateChannel = channels.find( c => c.name === "update" );
-    const lobbyChannel = channels.find( c => c.name === "lobby" );
-
-    if ( updateChannel ) {
-        const embed = new Discord.MessageEmbed( );
-        const { username, tag, avatarURL } = user;
-        embed
-            .setColor( "#374057" )
-            .setThumbnail( avatarURL )
-            .setTitle( "User Information" )
-            .addFields( [ 
-                { 
-                    name : "Nickname",
-                    value : username
-                },
-                { 
-                    name : "Tag",
-                    value : tag
-                },
-                { 
-                    name : "Joined",
-                    value : createDate( member.joinedAt )
-                }
-            ] );
-        updateChannel.send( embed )
-    }
-
-    if ( lobbyChannel ) {
-        join.send( { channel, user } );
-    }
+    console.log( member );
+    const { guild, id } = member;
+    const lobby = guild.channels.find( c => c.name === "lobby" );
+    if ( !lobby ) return;
+    const w = join.messages;
+    const i = Math.floor( Math.random( ) * w.length );
+    const r = w[ i ];
+    lobby.send( r.replace( "$id", id ) );
 } );
 
 bot.on( "guildMemberRemove", member => { 
