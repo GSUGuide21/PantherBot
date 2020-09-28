@@ -28,9 +28,11 @@ export default class Commands {
         const title = args.join( " " );
         const slugged = slug( title );
         const url = `https://www.georgiastatesignal.com/${ slugged }`;
+        const signalImg = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";
+        const signalURL = "https://www.georgiastatesignal.com";
         embed
+            .setAuthor( "The Signal", signalImg, signalURL )
             .setColor( "#35bfef" )
-            .setThumbnail( "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png" )
             .setTitle( title )
             .setURL( url );
         channel.send( { embed } );        
