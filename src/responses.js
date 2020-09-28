@@ -76,7 +76,7 @@ export default [
                 } else { 
                     const pattern = /^\*\s*(.+)$/gm;
                     const riddles = [ ];
-                    
+                    let v;
                     while ( ( v = pattern.exec( data ) ) ) {
                         const [ , res ] = v;
                         riddles.push( res.trim( ) );
