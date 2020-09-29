@@ -45,10 +45,9 @@ export default class Commands {
     static giphy( { channel, msg, args } ) { 
 
     }
-    static meme( { channel, msg, args, guild } ) { 
+    static meme( { channel } ) { 
         const subreddits = [ 
             "meme",
-            "animemes",
             "MemeEconomy",
             "meirl",
             "me_irl",
@@ -58,6 +57,10 @@ export default class Commands {
 
         if ( channel.name === "dank-memes" ) { 
             subreddits.push( "dankmemes", "dankmeme" );
+        }
+
+        if ( channel.name === "anime" ) { 
+            subreddits.push( "animememes", "AnimeFunny", "Memes of Anime" );
         }
 
         const r = Math.floor( Math.random( ) * ( subreddits.length - 1 ) );
