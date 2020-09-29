@@ -69,9 +69,11 @@ export default class Commands {
         channel.startTyping( );
 
         randomPuppy( subreddit ).then( url => { 
+            console.log( url );
             fetch.get( url )
                 .then( res => res.text( ) )
                 .then( data => { 
+                    console.log( data );
                     return await channel.send( { 
                         files : [ { 
                             attachment : data,
