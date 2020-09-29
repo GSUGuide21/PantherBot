@@ -1,6 +1,7 @@
 import Discord from "discord.js";
 import axios from "axios";
 import fs from "fs-extra";
+import URL from "url";
 import ytdl from "ytdl-core";
 import fetch from "node-fetch";
 import randomPuppy from "random-puppy";
@@ -69,20 +70,14 @@ export default class Commands {
         channel.startTyping( );
 
         randomPuppy( subreddit ).then( async url => { 
-            console.log( url );
-            fetch( url )
-                .then( res => res.blob( ) )
-                .then( async data => { 
-                    const imgURL = URL.createObjectURL( data );
-                    return await channel.send( { 
-                        files : [ { 
-                            attachment : imgURL,
-                            name : `meme.${ subreddit }.png`
-                        } ]
-                    } );
-                } )
-                .then( ( ) => channel.stopTyping( ) );
+            return await channel.send( { 
+                files : [ { 
+                    attachment : url,
+                    name : `meme.${ subreddit }.png`
+                } ]
+            } );
         } )
+        .then( ( ) => channel.stopTyping( ) )
         .catch( e => console.error( e ) );
     }
     static reddit( { } ) { }
