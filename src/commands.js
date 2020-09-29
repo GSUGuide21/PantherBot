@@ -70,12 +70,17 @@ export default class Commands {
 
         randomPuppy( subreddit ).then( async url => { 
             console.log( url );
-            return await channel.send( { 
-                files : [ { 
-                    attachment : url,
-                    name : `meme.${ subreddit }.png`
-                } ]
-            } );
+            fetch( url )
+                .then( res => res.blob( ) )
+                .then( data => { 
+                    const imgURL = URL.createObjectURL( data );
+                    return await channel.send( { 
+                        files : [ { 
+                            attachment : imgURL,
+                            name : `meme.${ subreddit }.png`
+                        } ]
+                    } );
+                } );
         } )
         .then( ( ) => channel.stopTyping( ) )
         .catch( e => console.error( e ) );
