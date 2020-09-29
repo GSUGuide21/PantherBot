@@ -2,6 +2,8 @@ import Discord from "discord.js";
 import axios from "axios";
 import fs from "fs-extra";
 import ytdl from "ytdl-core";
+import snekfest from "snekfetch";
+import randomPuppy from "random-puppy";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -43,7 +45,37 @@ export default class Commands {
     static giphy( { channel, msg, args } ) { 
 
     }
-    static meme( { } ) { }
+    static meme( { channel, msg, args, guild } ) { 
+        const subreddits = [ 
+            "meme",
+            "animemes",
+            "MemeEconomy",
+            "meirl",
+            "me_irl",
+            "2meirl4meirl",
+            "wholesomememes"
+        ];
+
+        if ( channel.name === "dank-memes" ) { 
+            subreddits.push( "dankmemes", "dankmeme" );
+        }
+
+        const r = Math.floor( Math.random( ) * ( subreddits.length - 1 ) );
+        const subreddit = subreddits[ r ];
+
+        channel.startTyping( );
+
+        randomPuppy( subreddit ).then( url => { 
+            snekfest.get( url ).then( async res => { 
+                await channel.send( { 
+                    files : [ {
+                        attachment : res.body,
+                        name : `meme.${ subreddit }.png`
+                    } ]
+                } ).then( ( ) => channel.stopTyping( ) );
+            } ).catch( e => console.error( e ) );
+        } ).catch( e => console.error( e ) );
+    }
     static reddit( { } ) { }
     static yt( { channel, args } ) { 
         if ( args.length === 0 ) { 
