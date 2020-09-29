@@ -72,7 +72,7 @@ export default class Commands {
             console.log( url );
             fetch( url )
                 .then( res => res.blob( ) )
-                .then( data => { 
+                .then( async data => { 
                     const imgURL = URL.createObjectURL( data );
                     return await channel.send( { 
                         files : [ { 
@@ -80,9 +80,9 @@ export default class Commands {
                             name : `meme.${ subreddit }.png`
                         } ]
                     } );
-                } );
+                } )
+                .then( ( ) => channel.stopTyping( ) );
         } )
-        .then( ( ) => channel.stopTyping( ) )
         .catch( e => console.error( e ) );
     }
     static reddit( { } ) { }
