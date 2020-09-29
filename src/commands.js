@@ -68,22 +68,17 @@ export default class Commands {
 
         channel.startTyping( );
 
-        randomPuppy( subreddit ).then( url => { 
+        randomPuppy( subreddit ).then( async url => { 
             console.log( url );
-            fetch( url )
-                .then( res => res.text( ) )
-                .then( async data => { 
-                    console.log( data );
-                    return await channel.send( { 
-                        files : [ { 
-                            attachment : data,
-                            name : `meme.${ subreddit }.png`
-                        } ]
-                    } );
-                } )
-                .then( ( ) => channel.stopTyping( ) )
-                .catch( e => console.error( e ) );
-        } ).catch( e => console.error( e ) );
+            return await channel.send( { 
+                files : [ { 
+                    attachment : data,
+                    name : `meme.${ subreddit }.png`
+                } ]
+            } );
+        } )
+        .then( ( ) => channel.stopTyping( ) )
+        .catch( e => console.error( e ) );
     }
     static reddit( { } ) { }
     static yt( { channel, args } ) { 
