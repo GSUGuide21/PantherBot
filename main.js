@@ -29,7 +29,7 @@ console.log( "Initializing PantherBot!" );
 const { Client } = Discord;
 const bot = new Client( );
 const { PANTHERBOT_TOKEN : token } = process.env;
-const COMMAND_PREFIX = "!";
+const COMMAND_PREFIX = "$";
 const { join, leave, kick, ban } = messages;
 
 console.log( `PantherBot token: ${ token }` );
