@@ -83,7 +83,7 @@ bot.on( "guildMemberAdd", ( member ) => {
     const { guild, id } = member;
     const lobby = guild.channels.cache.find( c => c.name === "lobby" );
     if ( !lobby ) return;
-    join.send( { channel : lobby, id } );
+    join.send( { channel : lobby, id, guild } );
 } );
 
 bot.on( "guildMemberRemove", ( member ) => { 
