@@ -39,6 +39,66 @@ export default class Commands {
             .setURL( url );
         channel.send( { embed } );        
     }
+    // Integration commands  
+    static giphy( { channel, msg, args } ) { 
+
+    }
+    static meme( { } ) { }
+    static reddit( { } ) { }
+    static yt( { channel, args } ) { 
+        if ( args.length === 0 ) { 
+            return channel.send( "A YouTube video ID or URL is required." );
+        }
+        const embed = new Discord.MessageEmbed( );
+        const arg = args[ 0 ];
+        const isYoutubeURL = /^(?:https?\:\/\/|)(?:www\.youtube\.com|youtu\.be)\/?/;
+
+        let isWatchURL = true, videoID;
+        if ( isYoutubeURL.test( arg ) ) { 
+            const s = arg.replace( isYoutubeURL, "" );
+            const isYbe = /^(?:https?\:\/\/|)youtu\.be/;
+
+            if ( isYbe.test( arg ) ) {
+                if ( !s ) return channel.send( "A YouTube video ID is required." );
+                videoID = isYbe.split( /[\/?&]/g )[ 0 ];
+                videoID = `https://www.youtube.com/watch?v=${ videoID }`;
+            } else {
+                const watchPrefix = /watch\?v=/;
+                const r = s.replace( watchPrefix, "" );
+                if ( !r ) return channel.send( "A YouTube video ID is required." );
+                videoID = arg;
+            }
+        } else {
+            isWatchURL = false;
+        }
+        const watchURL = isWatchURL ? videoID : `https://www.youtube.com/watch?v=${ videoID }`;
+        console.log( watchURL );
+        embed.setColor( "#dd0000" );
+        const reqURL = new URL( "https://www.youtube.com/oembed" );
+        reqURL.searchParams.append( "url", watchURL );
+        reqURL.searchParams.append( "format", "json" );
+
+        axios.get( reqURL.toString( ) ).then( response => { 
+            const { data } = response;
+            const { title, thumbnail_url, author_url, author_name } = data;
+            const finalThumbnailURL = thumbnail_url.replace( /hqdefault\.jpg$/, "maxresdefault.jpg" );
+            const authorInfo = [ "YouTube", "", "https://www.youtube.com" ];
+            const fieldInfo = [
+                [ "Creator", author_name, true ],
+                [ "Creator URL", author_url, true ],
+                [ "Video URL", watchURL ]
+            ];
+            embed
+                .setTitle( title )
+                .setAuthor( ...authorInfo )
+                .setImage( finalThumbnailURL )
+            fieldInfo.forEach( field => embed.addField( ...field ) );
+            channel.send( { embed } );
+        } ).catch( e => {
+            console.error( e );
+            channel.send( "Error loading data from YouTube." );
+        } );
+    }
     // Moderator commands
     static kick( { channel, msg, args, guild } ) { 
         const user = msg.mentions.user.first( );
@@ -190,60 +250,6 @@ export default class Commands {
                 }
             ] );
         channel.send( { embed } );
-    }
-    static yt( { channel, args } ) { 
-        if ( args.length === 0 ) { 
-            return channel.send( "A YouTube video ID or URL is required." );
-        }
-        const embed = new Discord.MessageEmbed( );
-        const arg = args[ 0 ];
-        const isYoutubeURL = /^(?:https?\:\/\/|)(?:www\.youtube\.com|youtu\.be)\/?/;
-
-        let isWatchURL = true, videoID;
-        if ( isYoutubeURL.test( arg ) ) { 
-            const s = arg.replace( isYoutubeURL, "" );
-            const isYbe = /^(?:https?\:\/\/|)youtu\.be/;
-
-            if ( isYbe.test( arg ) ) {
-                if ( !s ) return channel.send( "A YouTube video ID is required." );
-                videoID = isYbe.split( /[\/?&]/g )[ 0 ];
-                videoID = `https://www.youtube.com/watch?v=${ videoID }`;
-            } else {
-                const watchPrefix = /watch\?v=/;
-                const r = s.replace( watchPrefix, "" );
-                if ( !r ) return channel.send( "A YouTube video ID is required." );
-                videoID = arg;
-            }
-        } else {
-            isWatchURL = false;
-        }
-        const watchURL = isWatchURL ? videoID : `https://www.youtube.com/watch?v=${ videoID }`;
-        console.log( watchURL );
-        embed.setColor( "#dd0000" );
-        const reqURL = new URL( "https://www.youtube.com/oembed" );
-        reqURL.searchParams.append( "url", watchURL );
-        reqURL.searchParams.append( "format", "json" );
-
-        axios.get( reqURL.toString( ) ).then( response => { 
-            const { data } = response;
-            const { title, thumbnail_url, author_url, author_name } = data;
-            const finalThumbnailURL = thumbnail_url.replace( /hqdefault\.jpg$/, "maxresdefault.jpg" );
-            const authorInfo = [ "YouTube", "", "https://www.youtube.com" ];
-            const fieldInfo = [
-                [ "Creator", author_name, true ],
-                [ "Creator URL", author_url, true ],
-                [ "Video URL", watchURL ]
-            ];
-            embed
-                .setTitle( title )
-                .setAuthor( ...authorInfo )
-                .setImage( finalThumbnailURL )
-            fieldInfo.forEach( field => embed.addField( ...field ) );
-            channel.send( { embed } );
-        } ).catch( e => {
-            console.error( e );
-            channel.send( "Error loading data from YouTube." );
-        } );
     }
     static ping( { channel } ) {
         channel.send( "pong!" );

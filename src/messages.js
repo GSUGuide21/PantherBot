@@ -12,7 +12,7 @@ const parse = ( { match, user, key } ) => {
     return match;
 };
 
-const afterMessage = "Please read the rules on the #rules channel. Ignorance to the rules will not be excused.";
+const afterMessage = "Please read the rules on the $rules channel. Ignorance to the rules will not be excused.";
 
 export default { 
     join : { 
@@ -22,13 +22,14 @@ export default {
             "Thank you for coming, **<@$id>**!"
         ],
         after : afterMessage,
-        send( { channel, user, id } ) { 
+        send( { channel, id, guild } ) { 
             const messages = this.messages;
             const length = messages.length;
             const randomIndex = Math.floor( Math.random( ) * length );
             const message = messages[ randomIndex ];
             const messageResult = message.replace( /\$id/g, id );
-            const result = [ messageResult, this.after ].join( " " );
+            const rules = guild.channels.cache.find( c => c.name === "rules" );
+            const result = [ messageResult, this.after.replace( /\$rules/g, rules ) ].join( " " );
             channel.send( result );
         }
     },
