@@ -72,7 +72,7 @@ export default class Commands {
             console.log( url );
             return await channel.send( { 
                 files : [ { 
-                    attachment : data,
+                    attachment : url,
                     name : `meme.${ subreddit }.png`
                 } ]
             } );
