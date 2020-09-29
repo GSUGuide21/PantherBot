@@ -70,7 +70,7 @@ export default class Commands {
 
         randomPuppy( subreddit ).then( url => { 
             console.log( url );
-            fetch.get( url )
+            fetch( url )
                 .then( res => res.text( ) )
                 .then( async data => { 
                     console.log( data );
