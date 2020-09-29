@@ -2,7 +2,7 @@ import Discord from "discord.js";
 import axios from "axios";
 import fs from "fs-extra";
 import ytdl from "ytdl-core";
-import snekfest from "snekfetch";
+import fetch from "node-fetch";
 import randomPuppy from "random-puppy";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -69,14 +69,18 @@ export default class Commands {
         channel.startTyping( );
 
         randomPuppy( subreddit ).then( url => { 
-            snekfest.get( url ).then( async res => { 
-                await channel.send( { 
-                    files : [ {
-                        attachment : res.body,
-                        name : `meme.${ subreddit }.png`
-                    } ]
-                } ).then( ( ) => channel.stopTyping( ) );
-            } ).catch( e => console.error( e ) );
+            fetch.get( url )
+                .then( res => res.text( ) )
+                .then( data => { 
+                    return await channel.send( { 
+                        files : [ { 
+                            attachment : data,
+                            name : `meme.${ subreddit }.png`
+                        } ]
+                    } );
+                } )
+                .then( ( ) => channel.stopTyping( ) )
+                .catch( e => console.error( e ) );
         } ).catch( e => console.error( e ) );
     }
     static reddit( { } ) { }
