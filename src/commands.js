@@ -72,7 +72,7 @@ export default class Commands {
             console.log( url );
             fetch.get( url )
                 .then( res => res.text( ) )
-                .then( data => { 
+                .then( async data => { 
                     console.log( data );
                     return await channel.send( { 
                         files : [ { 
