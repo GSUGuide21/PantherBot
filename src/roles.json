@@ -1,0 +1,58 @@
+{ 
+    "owner" : {
+        "name" : "Owner",
+        "id" : "756725597560111194",
+        "restricted" : true
+    },
+    "co-owner" : {
+        "name" : "Co-Owner",
+        "id" : "756726168165548092",
+        "restricted" : true
+    },
+    "senior admin" : { 
+        "name" : "Senior Admin",
+        "id" : "760397528784699422",
+        "restricted" : true
+    },
+    "admin" : { 
+        "name" : "Admin",
+        "id" : "756729140954005566",
+        "restricted" : true
+    },
+    "head moderator": { 
+        "name" : "Head Moderator",
+        "id" : "756730661494194297",
+        "restricted" : true
+    },
+    "moderator" : { 
+        "name" : "Moderator",
+        "id" : "756731570521636985",
+        "restricted" : true
+    },
+    "ambassador" : { 
+        "name" : "Ambassador",
+        "id" : "",
+        "restricted" : true
+    },
+    "bot" : { 
+        "name" : "Bot",
+        "id" : "757581974872391697",
+        "restricted" : true
+    },
+    "alumni" : { 
+        "name" : "Alumni",
+        "id" : "756732738630844466"
+    },
+    "sga" : { 
+        "name" : "SGA",
+        "id" : "756733250688516226"
+    },
+    "guide" : { 
+        "name" : "Guide",
+        "id" : "756733522911297665"
+    },
+    "nsfw" : { 
+        "name" : "NSFW",
+        "id" : "756736948936114208"
+    }
+}

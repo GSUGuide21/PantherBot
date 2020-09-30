@@ -7,6 +7,7 @@ import fetch from "node-fetch";
 import randomPuppy from "random-puppy";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import RoleManager from "./roles.js";
 
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
 
@@ -42,6 +43,24 @@ export default class Commands {
             .setURL( url );
         channel.send( { embed } );        
     }
+    static role( { channel, guild, member, msg, args } ) { 
+        const roleManager = new RoleManager( );
+        const mentionPattern = /^<@([^>]+)>$/gim;
+        const i = mentionPattern.test( args[ 0 ] ) ? 1 : 0;
+        const roles = args.slice( i ).join( " " ).split( "|" );
+        roles.forEach( ( role ) => { 
+            roleManager.add( role, { channel, guild, msg, member } );
+        } );
+    }
+    static unrole( { channel, guild, member, msg, args } ) { 
+        const roleManager = new RoleManager( );
+        const mentionPattern = /<@(\d+)>/;
+        const i = mentionPattern.test( args[ 0 ] ) ? 1 : 0;
+        const roles = args.slice( i ).join( " " ).split( "|" );
+        roles.forEach( ( role ) => { 
+            roleManager.remove( role, { channel, guild, msg, member } );
+        } );
+    }
     // Integration commands  
     static giphy( { channel, msg, args } ) { 
 
@@ -53,15 +72,36 @@ export default class Commands {
             "meirl",
             "me_irl",
             "2meirl4meirl",
-            "wholesomememes"
+            "wholesomememes",
+            "AdviceAnimals",
+            "ComedyCemetery",
+            "raimimemes",
+            "wackytictacs",
+            "PrequelMemes"
         ];
 
+        const dankmemes = [ 
+            "deepfriedmemes",
+            "surrealmemes",
+            "nukedmemes"
+        ];
+
+        const animememes = [ 
+            "animememes",
+            "AnimeFunny",
+            "MemesOfAnime"
+        ]
+
         if ( channel.name === "dank-memes" ) { 
-            subreddits.push( "dankmemes", "dankmeme" );
+            subreddits.push( ...dankmemes );
         }
 
         if ( channel.name === "anime" ) { 
-            subreddits.push( "animememes", "AnimeFunny", "Memes of Anime" );
+            subreddits.push( ...animememes );
+        }
+
+        if ( channel.name === "gaming" ) { 
+            subreddits.push( "gamingmemes" );
         }
 
         const r = Math.floor( Math.random( ) * ( subreddits.length - 1 ) );

@@ -24,6 +24,15 @@ const slug = ( s ) => {
 const isNum = ( n ) => ( isFinite( n ) && !isNaN( n ) );
 
 export default { 
+    signal : { 
+        handler( { channel } ) { }
+    },
+    help : { 
+        handler( { } ) { }
+    }
+};
+
+export default { 
     // Integral commands
     signal( { channel } ) { 
         const embed = new Discord.MessageEmbed( );

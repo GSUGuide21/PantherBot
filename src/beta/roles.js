@@ -6,13 +6,17 @@ import { fileURLToPath } from "url";
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
 
 export default class RoleManager { 
-    constructor( ) { 
+    constructor( { member, guild, channel, msg } ) { 
         if ( new.target !== RoleManager ) { 
-            return new RoleManager( );
+            return new RoleManager( { member, guild, channel, msg } );
         }
         this.__roleData = { };
         this.__roles = [ ];
         this.__cache = [ ];
+        this.__member = member;
+        this.__channel = channel;
+        this.__msg = msg;
+        this.__guild = guild;
         this.__loaded = false;
         this.init( );
     }
@@ -30,13 +34,13 @@ export default class RoleManager {
         } );
     }
 
-    init( { channel } ) { 
+    init( ) { 
         this.__setRoles( )
             .then( ( ) => { 
                 this.__loaded = true;
             } )
             .catch( ( e ) => { 
-                channel.send( `The roles.json file has not been found. Reason: ${ e }.` );
+                this.__channel.send( `The roles.json file has not been found. Reason: ${ e }.` );
             } );
     }
 
@@ -50,7 +54,7 @@ export default class RoleManager {
         } );
     }
 
-    add( roleName, { } ) { 
+    add( roleName ) { 
         this.isLoaded( )
             .then( ( ) => { 
                 const role = this.getRole( roleName );
