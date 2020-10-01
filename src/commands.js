@@ -61,7 +61,7 @@ export default class Commands {
             roleManager.remove( role, { channel, guild, msg, member } );
         } );
     }
-    static poll( { channel, args, msg } ) { 
+    static poll( { channel, args, msg, guild } ) { 
         const embed = new Discord.MessageEmbed( );
         embed.setTitle( "Poll" );
         if ( args.length === 0 ) { 
@@ -71,13 +71,30 @@ export default class Commands {
             channel.send( { embed } );
         } else { 
             const question = args.join( " " ).trim( );
+            const supportEmoji = guild.emojis.cache.find( x => x.name === "support" );
+            const neutralEmoji = guild.emojis.cache.find( x => x.name === "neutral" );
+            const opposeEmoji = guild.emojis.cache.find( x => x.name === "oppose" );
             embed
                 .setColor( 0x3A67CD )
-                .setDescription( question );
+                .setDescription( question )
+                .addFields( [ 
+                    { 
+                        name : "Support",
+                        value : supportEmoji
+                    }, 
+                    { 
+                        name : "Neutral",
+                        value : neutralEmoji
+                    },
+                    { 
+                        name : "Oppose",
+                        value : opposeEmoji
+                    }
+                ] );
             channel.send( { embed } ).then( ( message ) => { 
-                const reactionOrder = [ "support", "neutral", "oppose" ];
-                reactionOrder.forEach( ( reactionName ) => { 
-                    message.react( `:${ reactionName }:` );
+                const reactionOrder = [ supportEmoji, neutralEmoji, opposeEmoji ];
+                reactionOrder.forEach( ( reaction ) => { 
+                    message.react( reaction );
                 } );
                 msg.delete( 5000 ).catch( console.error );
             } );
