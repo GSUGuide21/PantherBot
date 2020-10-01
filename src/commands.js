@@ -61,6 +61,27 @@ export default class Commands {
             roleManager.remove( role, { channel, guild, msg, member } );
         } );
     }
+    static poll( { channel, args } ) { 
+        const embed = new Discord.MessageEmbed( );
+        embed.setTitle( "Poll" );
+        if ( args.length === 0 ) { 
+            embed
+                .setColor( 0xD30000 )
+                .setDescription( "A question is required to initialize the poll." );
+            channel.send( { embed } );
+        } else { 
+            const question = args.join( " " ).trim( );
+            embed
+                .setColor( 0x3A67CD )
+                .setDescription( question );
+            channel.send( { embed } ).then( ( msg ) => { 
+                const reactionOrder = [ "support", "neutral", "oppose" ];
+                reactionOrder.forEach( ( reactionName ) => { 
+                    msg.react( `:${ reactionName }:` );
+                } );
+            } );
+        }
+    }
     // Integration commands  
     static giphy( { channel, msg, args } ) { 
 
@@ -90,7 +111,7 @@ export default class Commands {
             "animememes",
             "AnimeFunny",
             "MemesOfAnime"
-        ]
+        ];
 
         if ( channel.name === "dank-memes" ) { 
             subreddits.push( ...dankmemes );

@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname( fileURLToPath( import.meta.url ) );
 
 export default class RoleManager { 
-    constructor( ) { 
+    constructor( { channel } ) { 
         if ( new.target !== RoleManager ) { 
             return new RoleManager( );
         }
@@ -14,7 +14,7 @@ export default class RoleManager {
         this.__roles = [ ];
         this.__cache = [ ];
         this.__loaded = false;
-        this.init( );
+        this.init( { channel } );
     }
 
     async __getRoles( ) { 
@@ -50,26 +50,26 @@ export default class RoleManager {
         } );
     }
 
-    add( roleName, { } ) { 
+    add( roleName, { channel, guild, msg, member } ) { 
         this.isLoaded( )
             .then( ( ) => { 
                 const role = this.getRole( roleName );
-                if ( role === null ) return this.__channel.send( "This role does not exist!" );
+                if ( role === null ) return channel.send( "This role does not exist!" );
                 const { id, name, restricted = false, canPromote = [ ] } = role;
-                const targetMember = this.__msg.mentions.members.first( );
-                const member = targetMember || this.__member;
-                const { roles } = member;
-                const { roles : guildRoles } = this.__guild;
+                const targetMember = msg.mentions.members.first( );
+                const m = targetMember || member;
+                const { roles } = m;
+                const { roles : guildRoles } = guild;
                 const roleObj = guildRoles.cache.find( x => x.id === id );
                 if ( restricted ) { 
                     if ( canPromote.includes( id ) ) { 
-                        if ( roles.has( id ) ) return this.__channel.send( `This user already has the following role: ${ name }!` );
+                        if ( roles.has( id ) ) return channel.send( `This user already has the following role: ${ name }!` );
                         roles.add( roleObj );
                     } else { 
-                        return this.__channel.send( `You do not have permission to promote this user to ${ name }.` );
+                        return channel.send( `You do not have permission to promote this user to ${ name }.` );
                     }
                 } else {
-                    if ( roles.has( id ) ) return this.__channel.send( `This user already has the following role: ${ name }!` );
+                    if ( roles.has( id ) ) return channel.send( `This user already has the following role: ${ name }!` );
                     roles.add( roleObj );
                 }
             } )
@@ -78,26 +78,26 @@ export default class RoleManager {
             } );
     }
 
-    remove( roleName ) {
+    remove( roleName, { channel, guild, msg, member } ) {
         this.isLoaded( )
             .then( ( ) => {  
                 const role = this.getRole( roleName );
-                if ( role === null ) return this.__channel.send( "This role does not exist!" );
+                if ( role === null ) return channel.send( "This role does not exist!" );
                 const { id, name, restricted = false, canPromote = [ ] } = role;
-                const targetMember = this.__msg.mentions.members.first( );
-                const member = targetMember || this.__member;
-                const { roles } = member;
-                const { roles : guildRoles } = this.__guild;
+                const targetMember = msg.mentions.members.first( );
+                const m = targetMember || member;
+                const { roles } = m;
+                const { roles : guildRoles } = guild;
                 const roleObj = guildRoles.cache.find( x => x.id === id );
                 if ( restricted ) { 
                     if ( canPromote.includes( id ) ) { 
-                        if ( !roles.has( id ) ) return this.__channel.send( `This user does not have the following role: ${ name }!` );
+                        if ( !roles.has( id ) ) return channel.send( `This user does not have the following role: ${ name }!` );
                         roles.remove( roleObj );
                     } else { 
-                        return this.__channel.send( `You do not have permission to demote this user to ${ name }.` );
+                        return channel.send( `You do not have permission to demote this user to ${ name }.` );
                     }
                 } else {
-                    if ( !roles.has( id ) ) return this.__channel.send( `This user does not have the following role: ${ name }!` );
+                    if ( !roles.has( id ) ) return channel.send( `This user does not have the following role: ${ name }!` );
                     roles.remove( roleObj );
                 }
             } );
