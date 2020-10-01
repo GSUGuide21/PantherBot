@@ -61,7 +61,7 @@ export default class Commands {
             roleManager.remove( role, { channel, guild, msg, member } );
         } );
     }
-    static poll( { channel, args } ) { 
+    static poll( { channel, args, msg } ) { 
         const embed = new Discord.MessageEmbed( );
         embed.setTitle( "Poll" );
         if ( args.length === 0 ) { 
@@ -74,11 +74,12 @@ export default class Commands {
             embed
                 .setColor( 0x3A67CD )
                 .setDescription( question );
-            channel.send( { embed } ).then( ( msg ) => { 
+            channel.send( { embed } ).then( ( message ) => { 
                 const reactionOrder = [ "support", "neutral", "oppose" ];
                 reactionOrder.forEach( ( reactionName ) => { 
-                    msg.react( `:${ reactionName }:` );
+                    message.react( `:${ reactionName }:` );
                 } );
+                msg.delete( 5000 ).catch( console.error );
             } );
         }
     }
