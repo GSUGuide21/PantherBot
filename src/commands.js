@@ -80,15 +80,18 @@ export default class Commands {
                 .addFields( [ 
                     { 
                         name : "Support",
-                        value : supportEmoji
+                        value : supportEmoji,
+                        inline : true
                     }, 
                     { 
                         name : "Neutral",
-                        value : neutralEmoji
+                        value : neutralEmoji,
+                        inline : true
                     },
                     { 
                         name : "Oppose",
-                        value : opposeEmoji
+                        value : opposeEmoji,
+                        inline : true
                     }
                 ] );
             channel.send( { embed } ).then( ( message ) => { 
