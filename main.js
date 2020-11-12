@@ -15,9 +15,9 @@ import path from "path";
 // __dirname
 import __dirname from "../src/dirname";
 // Responses object
-import responses from "./src/responses";
+import responses from "../src/responses";
 // Messages object
-import messages from "./src/messages";
+import messages from "../src/messages";
 // Questions object
 import questions from "./src/questions";
 
