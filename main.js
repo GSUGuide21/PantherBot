@@ -61,6 +61,12 @@ function findNested( dir, pattern ) {
     const results = [ ];
 
     bot.categories.forEach( innerDir => { 
+        console.log( innerDir );
+
+        innerDir = path.resolve( dir, innerDir );
+
+        console.log( innerDir );
+        
         const stat = fs.statSync( innerDir );
 
         if ( stat.isDirectory ) { 
