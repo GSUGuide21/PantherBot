@@ -13,13 +13,13 @@ import fs from "fs-extra";
 // Path
 import path from "path";
 // __dirname
-import __dirname from "../src/dirname";
+import __dirname from "../src/dirname.js";
 // Responses object
-import responses from "../src/responses";
+import responses from "../src/responses.js";
 // Messages object
-import messages from "../src/messages";
+import messages from "../src/messages.js";
 // Questions object
-import questions from "./src/questions";
+import questions from "./src/questions.js";
 
 // Configuring environment variables
 dotenv.config( );
