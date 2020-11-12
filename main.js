@@ -13,7 +13,7 @@ import fs from "fs-extra";
 // Path
 import path from "path";
 // __dirname
-import __dirname from "./src/dirname";
+import __dirname from "../src/dirname";
 // Responses object
 import responses from "./src/responses";
 // Messages object
