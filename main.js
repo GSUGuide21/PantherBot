@@ -13,13 +13,13 @@ import fs from "fs-extra";
 // Path
 import path from "path";
 // __dirname
-import __dirname from "./src/dirname.js";
+import __dirname from "./dirname.js";
 // Responses object
-import responses from "./src/responses.js";
+// import responses from "./src/responses.js";
 // Messages object
-import messages from "./src/messages.js";
+// import messages from "./src/messages.js";
 // Questions object
-import questions from "./src/questions.js";
+// import questions from "./src/questions.js";
 
 // Configuring environment variables
 dotenv.config( );
@@ -37,7 +37,7 @@ const { PANTHERBOT_TOKEN : token } = process.env;
 const CMD_PREFIX = "$";
 
 // Fetching messages
-const { join, leave, kick, ban } = messages;
+// const { join, leave, kick, ban } = messages;
 
 // Creating a list of bot commands
 bot.commands = new Discord.Collection( );
