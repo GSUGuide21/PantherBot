@@ -1,3 +1,3 @@
-const prefix = "$";
-
-export default { prefix };
+export default { 
+	prefix : "$" 
+};
