@@ -1,5 +1,5 @@
 import Discord from "discord.js";
-import prefix from "./../util/prefix.js";
+import { prefix } from "./../util/prefix.js";
 
 function validatePermissions( permissions ) { 
 	const canonicalPermissions = Object.freeze( [ 

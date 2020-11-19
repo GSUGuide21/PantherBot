@@ -1,1 +1,3 @@
-export const prefix = "$";
+const prefix = "$";
+
+export default { prefix };
