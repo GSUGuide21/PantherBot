@@ -20,6 +20,8 @@ bot.once( "ready", async ( ) => {
 
     const commandBase = await import( `./commands/${base}` );
 
+    console.log( `./commands/${base}`, commandBase );
+
     async function readCmds( dir ) { 
         const files = fs.readdirSync( path.join( __dirname, dir ) );
 
