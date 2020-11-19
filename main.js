@@ -18,7 +18,7 @@ bot.once( "ready", async ( ) => {
 
     const base = "base.js";
 
-    const commandBase = await import( `./commands/${base}` );
+    const { "default" : commandBase } = await import( `./commands/${base}` );
 
     console.log( `./commands/${base}`, commandBase );
 
@@ -31,7 +31,7 @@ bot.once( "ready", async ( ) => {
             if ( stat.isDirectory( ) ) {
                 readCmds( path.join( dir, file ) );
             } else if ( file !== base ) {
-                const option = await import( path.join( __dirname, dir, file ) );
+                const { "default" : option } = await import( path.join( __dirname, dir, file ) );
                 console.log( file, option );
                 commandBase( bot, option );
             }
