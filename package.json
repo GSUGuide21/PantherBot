@@ -1,53 +1,46 @@
 {
-	"name": "pantherbot",
-	"version": "1.0.4",
-	"main": "index.js",
-	"module": "main.js",
-	"description": "A Discord bot that posts announcements and updates. Note: This bot is not affiliated with Georgia State University.",
-	"engines": {
-		"node": "14.x"
-	},
-	"scripts": {
-		"start": "node main.js",
-		"test": "echo \"Hello World\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/GSUGuide21/PantherBot.git"
-	},
-	"keywords": [
-		"Discord",
-		"Bot",
-		"PantherBot",
-		"GSUGuide21",
-		"GSU"
-	],
-	"author": "GSUGuide21",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/GSUGuide21/PantherBot/issues"
-	},
-	"homepage": "https://github.com/GSUGuide21/PantherBot#readme",
-	"dependencies": {
-		"axios": "^0.20.0",
-		"body-parser": "^1.19.0",
-		"discord.js": "^12.3.1",
-		"dotenv": "^8.2.0",
-		"esm": "^3.2.25",
-		"express": "^4.17.1",
-		"fs-extra": "^3.0.1",
-		"google": "^2.1.0",
-		"googleapis": "^60.0.1",
-		"mongodb": "^3.6.2",
-		"node-fetch": "^2.6.1",
-		"nodemon": "^2.0.4",
-		"opusscript": "0.0.7",
-		"random-puppy": "^1.1.0",
-		"request": "^2.88.2",
-		"rollup": "^0.35.15",
-		"snoowrap": "^1.21.0",
-		"ytdl-core": "^3.3.0"
-	},
-	"type": "module",
-	"devDependencies": {}
+    "name": "pantherbot",
+    "version": "1.1",
+    "main": "index.js",
+    "module": "main.js",
+    "description": "A Discord bot that posts announcements and information. Note: This bot is not affiliated with Georgia State University.",
+    "engines": {
+        "node": "14.x"
+    },
+    "scripts": {
+        "start": "node main.js",
+        "test": "echo \"Hello World\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/GSUGuide21/PantherBot.git"
+    },
+    "keywords": [
+        "Discord",
+        "Bot",
+        "PantherBot",
+        "DiscordJS",
+        "GSUGuide21",
+        "GSU"
+    ],
+    "author": {
+        "name": "GSUGuide21"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/GSUGuide21/PantherBot/issues"
+    },
+    "homepage": "https://github.com/GSUGuide21/PantherBot#readme",
+    "type": "module",
+    "devDependencies": {},
+    "dependencies": {
+        "axios": "^0.20.0",
+        "discord.js": "^12.4.1",
+        "dotenv": "^8.2.0",
+        "eslint": "^7.13.0",
+        "express": "^4.17.1",
+        "fs-extra": "^3.0.1",
+        "mongodb": "^3.6.2",
+        "random-puppy": "^1.1.0"
+    }
 }
