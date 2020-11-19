@@ -23,6 +23,8 @@ bot.once( "ready", async ( ) => {
     async function readCmds( dir ) { 
         const files = fs.readdirSync( path.join( __dirname, dir ) );
 
+        console.log( files );
+
         for ( const file of files ) {
             const stat = fs.lstatSync( path.join( __dirname, dir, file ) );
 
@@ -36,7 +38,7 @@ bot.once( "ready", async ( ) => {
         }
     }
 
-    readCmds( "commands" );
+    readCmds( "./commands" );
 } );
 
 bot.login( token );
