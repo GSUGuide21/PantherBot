@@ -18,9 +18,9 @@ bot.once( "ready", async ( ) => {
 
     const base = "base.js";
 
-    const commandBase = require( `./commands/${base}` );
+    const commandBase = await import( `./commands/${base}` );
 
-    function readCmds( dir ) { 
+    async function readCmds( dir ) { 
         const files = fs.readdirSync( path.join( __dirname, dir ) );
 
         for ( const file of files ) {
@@ -29,7 +29,7 @@ bot.once( "ready", async ( ) => {
             if ( stat.isDirectory( ) ) {
                 readCmds( path.join( dir, file ) );
             } else if ( file !== base ) {
-                const option = require( path.join( __dirname, dir, file ) );
+                const option = await import( path.join( __dirname, dir, file ) );
                 console.log( file, option );
                 commandBase( bot, option );
             }
