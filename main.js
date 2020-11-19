@@ -7,7 +7,7 @@
 import Discord from "discord.js";
 import path from "path";
 import fs from "fs-extra";
-import __dirname from "./util/dirname.js";
+import __dirname from "./dirname.js";
 
 const bot = new Discord.Client( );
 
@@ -20,8 +20,6 @@ bot.once( "ready", async ( ) => {
 
     const commandBase = await import( `./commands/${base}` );
 
-    console.log( __dirname );
-    
     async function readCmds( dir ) { 
         const files = fs.readdirSync( path.join( __dirname, dir ) );
 
