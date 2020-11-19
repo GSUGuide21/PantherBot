@@ -2,7 +2,6 @@
  * @name        PantherBot
  * @version     1.1.2
  * @author      GSUGuide21
- **/
 
 import Discord from "discord.js";
 import path from "path";
@@ -41,4 +40,4 @@ bot.once( "ready", async ( ) => {
     readCmds( "commands" );
 } );
 
-bot.login( token );
+bot.login( token );*/
