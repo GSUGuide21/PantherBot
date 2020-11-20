@@ -11,7 +11,7 @@ export default {
 	async run( msg ) {
 		msg.channel.startTyping( );
 
-		fs.readFile( "./../../riddles.txt", "utf-8" )
+		fs.readFile( "./../../txt/riddles.txt", "utf-8" )
 			.then( ( txt ) => { 
 				const pattern = /^\*\s*([\s\S]+)$/gm;
 				const riddles = [ ];
