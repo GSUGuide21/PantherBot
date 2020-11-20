@@ -25,7 +25,7 @@ export default {
 			},
 			color : 0x35bfef,
 			url,
-			text
+			title : text
 		} );
 
 		return await msg.channel.send( { embed } );
