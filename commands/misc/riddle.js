@@ -1,4 +1,5 @@
 import Discord from "discord.js";
+import __dirname from "./../../dirname.js";
 import fs from "fs-extra";
 
 export default {
@@ -11,7 +12,7 @@ export default {
 	async run( msg ) {
 		msg.channel.startTyping( );
 
-		fs.readFile( "./../../txt/riddles.txt", "utf-8" )
+		fs.readFile( `${ __dirname }/txt/riddles.txt`, "utf-8" )
 			.then( ( txt ) => { 
 				const pattern = /^\*\s*([\s\S]+)$/gm;
 				const riddles = [ ];
