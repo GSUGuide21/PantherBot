@@ -1,5 +1,5 @@
 import Discord from "discord.js";
-import prefix from "./../util/prefix.js";
+import { prefix } from "./../util/prefix.js";
 
 console.log( prefix );
 
@@ -78,16 +78,20 @@ export default ( bot, options = { } ) => {
 	}
 
 	bot.on( "message", msg => { 
-		const { member, content, guild } = msg;
+		const { member, content, guild, author } = msg;
 
-		let commandName = "";
+		if ( author.bot ) return;
 
 		for ( const alias of commands ) {
+			const atl = alias.toLowerCase( );
+			const cmd = `${prefix}${atl}`;
+
 			const ctl = content.toLowerCase( );
 
-			const atl = alias.toLowerCase( );
-
-			if ( ctl.startsWith( `${prefix}${atl}`) ) {
+			if ( 
+				ctl.startsWith( `${cmd} ` ) ||
+				ctl === cmd 
+			) {
 				for ( const permission of permissions ) {
 					if ( !member.hasPermission( permission ) ) {
 						msg.reply( permissionError );
@@ -95,35 +99,38 @@ export default ( bot, options = { } ) => {
 					}
 				}
 
-				commandName = atl;
-				break;
-			}
-		}
+				for ( const reqRole of requiredRoles ) {
+					const role = guild.roles.cache.find( r => r.name === reqRole );
 
-		for ( const reqRole of requiredRoles ) {
-			const role = guild.roles.cache.find( r => r.name === reqRole );
+					if ( !role || !member.roles.cache.has( role.id ) ) {
+						msg.reply( 
+							`You must have the ${reqRole} role to use this command.`
+						);
+						return;
+					}
+				}
 
-			if ( !role || !member.roles.cache.has( role.id ) ) {
-				msg.reply( `You must have the ${reqRole} role to use this command.` );
+				const args = content.split( /\s+/g );
+
+				args.shift( );
+
+				if ( 
+					args.length < minArgs ||
+					( maxArgs !== null && args.length > maxArgs )
+				) {
+					msg.reply( 
+						`The syntax is incorrect! Please use ${cmd} ${expectedArgs}`
+					);
+					return;
+				}
+
+				run( msg, args, args.join( " " ), bot )
+					.then( done )
+					.catch( error )
+					.finally( always );
+				
 				return;
 			}
 		}
-
-		const args = content.split( /\s+/g );
-
-		args.shift( );
-
-		if ( 
-			( args.length < minArgs ) ||
-			( maxArgs !== null && args.length > maxArgs )
-		) {
-			msg.reply( `Incorrect syntax. Use ${prefix}${commandName} ${expectedArgs}` );
-			return;
-		}
-
-		run( msg, args, args.join( " " ) )
-			.then( done )
-			.catch( error )
-			.finally( always );
 	} );
 };
