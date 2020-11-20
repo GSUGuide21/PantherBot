@@ -7,13 +7,13 @@ export default {
 	 * @param {string[]} args
 	 * @param {string} text
 	 **/
-	async run( msg, args ) {
+	async run( msg ) {
 		const a = [ "Heads", "Tails" ];
 
 		const r = Math.floor( Math.random( ) * a.length );
 
 		const n = a[ r ];
 
-		return msg.channel.send( `PantherBot has flipped a coin. It was ${v}` );
+		return msg.channel.send( `PantherBot has flipped a coin. It was ${n}` );
 	}
 };
