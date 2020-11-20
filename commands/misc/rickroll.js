@@ -16,7 +16,9 @@ export default {
 			},
 			url : "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
 			title : "Rick Astley - Never Gonna Give You Up (Video)",
-			image : "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+			image : {
+				url : "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+			},
 			color : 0x9d0000,
 			fields : [ 
 				{
