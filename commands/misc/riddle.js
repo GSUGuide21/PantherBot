@@ -21,8 +21,10 @@ export default {
 
 				while ( ( v = pattern.exec( txt ) ) ) {
 					const [ , r ] = v;
+					
+					const s = r.replace( "\\n", "\n" );
 
-					riddles.push( r );
+					riddles.push( s );
 				}
 
 				const { length } = riddles;
