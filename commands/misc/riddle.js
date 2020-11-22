@@ -14,7 +14,7 @@ export default {
 
 		fs.readFile( `${ __dirname }/txt/riddles.txt`, "utf-8" )
 			.then( ( txt ) => { 
-				const pattern = /^\*\s*([\s\S]+)$/gm;
+				const pattern = /^\*\s*(.+)$/gm;
 				const riddles = [ ];
 
 				let v = null;
