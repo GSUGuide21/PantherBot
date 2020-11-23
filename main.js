@@ -8,6 +8,7 @@ import Discord from "discord.js";
 import path from "path";
 import fs from "fs-extra";
 import __dirname from "./dirname.js";
+import welcome from "./welcome/init.js";
 
 const bot = new Discord.Client( );
 
@@ -39,6 +40,8 @@ bot.once( "ready", async ( ) => {
     }
 
     readCmds( "commands" );
+
+    welcome( bot );
 } );
 
 bot.login( token );

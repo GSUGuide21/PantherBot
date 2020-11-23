@@ -3,6 +3,7 @@ import Discord from "discord.js";
 export default { 
 	commands : [ "binary" ],
 	/**
+	 * @method run
 	 * @param {Discord.Message} msg
 	 * @param {string[]} args
 	 * @param {string} text

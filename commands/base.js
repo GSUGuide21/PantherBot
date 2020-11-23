@@ -1,7 +1,7 @@
 import Discord from "discord.js";
-import { prefix } from "./../util/prefix.js";
+import { prefixes } from "./../util/prefix.js";
 
-console.log( prefix );
+console.log( prefixes );
 
 function validatePermissions( permissions ) { 
 	const canonicalPermissions = Object.freeze( [ 
@@ -55,6 +55,7 @@ export default ( bot, options = { } ) => {
 		permissionError = 'You do not have permissions to run this command.',
 		minArgs = 0,
 		maxArgs = null,
+		type = "main",
 		permissions = [ ],
 		requiredRoles = [ ],
 		run,
@@ -83,6 +84,8 @@ export default ( bot, options = { } ) => {
 		if ( author.bot ) return;
 
 		for ( const alias of commands ) {
+			const prefix = prefixes[ type ] || prefixes.main;
+
 			const atl = alias.toLowerCase( );
 			const cmd = `${prefix}${atl}`;
 

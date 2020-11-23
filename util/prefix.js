@@ -1,1 +1,4 @@
-export const prefix = "$";
+export const prefixes = Object.freeze( { 
+	main : "$",
+	poll : "?"
+} );
