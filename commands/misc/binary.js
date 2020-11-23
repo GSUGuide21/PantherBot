@@ -8,12 +8,19 @@ export default {
 	 * @param {string[]} args
 	 * @param {string} text
 	 **/
-	async run( msg, args ) { 
-		const string = args.join( " " );
-        const result = Array.from( string )
-            .reduce( ( a, c ) => a.concat( c.charCodeAt( ).toString( 2 ) ), [ ] )
-            .map( b => "0".repeat( 8 - b.length ) + b )
-            .join( " " );
-		msg.channel.send( result );
+	async run( msg, args, text ) { 
+		const string = text.trim( );
+		
+		const res = Array.from( string )
+			.map( c => { 
+				const b = c.charCodeAt( 0 ).toString( 2 );
+
+				const d = Math.max( 8 - b.length, 0 );
+
+				return '0'.repeat( d ) + b;
+			} )
+			.join( "" );
+		
+		msg.channel.send( res );
 	}
 }

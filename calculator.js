@@ -12,7 +12,15 @@ const OPERATORS = new Map( [
 	[ "*", "multiply" ],
 	[ "/", "divide" ],
 	[ "^", "power" ],
-	[ "mod", "modulo" ]
+	[ "mod", "modulo" ],
+	[ "%", { 
+		name : "percent",
+		position : "end"
+	} ],
+	[ "!", { 
+		name : "factorial",
+		position : "end"
+	} ]
 ] );
 
 const FUNCTIONS = Object.freeze( { 
@@ -52,5 +60,8 @@ const FUNCTIONS = Object.freeze( {
 
 export default class Calculator { 
 	static parse( s ) {
+		const r = new RegExp( 
+			"(\\d+(?:\\.\\d+|))"
+		);
 	}
 }
