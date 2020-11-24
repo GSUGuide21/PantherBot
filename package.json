@@ -12,11 +12,11 @@
         "start": "node main.js",
         "test": "echo \"Hello World\" && exit 1"
     },
-    "_moduleAliases" : { 
-        "@cmds" : "cmds",
-        "@welcome" : "welcome",
-        "@util" : "util",
-        "@schemas" : "schemas"
+    "_moduleAliases": {
+        "@cmds": "cmds",
+        "@welcome": "welcome",
+        "@util": "util",
+        "@schemas": "schemas"
     },
     "repository": {
         "type": "git",
