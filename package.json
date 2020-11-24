@@ -8,8 +8,15 @@
         "node": "15.x"
     },
     "scripts": {
+        "postinstall": "link-module-alias",
         "start": "node main.js",
         "test": "echo \"Hello World\" && exit 1"
+    },
+    "_moduleAliases" : { 
+        "@cmds" : "cmds",
+        "@welcome" : "welcome",
+        "@util" : "util",
+        "@schemas" : "schemas"
     },
     "repository": {
         "type": "git",

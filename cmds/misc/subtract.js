@@ -22,7 +22,6 @@ export default class SubtractCommand extends Commando.Command {
 		}
 		
 		let diff = Number( args.shift( ) || 0 );
-
 		diff = args.reduce( ( v, c ) => Number( v ) - Number( c ), diff );
 		msg.channel.send( diff );
 	}
