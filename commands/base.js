@@ -46,9 +46,12 @@ function validatePermissions( permissions ) {
 
 /**
  * @param {Discord.Client} bot
+ * @param {Discord.Message} msg
  * @param {Object} options
  */
-export default ( bot, options = { } ) => {
+export default ( bot, msg, options = { } ) => {
+	if ( msg.author.bot ) return;
+	
 	let {
 		commands,
 		expectedArgs = '',
@@ -78,10 +81,11 @@ export default ( bot, options = { } ) => {
 		validatePermissions( permissions );
 	}
 
-	bot.on( "message", msg => { 
-		const { member, content, guild, author } = msg;
-
-		if ( author.bot ) return;
+	/**
+	 * @param {Discord.Message} m 
+	 */
+	const processMsg = m => { 
+		const { member, content, guild, author } = m;
 
 		for ( const alias of commands ) {
 			const prefix = prefixes[ type ] || prefixes.main;
@@ -97,7 +101,7 @@ export default ( bot, options = { } ) => {
 			) {
 				for ( const permission of permissions ) {
 					if ( !member.hasPermission( permission ) ) {
-						msg.reply( permissionError );
+						m.reply( permissionError );
 						return;
 					}
 				}
@@ -106,7 +110,7 @@ export default ( bot, options = { } ) => {
 					const role = guild.roles.cache.find( r => r.name === reqRole );
 
 					if ( !role || !member.roles.cache.has( role.id ) ) {
-						msg.reply( 
+						m.reply( 
 							`You must have the ${reqRole} role to use this command.`
 						);
 						return;
@@ -121,13 +125,13 @@ export default ( bot, options = { } ) => {
 					args.length < minArgs ||
 					( maxArgs !== null && args.length > maxArgs )
 				) {
-					msg.reply( 
+					m.reply( 
 						`The syntax is incorrect! Please use ${cmd} ${expectedArgs}`
 					);
 					return;
 				}
 
-				run( msg, args, args.join( " " ), bot )
+				run( { msg : m, args, text : args.join( " " ), bot } )
 					.then( done )
 					.catch( error )
 					.finally( always );
@@ -135,5 +139,7 @@ export default ( bot, options = { } ) => {
 				return;
 			}
 		}
-	} );
+	};
+
+	processMsg( msg );
 };
