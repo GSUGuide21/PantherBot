@@ -4,7 +4,31 @@
  * @author      GSUGuide21
  **/
 
-import Discord from "discord.js";
+import Commando from "discord.js-commando";
+import path from "path";
+import __dirname from "./dirname.js";
+
+const bot = new Commando.Client( { 
+    owner : "707779366318243840",
+    commandPrefix : "$"
+} );
+
+bot.on( "ready", ( ) => { 
+    console.log( "PantherBot has been initialized!" );
+
+    bot.registry
+        .registerGroups( [ 
+            [ "main", "" ],
+            [ "mod", "" ],
+            [ "poll", "" ],
+            [ "misc", "" ]
+        ] )
+        .registerDefaults( )
+        .registerCommandsIn( path.join( __dirname, "cmds" ) );
+} );
+
+/*import Discord from "discord.js";
+import { CommandoClient } from "discord.js-commando";
 import path from "path";
 import fs from "fs-extra";
 import __dirname from "./dirname.js";
@@ -89,4 +113,4 @@ bot.once( "ready", async ( ) => {
     welcome( bot );
 } );
 
-bot.login( token );
+bot.login( token );*/
