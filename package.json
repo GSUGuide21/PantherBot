@@ -8,7 +8,6 @@
         "node": "latest"
     },
     "scripts": {
-        "postinstall": "link-module-alias",
         "start": "node main.js",
         "test": "echo \"Hello World\" && exit 1"
     },
@@ -39,7 +38,6 @@
     },
     "homepage": "https://github.com/GSUGuide21/PantherBot#readme",
     "type": "module",
-    "devDependencies": {},
     "dependencies": {
         "axios": "latest",
         "discord.js": "latest",
