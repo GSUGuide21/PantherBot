@@ -17,8 +17,9 @@ export default class AddCommand extends Commando.Command {
 	 * @param {string[]} args
 	 */
 	async run( msg, args ) { 
-		const sum = args.reduce( ( v, c ) => Number( c ) + Number( v ), 0 );
-
-		msg.channel.send( sum );
+		return msg.channel.send( 
+			args
+				.reduce( ( v, c ) => Number( c ) + Number( v ), 0 ) 
+		);
 	}
 }
