@@ -4,16 +4,18 @@
  * @author      GSUGuide21
  **/
 
-import Commando from "discord.js-commando";
+import { Client } from "discord.js-commando";
 import path from "path";
 import __dirname from "./dirname.js";
 
 const { PANTHERBOT_TOKEN } = process.env;
 
-const bot = new Commando.Client( { 
+const bot = new Client( { 
     owner : "707779366318243840",
     commandPrefix : "$"
 } );
+
+console.log( PANTHERBOT_TOKEN, bot );
 
 bot.on( "ready", ( ) => { 
     console.log( "PantherBot has been initialized!" );

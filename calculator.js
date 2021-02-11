@@ -1,4 +1,4 @@
-const factorial = x => { 
+/*const factorial = x => { 
 	if ( x < 0 ) return -1;
 
 	else if ( x === 0 ) return 1;
@@ -64,4 +64,4 @@ export default class Calculator {
 			"(\\d+(?:\\.\\d+|))"
 		);
 	}
-}
+}*/
