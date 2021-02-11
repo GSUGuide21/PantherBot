@@ -1,8 +1,6 @@
-import Commando from "discord.js-commando";
+const { Command } = require( "discord.js-commando" );
 
-const { Command } = Commando;
-
-export default class KickCommand extends Command { 
+module.exports = class KickCommand extends Command { 
 	constructor( bot ) {
 		super( bot, { 
 			name : "kick",

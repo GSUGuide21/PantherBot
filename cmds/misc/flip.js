@@ -1,6 +1,6 @@
-import { Command } from "discord.js-commando";
+const { Command } = require( "discord.js-commando" );
 
-export default class FlipCommand extends Command { 
+module.exports = class FlipCommand extends Command { 
 	constructor( bot ) { 
 		super( bot, { 
 			name : "flip",
