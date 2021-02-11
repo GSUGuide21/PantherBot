@@ -7,7 +7,7 @@ module.exports = class Binary2TextCommand extends Command {
 			aliases : [ "b2t", "btt", "binary2text" ],
 			memberName : "binary-to-text",
 			description : "Converts a binary string to plain text",
-			group : "Miscellaneous",
+			group : "miscellaneous",
 			argsType : "single"
 		} );
 	}

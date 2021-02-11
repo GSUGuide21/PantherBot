@@ -6,7 +6,7 @@ module.exports = class FUCommand extends Command {
 			name : "fy",
 			aliases : [ "fuckyou", "fu" ],
 			memberName : "fy",
-			group : "Miscellaneous",
+			group : "miscellaneous",
 			description : "Makes PantherBot reply \"fuck you\"."
 		} );
 	}

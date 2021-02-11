@@ -6,7 +6,7 @@ module.exports = class BinaryCommand extends Command {
 			name : "binary",
 			memberName : "binary",
 			argsType : "single",
-			group : "Miscellaneous",
+			group : "miscellaneous",
 			description : "Converts text to binary."
 		} );
 	}

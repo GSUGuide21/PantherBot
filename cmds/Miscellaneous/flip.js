@@ -5,7 +5,7 @@ module.exports = class FlipCommand extends Command {
 		super( bot, { 
 			name : "flip",
 			memberName : "flip",
-			group : "Miscellaneous",
+			group : "miscellaneous",
 			description : "Allows PantherBot to perform a coin flip"
 		} );
 	}
