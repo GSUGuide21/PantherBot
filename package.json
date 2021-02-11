@@ -48,6 +48,7 @@
         "eslint": "latest",
         "express": "latest",
         "fs-extra": "latest",
+        "module-alias": "latest",
         "mongodb": "latest",
         "mongoose": "latest",
         "random-puppy": "latest"
