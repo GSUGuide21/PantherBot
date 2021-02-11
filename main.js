@@ -8,6 +8,8 @@ import Commando from "discord.js-commando";
 import path from "path";
 import __dirname from "./dirname.js";
 
+const { PANTHERBOT_TOKEN } = process.env;
+
 const bot = new Commando.Client( { 
     owner : "707779366318243840",
     commandPrefix : "$"
@@ -26,6 +28,8 @@ bot.on( "ready", ( ) => {
         .registerDefaults( )
         .registerCommandsIn( path.join( __dirname, "cmds" ) );
 } );
+
+bot.login( PANTHERBOT_TOKEN );
 
 /*import Discord from "discord.js";
 import { CommandoClient } from "discord.js-commando";
