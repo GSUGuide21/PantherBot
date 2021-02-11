@@ -4,9 +4,9 @@
  * @author      GSUGuide21
  **/
 
-import { Client } from "discord.js-commando";
-import path from "path";
-import __dirname from "./dirname.js";
+const { Client } = require( "discord.js-commando" );
+const path = require( "path" );
+const __dirname = require( "./dirname.js" );
 
 const { PANTHERBOT_TOKEN } = process.env;
 

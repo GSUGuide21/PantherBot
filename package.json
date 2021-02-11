@@ -7,7 +7,6 @@
     "engines": {
         "node": "15.x"
     },
-    "type": "module",
     "scripts": {
         "start": "node main.js",
         "test": "echo \"Hello World\" && exit 1"
