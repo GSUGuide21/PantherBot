@@ -5,7 +5,7 @@ module.exports = class FlipCommand extends Command {
 		super( bot, { 
 			name : "flip",
 			memberName : "flip",
-			group : "misc",
+			group : "Miscellaneous",
 			description : "Allows PantherBot to perform a coin flip"
 		} );
 	}
@@ -14,6 +14,6 @@ module.exports = class FlipCommand extends Command {
 		const coins = Object.freeze( [ "Heads", "Tails" ] );
 		const randomIndex = Math.floor( Math.random( ) * coins.length );
 		const coin = coins[ randomIndex ];
-		return message.channel.send( `PantherBot has flipped a coin. It was ${ coin }!` );
+		return message.channel.send( `PantherBot has flipped a coin. It was ***${ coin }***!` );
 	}
 }

@@ -22,10 +22,10 @@ bot.on( "ready", async ( ) => {
 
     bot.registry
         .registerGroups( [ 
-            [ "main", "" ],
-            [ "mod", "" ],
-            [ "poll", "" ],
-            [ "misc", "" ]
+            [ "Main", "" ],
+            [ "Moderation", "" ],
+            [ "Poll", "" ],
+            [ "Miscellaneous", "" ]
         ] )
         .registerDefaults( )
         .registerCommandsIn( path.join( __dirname, "cmds" ) );

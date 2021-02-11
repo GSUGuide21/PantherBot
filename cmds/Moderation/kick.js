@@ -4,7 +4,7 @@ module.exports = class KickCommand extends Command {
 	constructor( bot ) {
 		super( bot, { 
 			name : "kick",
-			group : "mod",
+			group : "Moderation",
 			memberName : "kick",
 			description : "Kicks a member from the Discord server.",
 			clientPermissions : [ "KICK_MEMBERS" ],
