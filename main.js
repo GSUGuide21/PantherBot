@@ -17,7 +17,7 @@ const bot = new Client( {
 
 console.log( PANTHERBOT_TOKEN, bot );
 
-bot.on( "ready", ( ) => { 
+bot.on( "ready", async ( ) => { 
     console.log( "PantherBot has been initialized!" );
 
     bot.registry
