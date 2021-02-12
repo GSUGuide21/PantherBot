@@ -14,6 +14,8 @@ module.exports = class RandomIntCommand extends Command {
 	}
 
 	async run( { channel }, args ) { 
+		console.log( args );
+		
 		const range = Array
 			.from( args )
 			.slice( 0, 2 )
