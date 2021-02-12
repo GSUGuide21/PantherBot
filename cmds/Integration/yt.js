@@ -47,8 +47,6 @@ module.exports = class YouTubeCommand extends Command {
 			videoIDorURL = args;
 		}
 
-		console.log( args, videoIDorURL );
-
 		const watchURL = 
 			isWatchURL ? 
 				videoIDorURL :
@@ -58,14 +56,10 @@ module.exports = class YouTubeCommand extends Command {
 		requestURL.searchParams.append( "url", watchURL );
 		requestURL.searchParams.append( "format", "json" );
 
-		console.log( requestURL );
-
 		const { data, iserror, error = null } = await axios.get( String( requestURL ) )
 			.then( response => ( { data : response.data, iserror : false } ) )
 			.catch( error => ( { data : "", iserror : true, error } ) );
 		
-		console.log( data );
-
 		if ( iserror ) {
 			return channel
 				.send( "Error loading data from YouTube." )
