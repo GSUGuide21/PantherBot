@@ -43,6 +43,8 @@ module.exports = class YouTubeCommand extends Command {
 				if ( !videoID ) return channel.send( "A YouTube video ID is required." );
 				videoIDorURL = args;
 			}
+		} else {
+			videoIDorURL = args;
 		}
 
 		console.log( args, videoIDorURL );
