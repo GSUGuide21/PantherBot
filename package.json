@@ -38,9 +38,9 @@
     },
     "homepage": "https://github.com/GSUGuide21/PantherBot#readme",
     "dependencies": {
-        "axios": "^0.21.1",
+        "axios": "github:axios/axios",
         "discord.js": "^12.5.1",
-        "discord.js-commando": "git+https://github.com/discordjs/Commando.git",
+        "discord.js-commando": "github:discordjs/Commando",
         "dotenv": "^8.2.0",
         "eslint": "^7.13.0",
         "express": "^4.17.1",

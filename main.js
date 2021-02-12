@@ -15,20 +15,22 @@ const bot = new Client( {
     commandPrefix : "$"
 } );
 
-console.log( PANTHERBOT_TOKEN, bot );
-
-bot.on( "ready", async ( ) => { 
+bot.once( "ready", async ( ) => { 
     console.log( "PantherBot has been initialized!" );
 
     bot.registry
         .registerGroups( [ 
-            [ "main", "" ],
-            [ "moderation", "" ],
-            [ "poll", "" ],
-            [ "miscellaneous", "" ]
+            [ "main", "Main" ],
+            [ "moderation", "Moderation" ],
+            [ "integration", "Integration" ],
+            [ "poll", "Poll" ],
+            [ "music", "Music" ],
+            [ "miscellaneous", "Miscellaneous" ]
         ] )
         .registerDefaults( )
         .registerCommandsIn( path.join( __dirname, "cmds" ) );
+    
+    console.log( bot );
 } );
 
 bot.login( PANTHERBOT_TOKEN );
