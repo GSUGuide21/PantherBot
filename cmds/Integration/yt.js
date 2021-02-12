@@ -48,14 +48,14 @@ module.exports = class YouTubeCommand extends Command {
 		const watchURL = 
 			isWatchURL ? 
 				videoIDorURL :
-					`https://www.youtube.com/watch?v=${ videoIDorURL }`;
+				`https://www.youtube.com/watch?v=${ videoIDorURL }`;
 		
 		const requestURL = new URL( "https://www.youtube.com/oembed" );
-		requestURL.searchParams.append( "url", encodeURIComponent( watchURL ) );
+		requestURL.searchParams.append( "url", watchURL );
 		requestURL.searchParams.append( "format", "json" );
 
 		console.log( requestURL );
-		
+
 		const data = await axios.get( String( requestURL ) )
 			.then( response => response.data )
 			.catch( error => { error } );
