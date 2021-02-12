@@ -56,16 +56,16 @@ module.exports = class YouTubeCommand extends Command {
 
 		console.log( requestURL );
 
-		const data = await axios.get( String( requestURL ) )
-			.then( response => response.data )
-			.catch( error => { error } );
+		const { data, iserror, error = null } = await axios.get( String( requestURL ) )
+			.then( response => ( { data : response.data, iserror : false } ) )
+			.catch( error => ( { data : "", iserror : true, error } ) );
 		
 		console.log( data );
 
-		if ( "error" in data ) {
+		if ( iserror ) {
 			return channel
 				.send( "Error loading data from YouTube." )
-				.then( ( ) => console.log( data.error ) );
+				.then( ( ) => console.log( error ) );
 		}
 
 		const { 
