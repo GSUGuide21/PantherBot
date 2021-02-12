@@ -45,6 +45,8 @@ module.exports = class YouTubeCommand extends Command {
 			}
 		}
 
+		console.log( args, videoIDorURL );
+
 		const watchURL = 
 			isWatchURL ? 
 				videoIDorURL :
