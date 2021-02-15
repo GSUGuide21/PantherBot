@@ -27,12 +27,15 @@ module.exports = class RandomIntCommand extends Command {
 
 		let randomNumber = -Infinity;
 
-		if ( range.length > 0 ) { 
-			const [ x, y ] = safeIntegers.map( ( n, i ) => { 
+		if ( range.length ) { 
+			if ( range.length === 1 ) range.push( safeIntegers[ 1 ] );
+			const [ x, y ] = range.map( ( n, i ) => { 
 				return ( isNaN( n ) || !isFinite( n ) ) ?
 					safeIntegers[ i ] :
 					Number( n );
 			} );
+
+			console.log( x, y );
 
 			const [ min, max ] = [ Math.min( x, y ), Math.max( x, y ) ];
 
