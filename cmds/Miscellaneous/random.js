@@ -14,8 +14,6 @@ module.exports = class RandomIntCommand extends Command {
 	}
 
 	async run( { channel }, args ) { 
-		console.log( args );
-		
 		const range = Array
 			.from( args )
 			.slice( 0, 2 )
@@ -34,8 +32,6 @@ module.exports = class RandomIntCommand extends Command {
 					safeIntegers[ i ] :
 					Number( n );
 			} );
-
-			console.log( x, y );
 
 			const [ min, max ] = [ Math.min( x, y ), Math.max( x, y ) ];
 
