@@ -33,9 +33,7 @@ module.exports = class PollCommand extends Command {
 					key : "time",
 					prompt : "How long should the poll last?",
 					default : "2 days",
-					parse : value => { 
-
-					}
+					type : "string"
 				}
 			]
 		} );
