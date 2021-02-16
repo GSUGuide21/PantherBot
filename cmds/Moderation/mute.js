@@ -4,9 +4,9 @@ const { Command } = require( "discord.js-commando" );
 module.exports = class MuteCommand extends Command { 
 	constructor( bot ) { 
 		super( bot, { 
-			name : "kick",
+			name : "mute",
 			group : "moderation",
-			memberName : "ban",
+			memberName : "mute",
 			description : "Mutes a member on the Discord server",
 			clientPermissions : [ "MUTE_MEMBERS" ],
 			userPermissions : [ "MUTE_MEMBERS" ]
