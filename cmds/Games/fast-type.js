@@ -126,7 +126,8 @@ module.exports = class FastTypeGame extends Command {
 
 					message
 						.reply( `You have received 1 point (${++points[member.id]} total)` )
-						.then( msg => msg.delete( { timeout : 1000 * seconds } ) );
+						.then( msg => msg.delete( { timeout : 1000 * seconds } ) )
+						.finally( ( ) => message.delete( ) );
 					
 					setTimeout( ( ) => { 
 						if ( game.stage === "IN_GAME" ) { 
@@ -146,6 +147,7 @@ module.exports = class FastTypeGame extends Command {
 	async run( msg ) { 
 		const { channel } = msg;
 		msg.delete( );
+		
 		channel
 			.send( "Preparing game...")
 			.then( message => { 
