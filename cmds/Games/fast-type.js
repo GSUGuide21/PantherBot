@@ -37,9 +37,14 @@ const STAGES = {
 
 		let results = "";
 
+		const highest = Math.max( ...sorted );
+
 		for ( const key of sorted ) { 
 			const amount = points[ key ];
-			results += `<@${key}> has ${amount} point${amount === 1 ? "" : "s" }\n`
+
+			const percentage = `${Number( ( amount / highest ) * 100 ).toFixed( 2 )}%`;
+
+			results += `<@${key}> has ${amount} point${amount === 1 ? "" : "s" } (${percentage})\n`
 		}
 
 		return `The game has now concluded. Here are the results: ${results}------`;
