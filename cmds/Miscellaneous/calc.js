@@ -8,12 +8,12 @@ module.exports = class CalculatorCommand extends Command {
 			aliases : [ "calculate" ],
 			argsType : "single",
 			group : "miscellaneous",
-			memberName : "calc"
+			memberName : "calc",
+			description : "Coming soon!"
 		} );
 	}
 
 	async run( { channel }, value ) { 
-
-		return channel.send( result );
+		return channel.send( calculate( value ) );
 	}
 }
