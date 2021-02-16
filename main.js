@@ -3,6 +3,7 @@
  * @version     1.1.2
  * @author      GSUGuide21
  **/
+require( "module-alias/register" );
 
 const { Client } = require( "discord.js-commando" );
 const path = require( "path" );
