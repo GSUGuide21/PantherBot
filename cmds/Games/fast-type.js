@@ -37,10 +37,14 @@ const STAGES = {
 
 		let results = "";
 
-		const highest = Math.max( ...sorted );
+		const highest = Math.max( ...sorted.map( x => points[ x ] ) );
+
+		console.log( )
 
 		for ( const key of sorted ) { 
 			const amount = points[ key ];
+
+			console.log( amount );
 
 			const percentage = `${Number( ( amount / highest ) * 100 ).toFixed( 2 )}%`;
 
