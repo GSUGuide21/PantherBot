@@ -28,7 +28,7 @@ module.exports = class YouTubeCommand extends Command {
 
 		let videoIDorURL = "";
 
-		if ( isYouTubeURL( args ) ) { 
+		if ( isWatchURL ) { 
 			const urlPart = args.replace( youtubeURLPattern, "" );
 			const youtubeShortPattern = /^(?:(?:https?:|)\/\/|)youtu\.be/;
 			const isShortURL = string => youtubeShortPattern.test( string );

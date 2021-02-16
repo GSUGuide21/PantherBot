@@ -3,7 +3,7 @@
  * @param {string} s 
  * @returns {string}
  **/
-export default function slug( s ) { 
+module.exports = ( s ) => { 
 	const r = String( s )
         .toLowerCase( )
         .replace( /\s+/g, "-" )
