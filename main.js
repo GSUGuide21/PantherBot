@@ -16,6 +16,8 @@ const bot = new Client( {
     commandPrefix : "$"
 } );
 
+bot.active = true;
+
 bot.once( "ready", async ( ) => { 
     console.log( "PantherBot has been initialized!" );
 
