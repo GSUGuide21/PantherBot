@@ -72,7 +72,6 @@ const gameLoop = ( ) => {
 				string = STAGES[ game.stage ]( game.currentWord );
 				message.edit( string );
 			}
-			break;
 		} else if ( stage === "IN_GAME" ) {
 			if ( game.counter < 1 ) { 
 				game.stage = "ENDING";
@@ -88,6 +87,7 @@ const gameLoop = ( ) => {
 
 		--game.counter;
 	}
+
 	setTimeout( gameLoop, 1000 );
 };
 
