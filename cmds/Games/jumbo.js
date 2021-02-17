@@ -1,55 +1,63 @@
 const { Command } = require( "discord.js-commando" );
-const { words } = require( "@util/fast-type-words" );
-
-const EXAMPLE = Object.freeze( { 
-	channelId : {
-		message : "message object",
-		stage : "string",
-		counter : "number",
-		currentWord : "string",
-		remainingWords : [ "words here" ],
-		points : { 
-			userId : "points"
-		}
-	}
-} );
+const { words } = require( "@util/jumbo-words" );
 
 const GAMES = { };
 
 const STAGES = Object.freeze( { 
-	STARTING : ( counter ) => { 
-		return `A new "Fast Type" game is starting in ${counter} seconds!`;
+	BEGIN : ( counter ) => { 
+		return `A new "Jumbo" game is starting in ${counter} seconds!`;
 	},
 	IN_GAME : ( word ) => { 
-		let spacedWord = "";
+		let jumbledWord = "";
 
-		for ( const letter of [ ...word ] ) { 
-			spacedWord += letter;
-			spacedWord += " ";
+		const characters = [ ...word ];
+
+		const letterPattern = /[\w\d]/g;
+
+		const letters = characters.filter( letterPattern.test.bind( letterPattern ) );
+
+		for ( const letter of characters ) { 
+			if ( !letterPattern.test( letter ) ) { 
+				jumbledWord += letter;
+				jumbledWord += " ";
+				continue;
+			}
+
+			const randomIndex = Math.floor( Math.random( ) * letter.length );
+			const randomLetter = letters[ randomIndex ];
+
+			jumbledWord += randomLetter;
+			jumbledWord += " ";
+
+			letters.splice( randomIndex, 1 );
 		}
 
-		return `The word is ***${spacedWord}***!`;
+		jumbledWord = jumbledWord
+			.toUpperCase( )
+			.trim( );
+
+		return `The word is: **${jumbledWord}**!`;
 	},
-	ENDING : ( points ) => { 
+	END : ( points ) => { 
 		const sorted = Object.keys( points ).sort( ( a, b ) => { 
 			return points[ b ] - points[ a ];
 		} );
 
-		const results = [ ];
-
 		const highest = Math.max( ...sorted.map( x => points[ x ] ) );
+
+		const results = [ ];
 
 		for ( const key of sorted ) { 
 			const amount = points[ key ];
 
-			const percentage = `${Number( ( amount / highest ) * 100 ).toFixed( 2 )}%`;
+			const percentage = `${Number( ( amount / highest ) * 100 ).toFixed( 2 )}`;
 
 			const string = `<@${key}> has ${amount} point${amount === 1 ? "" : "s"} (${percentage})`;
-			
+
 			results.push( string );
 		}
 
-		return `The game has now concluded. Here are the results: \n${results.join( "\n" )}`;
+		return `This Jumbo game has now concluded. Here are the results: \n${results.join( "\n" )}`;
 	}
 } );
 
@@ -59,6 +67,7 @@ const selectWord = game => {
 
 	game.currentWord = remainingWords[ randomIndex ];
 	const currentIndex = remainingWords.indexOf( game.currentWord );
+
 	game.remainingWords.splice( currentIndex, 1 );
 };
 
@@ -67,12 +76,12 @@ const gameLoop = ( ) => {
 		const game = GAMES[ key ];
 		const { message, stage } = game;
 
-		if ( stage === "STARTING" ) { 
+		if ( stage === "BEGIN" ) { 
 			let string = STAGES[ stage ]( game.counter );
 			message.edit( string );
 			if ( game.counter < 1 ) { 
 				game.stage = "IN_GAME";
-				game.counter = 30;
+				game.counter = 120;
 
 				selectWord( game );
 
@@ -81,11 +90,11 @@ const gameLoop = ( ) => {
 			}
 		} else if ( stage === "IN_GAME" ) {
 			if ( game.counter < 1 ) { 
-				game.stage = "ENDING";
+				game.stage = "END";
 
 				const string = STAGES[ game.stage ]( game.points );
 				message.edit( string );
-				
+
 				delete GAMES[ key ];
 
 				continue;
@@ -98,14 +107,14 @@ const gameLoop = ( ) => {
 	setTimeout( gameLoop, 1000 );
 };
 
-module.exports = class FastTypeGame extends Command { 
+module.exports = class JumboGame extends Command { 
 	constructor( bot ) { 
 		super( bot, { 
-			name : "fasttype",
+			name : "jumbo",
 			group : "games",
-			memberName : "fasttype",
-			aliases : [ "fast-type" ],
-			description : "Starts a fast type game"
+			memberName : "jumbo",
+			aliases : [ "j" ],
+			description : "Starts a Jumbo game"
 		} );
 
 		bot.on( "message", message => { 
@@ -113,16 +122,16 @@ module.exports = class FastTypeGame extends Command {
 			const { id } = channel;
 
 			const game = GAMES[ id ];
-			
+
 			if ( 
-				game?.currentWord && 
-				!member.user.bot 
+				game?.currentWord &&
+				!member.user.bot
 			) { 
 				message.delete( );
 
 				if ( 
-					game.stage === "IN_GAME" && 
-					content.toLowerCase( ) === game.currentWord.toLowerCase( ) 
+					game.stage === "IN_GAME" &&
+					content.toLowerCase( ) === game.currentWord.toLowerCase( )
 				) {
 					game.currentWord = null;
 					const seconds = 2;
@@ -132,7 +141,7 @@ module.exports = class FastTypeGame extends Command {
 
 					message
 						.reply( `You have received 1 point (${++points[ member.id ]} total)` )
-						.then( msg => msg.delete( { timeout : 1000 * seconds } ) );
+						.then( msg => msg.delete( { timeout : 1000 * seconds} ) );
 					
 					setTimeout( ( ) => { 
 						if ( game.stage === "IN_GAME" ) { 
@@ -154,15 +163,15 @@ module.exports = class FastTypeGame extends Command {
 		msg.delete( );
 
 		channel
-			.send( "Preparing a Fast Type game..." )
+			.send( "Preparing a Jumbo game..." )
 			.then( message => { 
 				GAMES[ channel.id ] = { 
 					message,
-					stage : "STARTING",
+					stage : "BEGIN",
 					counter : 5,
 					remainingWords : [ ...words ],
 					points : { }
-				}
+				};
 			} );
 	}
 }
