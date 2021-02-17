@@ -1,0 +1,28 @@
+{ 
+	"topics" : {
+		"Television" : [ 
+			{ 
+				"phrase" : "The Big Bang Theory",
+				"points" : 4
+			},
+			{
+				"phrase" : "Walking Dead",
+				"points" : 5
+			},
+			{
+				"phrase" : "Breaking Bad",
+				"points" : 3
+			},
+			{
+				"phrase" : "American Dad",
+				"points" : 3
+			}
+		],
+		"Movies" : [ 
+			{
+				"phrase" : "Ghostbusters",
+				"points" : 3
+			}
+		]
+	}
+}

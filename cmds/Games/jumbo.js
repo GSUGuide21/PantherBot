@@ -31,8 +31,6 @@ const STAGES = Object.freeze( {
 	},
 	IN_GAME : ( word ) => { 
 		const jumbledWord = jumbo( word );
-		
-		console.log( jumbledWord );
 
 		return `The word is: **${jumbledWord.toUpperCase( )}**!`;
 	},
@@ -87,7 +85,10 @@ const gameLoop = ( ) => {
 				message.edit( string );
 			}
 		} else if ( stage === "IN_GAME" ) {
-			if ( game.counter < 1 ) { 
+			if ( 
+				game.counter < 1 ||
+				game.remainingWords.length === 0 
+			) { 
 				game.stage = "END";
 
 				const string = STAGES[ game.stage ]( game.points );
