@@ -60,12 +60,14 @@ const STAGES = Object.freeze( {
 } );
 
 const selectPhrase = ( game ) => {
-	const topicArray = Object.keys( topics ).map( topic => topic.toLowerCase( ) ); 
+	const topicArray = Object.keys( topics ); 
+
+	const topicArrayLC = topicArray.map( topic => topic.toLowerCase( ) );
 
 	console.log( topics, topicArray );
 
 	if ( 
-		!topicArray.includes( game.topic.toLowerCase( ) ) ||
+		!topicArrayLC.includes( game.topic.toLowerCase( ) ) ||
 		game?.randomTopic === true
 	) {
 		const randomIndex = Math.floor( Math.random( ) * topicArray.length );
@@ -78,6 +80,12 @@ const selectPhrase = ( game ) => {
 			return accumulator + length;
 		}, 0 );
 	} else {
+		const topic = topicArray.find( t => { 
+			return t.toLowerCase( ) === game.topic.toLowerCase( );
+		} );
+
+		game.topic = topic;
+
 		game.remainingPhrases = topics[ game.topic ].length;
 	}
 
