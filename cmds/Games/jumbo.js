@@ -12,11 +12,17 @@ const STAGES = Object.freeze( {
 
 		const characters = [ ...word ];
 
-		const letterPattern = /[\w\d]/g;
+		console.log( characters );
+
+		const letterPattern = /[\w\d]/;
 
 		const letters = characters.filter( letterPattern.test.bind( letterPattern ) );
 
+		console.log( letters );
+
 		for ( const letter of characters ) { 
+			console.log( letter );
+
 			if ( !letterPattern.test( letter ) ) { 
 				jumbledWord += letter;
 				jumbledWord += " ";
@@ -25,6 +31,8 @@ const STAGES = Object.freeze( {
 
 			const randomIndex = Math.floor( Math.random( ) * letter.length );
 			const randomLetter = letters[ randomIndex ];
+
+			console.log( randomLetter );
 
 			jumbledWord += randomLetter;
 			jumbledWord += " ";
@@ -35,6 +43,8 @@ const STAGES = Object.freeze( {
 		jumbledWord = jumbledWord
 			.toUpperCase( )
 			.trim( );
+
+		console.log( jumbledWord );
 
 		return `The word is: **${jumbledWord}**!`;
 	},
