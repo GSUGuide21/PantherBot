@@ -3,50 +3,38 @@ const { words } = require( "@util/jumbo-words" );
 
 const GAMES = { };
 
+const jumbo = ( s = "", spaced = true ) => { 
+	let jumbledLetters = [ ];
+	const characters = [ ...String( s ) ];
+	const letterPattern = /[\w\d]/;
+	const letters = characters.filter( letterPattern.test.bind( letterPattern ) );
+
+	for ( const letter of characters ) { 
+		if ( !letterPattern.test( letter ) ) {
+			jumbledLetters.push( letter );
+			continue;
+		}
+
+		const randomIndex = Math.floor( Math.random( ) * letters.length );
+		const randomLetter = letters[ randomIndex ];
+		jumbledLetters.push( randomLetter );
+
+		letters.splice( randomIndex, 1 );
+	}
+
+	return jumbledLetters.join( spaced ? " " : "" );
+};
+
 const STAGES = Object.freeze( { 
 	BEGIN : ( counter ) => { 
 		return `A new "Jumbo" game is starting in ${counter} seconds!`;
 	},
 	IN_GAME : ( word ) => { 
-		let jumbledWord = "";
-
-		const characters = [ ...word ];
-
-		console.log( characters );
-
-		const letterPattern = /[\w\d]/;
-
-		const letters = characters.filter( letterPattern.test.bind( letterPattern ) );
-
-		console.log( letters );
-
-		for ( const letter of characters ) { 
-			console.log( letter );
-
-			if ( !letterPattern.test( letter ) ) { 
-				jumbledWord += letter;
-				jumbledWord += " ";
-				continue;
-			}
-
-			const randomIndex = Math.floor( Math.random( ) * letter.length );
-			const randomLetter = letters[ randomIndex ];
-
-			console.log( randomLetter );
-
-			jumbledWord += randomLetter;
-			jumbledWord += " ";
-
-			letters.splice( randomIndex, 1 );
-		}
-
-		jumbledWord = jumbledWord
-			.toUpperCase( )
-			.trim( );
-
+		const jumbledWord = jumbo( word );
+		
 		console.log( jumbledWord );
 
-		return `The word is: **${jumbledWord}**!`;
+		return `The word is: **${jumbledWord.toUpperCase( )}**!`;
 	},
 	END : ( points ) => { 
 		const sorted = Object.keys( points ).sort( ( a, b ) => { 
