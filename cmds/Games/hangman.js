@@ -231,6 +231,7 @@ module.exports = class HangmanGame extends Command {
 					message,
 					stage : "BEGIN",
 					counter : 5,
+					completedPhrases : [ ],
 					remainingPhrases : 0,
 					topic,
 					points : { }
