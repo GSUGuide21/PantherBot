@@ -22,7 +22,7 @@ const STAGES = Object.freeze( {
 
 		for ( const letter of characters ) { 
 			if ( 
-				!isLetter ||
+				!isLetter( letter ) ||
 				selectedLettersUniq.includes( letter )
 			) {
 				result.push( letter );
@@ -55,7 +55,7 @@ const STAGES = Object.freeze( {
 			results.push( string );
 		}
 
-		return `This Jumbo game has now concluded. Here are the results: \n${results.join( "\n" )}`;
+		return `This Hangman game has now concluded. Here are the results: \n${results.join( "\n" )}`;
 	}
 } );
 
@@ -217,6 +217,8 @@ module.exports = class HangmanGame extends Command {
 
 					const string = STAGES[ stage ]( game.selectedLetters, currentPhrase, topic );
 					game.message.edit( string );
+
+					message.delete( );
 				}
 			}
 		} );
