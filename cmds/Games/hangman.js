@@ -29,7 +29,7 @@ const STAGES = Object.freeze( {
 				continue;
 			}
 
-			result.push( "_" );
+			result.push( "\\_" );
 		}
 
 		const lettersLeft = lettersUniq.length - selectedLettersUniq.length;
@@ -231,6 +231,7 @@ module.exports = class HangmanGame extends Command {
 					message,
 					stage : "BEGIN",
 					counter : 5,
+					selectedLetters : [ ],
 					completedPhrases : [ ],
 					remainingPhrases : 0,
 					topic,
