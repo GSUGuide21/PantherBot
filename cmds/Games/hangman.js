@@ -102,6 +102,10 @@ const selectPhrase = ( game ) => {
 	game.currentPhrase = phrase;
 
 	game.currentAccumulatedPoints = parseInt( points );
+
+	game.remainingLetters = [ ];
+
+	game.selectedLetters = [ ];
 };
 
 const gameLoop = ( ) => { 
@@ -231,6 +235,7 @@ module.exports = class HangmanGame extends Command {
 					message,
 					stage : "BEGIN",
 					counter : 5,
+					remainingLetters : [ ],
 					selectedLetters : [ ],
 					completedPhrases : [ ],
 					remainingPhrases : 0,
