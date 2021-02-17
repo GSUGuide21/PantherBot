@@ -61,12 +61,17 @@ const STAGES = Object.freeze( {
 
 const selectPhrase = ( game ) => {
 	const topicArray = Object.keys( topics ).map( topic => topic.toLowerCase( ) ); 
+
+	console.log( topics, topicArray );
+
 	if ( 
-		!topicArray.includes( game.topic ) ||
+		!topicArray.includes( game.topic.toLowerCase( ) ) ||
 		game?.randomTopic === true
 	) {
 		const randomIndex = Math.floor( Math.random( ) * topicArray.length );
 		game.topic = topicArray[ randomIndex ];
+
+		console.log( game );
 
 		game.remainingPhrases = topicArray.reduce( ( accumulator, key ) => { 
 			const length = topics[ key ].length;
@@ -138,11 +143,6 @@ module.exports = class HangmanGame extends Command {
 			memberName : "hangman",
 			aliases : [ "h" ],
 			group : "games",
-			args : [ { 
-				type : "string",
-				key : "topic",
-				prompt : "What topic would you want to play?"
-			} ],
 			description : "Initializes the Hangman game"
 		} );
 
@@ -212,7 +212,7 @@ module.exports = class HangmanGame extends Command {
 		gameLoop( );
 	}
 
-	async run( msg, { topic = "" } ) { 
+	async run( msg, topic = "" ) { 
 		const { channel } = msg;
 		msg.delete( );
 
