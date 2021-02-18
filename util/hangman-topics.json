@@ -1,28 +1,40 @@
-{ 
+{
 	"topics" : {
-		"Television" : [ 
-			{ 
-				"phrase" : "The Big Bang Theory",
-				"points" : 4
-			},
-			{
-				"phrase" : "Walking Dead",
+		"television" : {
+			"name" : "Television",
+			"aliases" : [ "tv" ],
+			"phrases" : [ { 
+				"value" : "The Big Bang Theory",
 				"points" : 5
-			},
-			{
-				"phrase" : "Breaking Bad",
+			}, { 
+				"value" : "Orange is the New Black",
+				"points" : 5
+			}, {
+				"value" : "Jeopardy",
+				"points" : 4
+			} ]
+		},
+		"movies" : { 
+			"name" : "Movies",
+			"aliases" : [ "film", "movie" ],
+			"phrases" : [ { 
+				"value" : "Justice League",
 				"points" : 3
-			},
-			{
-				"phrase" : "American Dad",
+			}, { 
+				"value" : "Scarface",
+				"points" : 2
+			} ]
+		},
+		"gaming" : {
+			"name" : "Gaming",
+			"aliases" : [ "video games", "games", "videogames", "videogame" ],
+			"phrases" : [ { 
+				"value" : "Sonic the Hedgehog",
 				"points" : 3
-			}
-		],
-		"Movies" : [ 
-			{
-				"phrase" : "Ghostbusters",
+			}, { 
+				"value" : "Crash Bandicoot",
 				"points" : 3
-			}
-		]
+			} ]
+		}
 	}
 }
