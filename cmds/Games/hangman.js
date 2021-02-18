@@ -112,6 +112,8 @@ const selectPhrase = game => {
 		randomTopic = true;
 	}
 
+	console.log( topics, targetTopic );
+
 	const { phrases, name } = topics[ targetTopic ];
 
 	const phrasesToSearch = phrases.filter( p => { 
