@@ -6,6 +6,7 @@
 require( "module-alias/register" );
 
 const { Client } = require( "discord.js-commando" );
+const messages = require( "./messages" );
 const path = require( "path" );
 // const __dirname = require( "./dirname.js" );
 
@@ -33,6 +34,10 @@ bot.once( "ready", async ( ) => {
         ] )
         .registerDefaults( )
         .registerCommandsIn( path.join( __dirname, "cmds" ) );
+    
+    bot.on( "guildMemberAdd", async ( member ) => { 
+        messages.welcome( member, bot );
+    } );
     
     console.log( bot );
 } );
