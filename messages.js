@@ -32,6 +32,20 @@ module.exports = {
      * @param {Client} bot 
      */
     welcome : ( member, bot ) => { 
+        let welcomeText = "";
+
+        if ( bot.welcome ) {  
+            welcomeText = bot.welcome;
+        } else { 
+            const len = welcomeMessages.length;
+
+            const randomIndex = Math.floor( Math.random( ) * len );
+
+            welcomeText = welcomeMessages[ randomIndex ];
+        }
+
+        console.log( member );
+
         const { guild, user } = member;
 
         const welcomeChannel = guild.channels.cache.find( x => x.name === "welcome" );
@@ -59,13 +73,7 @@ module.exports = {
             }
         ] );
 
-        const len = welcomeMessages.length;
-
-        const randomIndex = Math.floor( Math.random( ) * len );
-
-        const welcomeMessage = welcomeMessages[ randomIndex ];
-
-        const result = welcomeMessage.replace( "$M", member );
+        const result = welcomeText.replace( "$M", member );
 
         updateChannel.send( { embed } );
 

@@ -8,6 +8,7 @@ require( "module-alias/register" );
 const { Client } = require( "discord.js-commando" );
 const messages = require( "./messages" );
 const path = require( "path" );
+const fs = require("fs");
 // const __dirname = require( "./dirname.js" );
 
 const { PANTHERBOT_TOKEN } = process.env;
