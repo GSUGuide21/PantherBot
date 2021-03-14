@@ -49,6 +49,7 @@
         "module-alias": "^2.2.2",
         "mongodb": "^3.6.4",
         "mongoose": "^5.11.15",
-        "random-puppy": "^1.1.0"
+        "random-puppy": "^1.1.0",
+        "snoowrap": "^1.22.0"
     }
 }
