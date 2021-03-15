@@ -40,7 +40,7 @@ module.exports = class SubredditCommand extends Command {
 
         const description = `${selftext.slice( 0, 200 )}...`;
 
-        const date = new Date( created_utc * 1000 );
+        const date = new Date( created * 1000 );
 
         const pad = n => { 
             if ( n < 10 && n > -10 ) { 
@@ -62,19 +62,23 @@ module.exports = class SubredditCommand extends Command {
         const fields = Object.freeze( [ 
             { 
                 name : "Comments",
-                value : Number( num_comments ).toLocaleString( "en-US" )
+                value : Number( num_comments ).toLocaleString( "en-US" ),
+                inline : true
             },
             { 
                 name : "Author",
-                value : author
+                value : `${author} (https://www.reddit.com/u/${author})`,
+                inline : true
             },
             { 
                 name : "Score",
-                value : Number( score ).toLocaleString( "en-US" )
+                value : Number( score ).toLocaleString( "en-US" ),
+                inline : true
             },
             { 
                 name : "Created",
-                value : parsedDate
+                value : parsedDate,
+                inline : true
             }
         ] );
 
