@@ -12,7 +12,7 @@ module.exports = class RickrollCommand extends Command {
         } );
     }
 
-    run( { channel } ) { 
+    async run( { channel } ) { 
         const embed = new MessageEmbed( { 
             color : 0x9d000,
             title : "Rick Astley - Never Gonna Give You Up (Video)",
