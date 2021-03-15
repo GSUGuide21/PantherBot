@@ -35,7 +35,7 @@ module.exports = class SubredditCommand extends Command {
             num_comments,
             author,
             score,
-            created_utc
+            created
         } = data;
 
         const description = `${selftext.slice( 0, 200 )}...`;
