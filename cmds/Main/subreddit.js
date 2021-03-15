@@ -9,34 +9,14 @@ module.exports = class SubredditCommand extends Command {
             aliases : [ "gsureddit", "sr" ],
             memberName : "subreddit",
             group : "main",
-            description : "Creates an embed with information about the latest post on r/GaState",
-            argsType : "multiple"
+            description : "Creates an embed with information about the latest post on r/GaState"
         } );
     }
 
     async run( { channel }, args ) { 
-        let sort, subreddit;
-        
-        const defaultSort = "new", defaultSubreddit = "GaState";
+        const rootURL = "https://www.reddit.com/r/GaState";
 
-        const types = Object.freeze( [ 
-            "new",
-            "top",
-            "rising",
-            "hot"
-        ] );
-
-        if ( args.length ) { 
-            subreddit = args[ 0 ] || defaultSubreddit;
-            sort = types.includes( args[ 1 ] ) ? args[ 1 ] : defaultSort;
-        } else { 
-            subreddit = defaultSubreddit;
-            sort = defaultSort;
-        }
-
-        const rootURL = `https://www.reddit.com/r/${subreddit.split( "/" )[ 0 ]}`;
-
-        const apiURL = `${rootURL}/${sort}.json?limit=1`;
+        const apiURL = `${rootURL}/new.json?limit=1`;
 
         const { data } = await axios
             .get( apiURL, { responseType : "json" } )
