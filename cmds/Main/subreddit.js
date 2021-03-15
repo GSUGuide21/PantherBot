@@ -66,11 +66,6 @@ module.exports = class SubredditCommand extends Command {
                 inline : true
             },
             { 
-                name : "Author",
-                value : `${author} (https://www.reddit.com/u/${author})`,
-                inline : true
-            },
-            { 
                 name : "Score",
                 value : Number( score ).toLocaleString( "en-US" ),
                 inline : true
@@ -79,7 +74,11 @@ module.exports = class SubredditCommand extends Command {
                 name : "Created",
                 value : parsedDate,
                 inline : true
-            }
+            },
+            { 
+                name : "Author",
+                value : `${author} (https://www.reddit.com/u/${author})`
+            },
         ] );
 
         const embed = new MessageEmbed( { 
