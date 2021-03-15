@@ -18,7 +18,7 @@ module.exports = class SubredditCommand extends Command {
 
         const apiURL = `${rootURL}/new.json?limit=1`
 
-        const data = await axios
+        const { data } = await axios
             .get( apiURL, { 
                 responseType : "json"
             } )
