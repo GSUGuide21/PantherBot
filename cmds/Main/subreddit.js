@@ -22,7 +22,7 @@ module.exports = class SubredditCommand extends Command {
             .get( apiURL, { 
                 responseType : "json"
             } )
-            .then( response => response?.data?.children[ 0 ] )
+            .then( response => console.log( response ) && response?.data?.children?.[ 0 ] )
             .catch( error => ( { error } ) );
 
         if ( data.error || !data ) { 
