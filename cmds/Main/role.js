@@ -20,6 +20,7 @@ module.exports = class RoleCommand extends Command {
      * @returns {Promise<any>}
      */
     async run( { guild, member, reply }, name ) {
+        console.log( guild, member, reply );
         if ( !name ) return reply( "please specify a role to receive!" );
 
         for ( const [ roleName, options ] of Object.entries( roles ) ) { 

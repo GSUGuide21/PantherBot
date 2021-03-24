@@ -19,7 +19,7 @@ module.exports = class TestCommand extends Command {
 			height : 400
 		} );
 
-		const { canvas } = context;
+		console.log( context, getContext );
 
 		return channel.send( active ? "ACTIVE" : "INACTIVE" );
 	}
