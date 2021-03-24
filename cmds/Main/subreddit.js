@@ -35,8 +35,6 @@ module.exports = class SubredditCommand extends Command {
             return channel.send( "Error loading subreddit data." );
         }
 
-        console.log( data, args );
-
         const { 
             title,
             selftext,

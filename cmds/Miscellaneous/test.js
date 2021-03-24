@@ -1,4 +1,5 @@
 const { Command } = require( "discord.js-commando" );
+const getContext = require( "2d-context" );
 
 module.exports = class TestCommand extends Command { 
 	constructor( bot ) { 
@@ -12,6 +13,13 @@ module.exports = class TestCommand extends Command {
 
 	async run( { channel } ) { 
 		const { active } = this.client;
+
+		const context = getContext( { 
+			width : 640,
+			height : 400
+		} );
+
+		const { canvas } = context;
 
 		return channel.send( active ? "ACTIVE" : "INACTIVE" );
 	}
