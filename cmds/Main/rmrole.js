@@ -2,15 +2,15 @@ const { Command } = require( "discord.js-commando" );
 const { Message } = require( "discord.js" );
 const roles = require( "@util/roles.json" );
 
-module.exports = class RoleCommand extends Command {
+module.exports = class RemoveRoleCommand extends Command {
     constructor( bot ) {
         super( bot, { 
-            name : "role",
-            aliases : [ "r" ],
+            name : "rmrole",
+            aliases : [ "remove-role", "rmr", "unrole" ],
             argsType : "single",
-            memberName : "role",
+            memberName : "rmrole",
             group : "main",
-            description : "Gives the member a role in the Discord server"
+            description : "Removes a role from a member in the Discord server"
         } );
     }
 
@@ -22,7 +22,7 @@ module.exports = class RoleCommand extends Command {
     async run( message, name ) {
         const { guild, member } = message;
         console.log( guild, member );
-
+        
         if ( !name ) return message.reply( "please specify a role to receive!" );
 
         for ( const [ roleName, options ] of Object.entries( roles ) ) { 
@@ -34,14 +34,14 @@ module.exports = class RoleCommand extends Command {
             if ( ciMatchRole ) { 
                 const role = guild.roles.cache.find( r => r.name.toLowerCase( ) === roleName.toLowerCase( ) );
 
-                if ( member.roles.cache.has( role.name ) ) {
-                    return message.reply( `you already have that role (${roleName}).` );
+                if ( !member.roles.cache.has( role.name ) ) {
+                    return message.reply( `you do not have that role (${roleName}).` );
                 }
 
                 return member
                     .roles
-                    .add( role )
-                    .then( ( ) => message.reply( `the role (${roleName}) has been added! Enjoy.` ) )
+                    .remove( role )
+                    .then( ( ) => message.reply( `the role (${roleName}) has been removed! Enjoy.` ) )
                     .catch( ( ) => message.channel.send( `Error adding role: ${roleName}` ) );
             }
         }

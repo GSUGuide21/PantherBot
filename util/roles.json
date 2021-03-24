@@ -69,6 +69,11 @@
             "Perimeter"
         ]
     },
+    "Guide" : { 
+        "aliases" : [ 
+            "GSU Guide"
+        ]
+    },
     "SGA" : { 
         "aliases" : [ 
             "Student Government Association"
