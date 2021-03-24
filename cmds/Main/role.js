@@ -46,6 +46,6 @@ module.exports = class RoleCommand extends Command {
             }
         }
 
-        return reply( "the role is not found." );
+        return message.reply( "the role is not found." );
     }
 }
