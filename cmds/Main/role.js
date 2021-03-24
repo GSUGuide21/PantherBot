@@ -19,9 +19,10 @@ module.exports = class RoleCommand extends Command {
      * @param {string} name
      * @returns {Promise<any>}
      */
-    async run( { guild, member, reply }, name ) {
+    async run( message, name ) {
         console.log( guild, member, reply );
-        if ( !name ) return reply( "please specify a role to receive!" );
+        const { guild, member } = message;
+        if ( !name ) return message.reply( "please specify a role to receive!" );
 
         for ( const [ roleName, options ] of Object.entries( roles ) ) { 
             const names = [ roleName, ...( Array.isArray( options.aliases ) ? options.aliases : ( [ options.aliases || "" ] ) ) ];
@@ -33,13 +34,13 @@ module.exports = class RoleCommand extends Command {
                 const role = guild.roles.cache.find( r => r.name.toLowerCase( ) === roleName.toLowerCase( ) );
 
                 if ( member.roles.cache.has( role.name ) ) {
-                    return reply( `you already have that role (${roleName}).` );
+                    return message.reply( `you already have that role (${roleName}).` );
                 }
 
                 return member
                     .roles
                     .add( role )
-                    .then( ( ) => reply( `the role has been added! Enjoy.` ) );
+                    .then( ( ) => message.reply( `the role has been added! Enjoy.` ) );
             }
         }
 
