@@ -57,6 +57,9 @@ module.exports = class GiveRoleCommand extends Command {
             .roles
             .add( role )
             .then( ( ) => message.reply( `the role (${roleName}) has been added! Enjoy.` ) )
-            .catch( ( ) => message.channel.send( `Error adding role: ${roleName}` ) );
+            .catch( ( e ) => {
+                console.log( e );
+                return message.channel.send( `Error adding role: ${roleName}` ) 
+            } );
     }
 }
