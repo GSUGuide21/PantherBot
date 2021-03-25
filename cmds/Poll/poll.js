@@ -34,7 +34,7 @@ module.exports = class PollCommand extends Command {
 		const emojiNames = [ ];
 
 		for ( let i = 0; i < pollOptions.length; i++ ) { 
-			emojiNames[ i ] = String( i + 1 );
+			emojiNames[ i ] = `Number${String( i + 1 )}`;
 		}
 
 		const emojis = emojiNames.map( emoji => { 
