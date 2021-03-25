@@ -6,9 +6,9 @@ module.exports = class VoteCommand extends Command {
 		super( bot, { 
 			name : "vote",
 			aliases : [ "v" ],
-			group : "vote",
+			group : "poll",
 			memberName : "vote",
-			description : "",
+			description : "Similar to the poll command; however, it only allows for voting support, neutral, or oppose.",
 			argsType : "multiple",
 			argsCount : 3
 		} );
