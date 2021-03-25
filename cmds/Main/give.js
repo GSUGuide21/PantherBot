@@ -2,13 +2,13 @@ const { Command } = require( "discord.js-commando" );
 const { Message } = require( "discord.js" );
 const roles = require( "@util/roles.json" );
 
-module.exports = class RoleCommand extends Command {
+module.exports = class GiveRoleCommand extends Command {
     constructor( bot ) {
         super( bot, { 
-            name : "role",
-            aliases : [ "r" ],
+            name : "give",
+            aliases : [ "give-role", "g", "gr" ],
             argsType : "multiple",
-            memberName : "role",
+            memberName : "give",
             group : "main",
             description : "Similar to the **role** command; however, it gives another member a role.",
             userPermissions : [ "MANAGE_ROLES" ],
