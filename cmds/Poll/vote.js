@@ -51,6 +51,7 @@ module.exports = class VoteCommand extends Command {
         channel
             .send( { embed } )
             .then( msg => { 
+                if ( message.deletable ) message.delete( );
                 for ( const emoji of emojis ) msg.react( emoji );
             } );
 	}
