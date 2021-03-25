@@ -23,7 +23,6 @@ module.exports = class GiveRoleCommand extends Command {
      */
     async run( message, args ) {
         const { guild } = message;
-        console.log( guild, member );
 
         const user = message.mentions.users.first( );
         const member = guild.member( user );
