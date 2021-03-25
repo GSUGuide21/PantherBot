@@ -27,9 +27,7 @@ module.exports = class GiveRoleCommand extends Command {
         const user = message.mentions.users.first( );
         const member = guild.member( user );
 
-        console.log( args );
-        
-        let roleName = args.slice( 1 );
+        let roleName = args.slice( 1 ).join( " " );
 
         for ( const [ canonicalRoleName, options ] of Object.entries( roles ) ) { 
             const names = [ canonicalRoleName, ...( Array.isArray( options.aliases ) ? options.aliases : ( [ options.aliases || "" ] ) ) ];
