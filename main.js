@@ -1,6 +1,6 @@
 /**
  * @name        PantherBot
- * @version     1.1.2
+ * @version     1.3.2
  * @author      GSUGuide21
  **/
 require( "module-alias/register" );
