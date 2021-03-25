@@ -34,7 +34,7 @@ module.exports = class RoleCommand extends Command {
             if ( ciMatchRole ) { 
                 const role = guild.roles.cache.find( r => r.name.toLowerCase( ) === roleName.toLowerCase( ) );
 
-                if ( member.roles.cache.has( role.name ) ) {
+                if ( member.roles.cache.has( role.id ) ) {
                     return message.reply( `you already have that role (${roleName}).` );
                 }
 
