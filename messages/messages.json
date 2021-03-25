@@ -4,5 +4,8 @@
         "$M, welcome to Good Burger, home of the Good Burger. Can I take your order?",
         "$M, welcome to the Cesspool. How the fuck are you?",
         "Welcome aboard, $M! Enjoy your stay in the Panther's Den."
+    ],
+    "left": [ 
+        "$M has left"
     ]
 }
