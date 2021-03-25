@@ -27,6 +27,8 @@ module.exports = class GiveRoleCommand extends Command {
         const user = message.mentions.users.first( );
         const member = guild.member( user );
 
+        console.log( args );
+        
         let roleName = args.slice( 1 );
 
         for ( const [ canonicalRoleName, options ] of Object.entries( roles ) ) { 
@@ -43,7 +45,7 @@ module.exports = class GiveRoleCommand extends Command {
 
         if ( !roleName ) return message.reply( "please specify a role to give!" );
 
-        const role = guild.roles.cache.find( r => r.name === roleName );
+        const role = guild.roles.cache.find( r => r.name.toLowerCase( ) === roleName.toLowerCase( ) );
 
         if ( member.roles.cache.has( role.id ) ) { 
             return message.reply( `${user.tag} already has that role!` )
