@@ -11,8 +11,8 @@ module.exports = class GiveRoleCommand extends Command {
             memberName : "give",
             group : "main",
             description : "Similar to the **role** command; however, it gives another member a role.",
-            userPermissions : [ "MANAGE_ROLES", "ADMINISTRATOR" ],
-            clientPermissions : [ "MANAGE_ROLES", "ADMINISTRATOR" ]
+            userPermissions : [ "ADMINISTRATOR" ],
+            clientPermissions : [ "ADMINISTRATOR" ]
         } );
     }
 
