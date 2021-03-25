@@ -46,11 +46,8 @@ module.exports = class PollCommand extends Command {
 		const embed = new MessageEmbed( { 
 			color : "RANDOM",
 			description : pollQuestion,
-			fields : emojis.map( emoji => { 
-				const name = emoji
-                    .name
-                    .toUpperCase( )
-                    .replace( /^:|:$/g, "" );
+			fields : emojis.map( ( emoji, index ) => { 
+				const name = pollOptions[ index ];
 
                 const value = emoji;
 
