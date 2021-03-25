@@ -51,7 +51,7 @@ module.exports = class PollCommand extends Command {
 
                 const value = emoji;
 
-                return { name, value };
+                return { name, value, inline : true };
 			} )
 		} );
 
