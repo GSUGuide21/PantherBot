@@ -9,8 +9,7 @@ module.exports = class VoteCommand extends Command {
 			group : "poll",
 			memberName : "vote",
 			description : "Similar to the poll command; however, it only allows for voting support, neutral, or oppose.",
-			argsType : "multiple",
-			argsCount : 3
+			argsType : "multiple"
 		} );
 	}
 

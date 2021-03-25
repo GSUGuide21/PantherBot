@@ -10,7 +10,7 @@ module.exports = class PollCommand extends Command {
 			memberName : "poll",
 			description : "Creates a poll with up to 15 options.",
 			argsType : "multiple",
-			argsCount : 3
+			argsSingleQuotes : true
 		} );
 	}
 
@@ -19,6 +19,50 @@ module.exports = class PollCommand extends Command {
 	 * @param {string[]} args 
 	 */
 	async run( message, args ) { 
-		
+		if ( !args?.length ) return message.reply( "a poll must have at least 1 option." );
+
+		const mention = message.mentions.channels.first( );
+
+		const argIndex = mention ? 1 : 0;
+
+		const channel = mention ? mention : message.channel;
+
+		const pollOptions = args.slice( argIndex );
+
+		const pollQuestion = pollOptions.shift( );
+
+		const emojiNames = [ ];
+
+		for ( let i = 0; i < pollOptions.length; i++ ) { 
+			emojiNames[ i ] = String( i + 1 );
+		}
+
+		const emojis = emojiNames.map( emoji => { 
+			return message.guild.emojis.cache.find( 
+				em => em.name === emoji
+			);
+		} );
+
+		const embed = new MessageEmbed( { 
+			color : "RANDOM",
+			description : pollQuestion,
+			fields : emojis.map( emoji => { 
+				const name = emoji
+                    .name
+                    .toUpperCase( )
+                    .replace( /^:|:$/g, "" );
+
+                const value = emoji;
+
+                return { name, value };
+			} )
+		} );
+
+		channel
+            .send( { embed } )
+            .then( msg => { 
+                if ( message.deletable ) message.delete( );
+                for ( const emoji of emojis ) msg.react( emoji );
+            } );
 	}
 }
