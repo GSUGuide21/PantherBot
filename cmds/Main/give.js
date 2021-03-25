@@ -51,6 +51,8 @@ module.exports = class GiveRoleCommand extends Command {
 
         if ( !role ) return message.reply( "the role is not found." );
 
+        console.log( role );
+
         member
             .roles
             .add( role )
