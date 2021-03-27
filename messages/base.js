@@ -68,22 +68,25 @@ module.exports = bot => {
         if ( kickLog ) { 
             const { executor, target } = kickLog;
 
+            const executorMember = member.guild.member( executor );
+            const targetMember = member.guild.member( target );
+
             if ( member.user.id === target.id ) { 
-                embed.setTitle( "Kicked" );
+                embed.setTitle( "KICKED" );
 
                 embed.fields.push( { 
                     name : "Performer",
-                    value : executor.tag
+                    value : `${executorMember.displayName} (${executor.tag})`
                 }, {
                     name : "Target",
-                    value : target.tag
+                    value : `${targetMember.displayName} (${target.tag})`
                 } );
             } else {
                 embed.setTitle( "Left" );
 
                 embed.fields.push( { 
                     name : "User",
-                    value : member.user.tag
+                    value : `${member.displayName} (${member.user.tag})`
                 } );
             }
         } else {
@@ -91,7 +94,7 @@ module.exports = bot => {
 
             embed.fields.push( { 
                 name : "User",
-                value : member.user.tag
+                value : `${member.displayName} (${member.user.tag})`
             } );
         }
 
