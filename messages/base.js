@@ -44,6 +44,8 @@ module.exports = bot => {
         const uc = member.guild.channels.cache.find( c => c.name === "update" );
         const wc = member.guild.channels.cache.find( c => c.name === "welcome" );
 
+        console.log( member, uc, wc );
+
         uc.send( { embed } );
         wc.send( result );
     } );
