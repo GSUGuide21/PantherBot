@@ -36,9 +36,9 @@ bot.once( "ready", async ( ) => {
         .registerDefaults( )
         .registerCommandsIn( path.join( __dirname, "cmds" ) );
     
-    initMessages( bot );
-    
     console.log( bot );
 } );
+
+initMessages( bot );
 
 bot.login( PANTHERBOT_TOKEN );

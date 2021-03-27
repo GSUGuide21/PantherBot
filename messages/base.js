@@ -7,6 +7,7 @@ const messages = require( "./messages.json" );
  * @param {Client} bot 
  */
 module.exports = bot => { 
+    console.log( bot.commandPrefix );
     bot.on( "guildMemberAdd", async member => { 
         const embed = new MessageEmbed( { 
             color : 0x3444cf,
