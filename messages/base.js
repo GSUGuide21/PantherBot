@@ -113,7 +113,7 @@ module.exports = bot => {
 
         const embed = new MessageEmbed( { 
             color : 0x964f4f,
-            thumbnail : member.user.displayAvatarURL( { 
+            thumbnail : user.displayAvatarURL( { 
                 dynamic : true
             } ),
             title : "BANNED"
