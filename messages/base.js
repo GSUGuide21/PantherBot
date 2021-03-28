@@ -129,23 +129,25 @@ module.exports = bot => {
         const banLog = fetchedLogs.entries.first( );
 
         if ( banLog ) { 
-            const { executor, reason } = banLog;
+            const { executor, target, reason } = banLog;
             const executorMember = guild.member( executor );
 
-            if ( reason ) { 
-                embed.fields.push( { 
-                    name : "Reason",
-                    value : reason,
-                    inline : true
-                } );
-            }
-            
-            if ( executor ) {
-                embed.fields.push( { 
-                    name : "Performer",
-                    value : `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
-                    inline : true
-                } );
+            if ( target.id === user.id ) { 
+                if ( reason ) { 
+                    embed.fields.push( { 
+                        name : "Reason",
+                        value : reason,
+                        inline : true
+                    } );
+                }
+                
+                if ( executor ) {
+                    embed.fields.push( { 
+                        name : "Performer",
+                        value : `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
+                        inline : true
+                    } );
+                }
             }
         }
 
