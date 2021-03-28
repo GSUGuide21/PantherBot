@@ -109,6 +109,8 @@ module.exports = bot => {
     } );
 
     bot.on( "guildBanAdd", async ( guild, user ) => { 
+        console.log( guild, user );
+
         const embed = new MessageEmbed( { 
             color : 0x964f4f,
             thumbnail : member.user.displayAvatarURL( { 
@@ -121,6 +123,8 @@ module.exports = bot => {
             limit : 1,
             type : "MEMBER_BAN_ADD"
         } );
+
+        console.log( fetchedLogs );
 
         const banLog = fetchedLogs.entries.first( );
 
@@ -153,5 +157,7 @@ module.exports = bot => {
 
         const uc = member.guild.channels.cache.find( c => c.name === "update" );
         uc.send( { embed } );
+
+        console.log( embed );
     } );
 };
