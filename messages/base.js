@@ -132,15 +132,15 @@ module.exports = bot => {
             const { executor, reason } = banLog;
             const executorMember = guild.member( executor );
 
-            if ( executor && ( target.id === user.id ) ) {
-                if ( reason ) { 
-                    embed.fields.push( { 
-                        name : "Reason",
-                        value : reason,
-                        inline : true
-                    } );
-                }
-
+            if ( reason ) { 
+                embed.fields.push( { 
+                    name : "Reason",
+                    value : reason,
+                    inline : true
+                } );
+            }
+            
+            if ( executor ) {
                 embed.fields.push( { 
                     name : "Performer",
                     value : `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
