@@ -31,10 +31,12 @@ module.exports = bot => {
 
         embed.fields.push( { 
             name : "User name",
-            value : member.user.tag
+            value : member.user.tag,
+            inline : true
         }, { 
             name : "Joined at",
-            value : joinedDate
+            value : joinedDate,
+            inline : true
         } );
 
         embed.setThumbnail( member.user.displayAvatarURL( { 
@@ -76,17 +78,20 @@ module.exports = bot => {
 
                 embed.fields.push( { 
                     name : "Performer",
-                    value : `${executorMember.displayName} (${executor.tag})`
+                    value : `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
+                    inline : true
                 }, {
                     name : "Target",
-                    value : `${targetMember.displayName} (${target.tag})`
+                    value : `${targetMember?.displayName ?? target.username} (${target.tag})`,
+                    inline : true
                 } );
             } else {
                 embed.setTitle( "Left" );
 
                 embed.fields.push( { 
                     name : "User",
-                    value : `${member.displayName} (${member.user.tag})`
+                    value : `${member?.displayName} (${member.user.tag})`,
+                    inline : true
                 } );
             }
         } else {
@@ -94,9 +99,57 @@ module.exports = bot => {
 
             embed.fields.push( { 
                 name : "User",
-                value : `${member.displayName} (${member.user.tag})`
+                value : `${member.displayName} (${member.user.tag})`,
+                inline : true
             } );
         }
+
+        const uc = member.guild.channels.cache.find( c => c.name === "update" );
+        uc.send( { embed } );
+    } );
+
+    bot.on( "guildBanAdd", async ( guild, user ) => { 
+        const embed = new MessageEmbed( { 
+            color : 0x964f4f,
+            thumbnail : member.user.displayAvatarURL( { 
+                dynamic : true
+            } ),
+            title : "BANNED"
+        } );
+
+        const fetchedLogs = await guild.fetchAuditLogs( { 
+            limit : 1,
+            type : "MEMBER_BAN_ADD"
+        } );
+
+        const banLog = fetchedLogs.entries.first( );
+
+        if ( banLog ) { 
+            const { executor, reason } = banLog;
+            const executorMember = guild.member( executor );
+
+            if ( executor && ( target.id === user.id ) ) {
+                if ( reason ) { 
+                    embed.fields.push( { 
+                        name : "Reason",
+                        value : reason,
+                        inline : true
+                    } );
+                }
+
+                embed.fields.push( { 
+                    name : "Performer",
+                    value : `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
+                    inline : true
+                } );
+            }
+        }
+
+        embed.fields.push( { 
+            name : "Target",
+            value : `${guild.member( user )?.displayName ?? user.username} (${user.tag})`,
+            inline : true
+        } );
 
         const uc = member.guild.channels.cache.find( c => c.name === "update" );
         uc.send( { embed } );
