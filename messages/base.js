@@ -85,7 +85,7 @@ module.exports = bot => {
         const delay = 1500;
 
         if ( kickLog ) { 
-            const { executor, target, createdTimestamp } = kickLog;
+            const { executor, target, createdTimestamp, reason } = kickLog;
 
             const executorMember = member.guild.member( executor );
             const targetMember = member.guild.member( target );
