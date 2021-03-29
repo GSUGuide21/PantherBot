@@ -11,7 +11,7 @@ module.exports = bot => {
     bot.on( "guildMemberAdd", async member => { 
         const embed = new MessageEmbed( { 
             color : 0x3444cf,
-            title : "Joined"
+            title : "JOINED"
         } );
 
         const wm = messages.welcome;
@@ -77,9 +77,7 @@ module.exports = bot => {
 
             const diff = currentDate - createdTimestamp;
 
-            console.log( diff );
-
-            if ( member.user.id === target.id && diff < ( 1000 * 2 ) ) { 
+            if ( member.user.id === target.id && diff < ( 1000 * 1.5 ) ) { 
                 embed.setTitle( "KICKED" );
 
                 embed.fields.push( { 
@@ -91,6 +89,17 @@ module.exports = bot => {
                     value : `${targetMember?.displayName ?? target.username} (${target.tag})`,
                     inline : true
                 } );
+
+                if ( reason ) { 
+                    embed.fields.push( { 
+                        name : "Reason",
+                        value : reason
+                    } );
+                }
+
+                embed.setThumbnail( executor.displayAvatarURL( { 
+                    dynamic : true
+                } ) );
             } else {
                 embed.setTitle( "LEFT" );
 
