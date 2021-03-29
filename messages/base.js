@@ -26,7 +26,10 @@ module.exports = bot => {
             weekday : "long",
             year : "numeric",
             day : "2-digit",
-            month : "long"
+            month : "long",
+            hour12 : true,
+            hour : "2-digit",
+            minute : "2-digit"
         } );
 
         embed.fields.push( { 
@@ -57,17 +60,29 @@ module.exports = bot => {
             color : 0x56afff,
             thumbnail : member.user.displayAvatarURL( { 
                 dynamic : true
-            } )
+            } ),
+            timestamp : new Date( )
         } );
+
+        const uc = member.guild.channels.cache.find( c => c.name === "update" );
 
         const fetchedLogs = await member.guild.fetchAuditLogs( { 
             limit : 1,
             type : "MEMBER_KICK"
         } );
 
+        const banLogs = await member.guild.fetchAuditLogs( { 
+            limit : 1,
+            type : "MEMBER_BAN_ADD"
+        } );
+
         const kickLog = fetchedLogs.entries.first( );
 
+        const banLog = banLogs.entries.first( );
+
         const currentDate = Date.now( );
+
+        const delay = 1500;
 
         if ( kickLog ) { 
             const { executor, target, createdTimestamp } = kickLog;
@@ -77,7 +92,10 @@ module.exports = bot => {
 
             const diff = currentDate - createdTimestamp;
 
-            if ( member.user.id === target.id && diff < ( 1000 * 1.5 ) ) { 
+            if ( 
+                member.user.id === target.id && 
+                diff < delay 
+            ) { 
                 embed.setTitle( "KICKED" );
 
                 embed.fields.push( { 
@@ -100,27 +118,27 @@ module.exports = bot => {
                 embed.setThumbnail( executor.displayAvatarURL( { 
                     dynamic : true
                 } ) );
-            } else {
-                embed.setTitle( "LEFT" );
 
-                embed.fields.push( { 
-                    name : "User",
-                    value : `${member?.displayName} (${member.user.tag})`,
-                    inline : true
-                } );
+                return uc.send( { embed } );
             }
-        } else {
-            embed.setTitle( "LEFT" );
+        }
+        
+        if ( banLog ) { 
+            const { createdTimestamp : banTimestamp, target } = banLog;
+            const diffBan = currentDate - banTimestamp;
 
-            embed.fields.push( { 
-                name : "User",
-                value : `${member.displayName} (${member.user.tag})`,
-                inline : true
-            } );
+            if ( ( target.id === member.user.id ) && diffBan < delay ) return;
         }
 
-        const uc = member.guild.channels.cache.find( c => c.name === "update" );
-        uc.send( { embed } );
+        embed.setTitle( "LEFT" );
+
+        embed.fields.push( { 
+            name : "User",
+            value : `${member?.displayName ?? member.user.username} (${member.user.tag})`,
+            inline : true
+        } );
+        
+        return uc.send( { embed } );
     } );
 
     bot.on( "guildBanAdd", async ( guild, user ) => { 
@@ -131,15 +149,14 @@ module.exports = bot => {
             thumbnail : user.displayAvatarURL( { 
                 dynamic : true
             } ),
-            title : "BANNED"
+            title : "BANNED",
+            timestamp : new Date( )
         } );
 
         const fetchedLogs = await guild.fetchAuditLogs( { 
             limit : 1,
             type : "MEMBER_BAN_ADD"
         } );
-
-        console.log( fetchedLogs );
 
         const banLog = fetchedLogs.entries.first( );
 
@@ -151,8 +168,7 @@ module.exports = bot => {
                 if ( reason ) { 
                     embed.fields.push( { 
                         name : "Reason",
-                        value : reason,
-                        inline : true
+                        value : reason
                     } );
                 }
                 
@@ -173,8 +189,6 @@ module.exports = bot => {
         } );
 
         const uc = guild.channels.cache.find( c => c.name === "update" );
-        uc.send( { embed } );
-
-        console.log( embed );
+        return uc.send( { embed } );
     } );
 };
