@@ -22,7 +22,7 @@ module.exports = bot => {
             .replace( "$G", member.guild.name );
 
         const joined = member.joinedAt;
-        const joinedDate = joined.toLocaleDateString( "en-US", { 
+        const joinedDate = joined.toLocaleString( "en-US", { 
             weekday : "long",
             year : "numeric",
             day : "2-digit",
@@ -67,13 +67,19 @@ module.exports = bot => {
 
         const kickLog = fetchedLogs.entries.first( );
 
+        const currentDate = Date.now( );
+
         if ( kickLog ) { 
-            const { executor, target } = kickLog;
+            const { executor, target, createdTimestamp } = kickLog;
 
             const executorMember = member.guild.member( executor );
             const targetMember = member.guild.member( target );
 
-            if ( member.user.id === target.id ) { 
+            const diff = currentDate - createdTimestamp;
+
+            console.log( diff );
+
+            if ( member.user.id === target.id && diff < ( 1000 * 2 ) ) { 
                 embed.setTitle( "KICKED" );
 
                 embed.fields.push( { 
@@ -86,7 +92,7 @@ module.exports = bot => {
                     inline : true
                 } );
             } else {
-                embed.setTitle( "Left" );
+                embed.setTitle( "LEFT" );
 
                 embed.fields.push( { 
                     name : "User",
@@ -95,7 +101,7 @@ module.exports = bot => {
                 } );
             }
         } else {
-            embed.setTitle( "Left" );
+            embed.setTitle( "LEFT" );
 
             embed.fields.push( { 
                 name : "User",
@@ -157,7 +163,7 @@ module.exports = bot => {
             inline : true
         } );
 
-        const uc = member.guild.channels.cache.find( c => c.name === "update" );
+        const uc = guild.channels.cache.find( c => c.name === "update" );
         uc.send( { embed } );
 
         console.log( embed );
