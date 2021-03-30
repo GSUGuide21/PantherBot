@@ -203,7 +203,7 @@ module.exports = bot => {
         if ( !oldMember.displayName ) return;
 
         if ( oldMember.displayName !== newMember.displayName ) { 
-            embed.setTitle( "CHANGE NICKNAME" );
+            embed.setTitle( "NICKNAME CHANGE" );
 
             embed.fields.push( { 
                 name : "User tag",
@@ -217,8 +217,8 @@ module.exports = bot => {
             } );
 
             embed.setTimestamp( new Date( ) );
-        }
 
-        uc.send( { embed } );
+            uc.send( { embed } );
+        }
     } );
 };
