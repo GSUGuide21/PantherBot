@@ -200,6 +200,8 @@ module.exports = bot => {
             color : "RANDOM"
         } );
 
+        if ( !oldMember.displayName ) return;
+
         if ( oldMember.displayName !== newMember.displayName ) { 
             embed.setTitle( "CHANGE NICKNAME" );
 
