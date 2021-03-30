@@ -7,7 +7,8 @@ const messages = require( "./messages.json" );
  * @param {Client} bot 
  */
 module.exports = bot => { 
-    console.log( bot.commandPrefix );
+    console.log( "Bot messages initialized!" );
+
     bot.on( "guildMemberAdd", async member => { 
         const embed = new MessageEmbed( { 
             color : 0x3444cf,
@@ -29,7 +30,8 @@ module.exports = bot => {
             month : "long",
             hour12 : true,
             hour : "2-digit",
-            minute : "2-digit"
+            minute : "2-digit",
+            timeZone : "America/New_York"
         } );
 
         embed.fields.push( { 
@@ -142,13 +144,8 @@ module.exports = bot => {
     } );
 
     bot.on( "guildBanAdd", async ( guild, user ) => { 
-        console.log( guild, user );
-
         const embed = new MessageEmbed( { 
             color : 0x964f4f,
-            thumbnail : user.displayAvatarURL( { 
-                dynamic : true
-            } ),
             title : "BANNED",
             timestamp : new Date( )
         } );
@@ -178,6 +175,10 @@ module.exports = bot => {
                         value : `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
                         inline : true
                     } );
+
+                    embed.setThumbnail( executor.displayAvatarURL( { 
+                        dynamic : true
+                    } ) );
                 }
             }
         }
@@ -190,5 +191,32 @@ module.exports = bot => {
 
         const uc = guild.channels.cache.find( c => c.name === "update" );
         return uc.send( { embed } );
+    } );
+
+    bot.on( "guildMemberUpdate", ( oldMember, newMember ) => { 
+        const uc = newMember.guild.channels.cache.find( c => c.name === "update" );
+
+        const embed = new MessageEmbed( { 
+            color : "RANDOM"
+        } );
+
+        if ( oldMember.displayName !== newMember.displayName ) { 
+            embed.setTitle( "CHANGE NICKNAME" );
+
+            embed.fields.push( { 
+                name : "User tag",
+                value : newMember.user.tag
+            }, { 
+                name : "Previous nickname",
+                value : oldMember.displayName
+            }, { 
+                name : "New nickname",
+                value : newMember.displayName
+            } );
+
+            embed.setTimestamp( new Date( ) );
+        }
+
+        uc.send( { embed } );
     } );
 };
