@@ -108,7 +108,7 @@ module.exports = class CalendarCommand extends Command {
             ]
         } );
 
-        const d = DateTime.fromFormat( date, "f" );
+        const d = DateTime.fromFormat( date, "M/d/yyyy h:mm a" );
 
         embed.fields.push( { 
             name : "Event Date",
