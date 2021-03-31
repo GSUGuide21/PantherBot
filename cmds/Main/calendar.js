@@ -25,7 +25,7 @@ module.exports = class CalendarCommand extends Command {
         }, { 
             time : 10 * 10000,
             max : 1,
-            errors : [ "time" ];
+            errors : [ "time" ]
         } );
 
         titleCollector
