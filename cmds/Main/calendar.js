@@ -142,6 +142,8 @@ module.exports = class CalendarCommand extends Command {
 
         const isoR = iso.endsWith( "Z" ) ? iso : `${iso}Z`;
 
+        console.log( isoR, iso );
+
         const dateObject = new Date( isoR );
 
         embed.fields.push( { 
