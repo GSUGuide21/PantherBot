@@ -1,5 +1,5 @@
 const { Command } = require( "discord.js-commando" );
-const { Message, MessageEmbed, Channel } = require( "discord.js" );
+const { Message, MessageEmbed } = require( "discord.js" );
 /** @type {Schema} */
 const scheduleSchema = require( "@models/scheduleSchema" );
 const { URL } = require( "url" );
@@ -105,11 +105,21 @@ module.exports = class CalendarCommand extends Command {
         } = args;
 
         const embed = new MessageEmbed( { 
-            color : 0x081f80,
+            color : 0x081f60,
             title : "Calendar",
             fields : [ 
-                { name : "Event Title", value : title }
-            ]
+                { 
+                    name : "Organizer", 
+                    value : `${message.member?.displayName || message.author.username} (${message.author.tag})` 
+                },
+                { 
+                    name : "Event Title", 
+                    value : title 
+                }
+            ],
+            thumbnail : message.author.displayAvatarURL( { 
+                dynamic : true
+            } )
         } );
 
         if ( location ) { 
@@ -118,6 +128,27 @@ module.exports = class CalendarCommand extends Command {
                 value : location
             } );
         }
+
+        const collector = message.channel.awaitMessages( m => { 
+            return m.author.id === message.author.id;
+        }, { 
+            max : 1,
+            time : 10 * 1000
+        } );
+
+        const description = await collector
+            .then( collected => { 
+                const msg = collected.first( );
+                if ( !msg ) throw "No description available.";
+
+                const { content } = msg;
+
+                if ( msg.deletable ) msg.delete( );
+                return content;
+            } )
+            .catch( e => String( "No description available" ) );
+        
+        embed.setDescription( description );
 
         const d = DateTime.fromFormat( date, "M/d/yyyy h:mm a", { 
             zone : "America/New_York"
@@ -141,8 +172,6 @@ module.exports = class CalendarCommand extends Command {
         const iso = d.toISO( );
 
         const dateObject = new Date( iso );
-
-        console.log( dateObject, dateObject.valueOf( ) );
 
         embed.fields.push( { 
             name : "Event Date",
