@@ -1,8 +1,10 @@
 const { Command } = require( "discord.js-commando" );
 const { Message, MessageEmbed, Channel } = require( "discord.js" );
+/** @type {Schema} */
 const scheduleSchema = require( "@models/scheduleSchema" );
 const { URL } = require( "url" );
 const { DateTime } = require( "luxon" );
+const { Schema } = require("mongoose");
 
 function validateImage( url ) { 
     const urlO = new URL( url );
@@ -114,20 +116,33 @@ module.exports = class CalendarCommand extends Command {
             zone : "America/New_York"
         } );
 
-        console.log( d );
+        const dateString = d.toLocaleString( { 
+            weekday : "long",
+            year : "numeric",
+            day : "2-digit",
+            month : "long",
+            timeZone : "America/New_York"
+        } );
+
+        const timeString = d.toLocaleString( { 
+            hour12 : true,
+            hour : "numeric",
+            minute : "2-digit",
+            timeZone : "America/New_York"
+        } );
+
+        const iso = d.toISO( );
+
+        const isoR = iso.endsWith( "Z" ) ? iso : `${iso}Z`;
+
+        const dateObject = new Date( isoR );
 
         embed.fields.push( { 
             name : "Event Date",
-            value : d.toLocaleString( { 
-                weekday : "long",
-                year : "numeric",
-                day : "2-digit",
-                month : "long",
-                hour12 : true,
-                hour : "2-digit",
-                minute : "2-digit",
-                timeZone : "America/New_York"
-            } )
+            value : dateString
+        }, { 
+            name : "Event Time",
+            value : timeString
         } );
 
         if ( location ) { 
