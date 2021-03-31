@@ -41,8 +41,7 @@ module.exports = class CalendarCommand extends Command {
             month : "long",
             hour12 : true,
             hour : "2-digit",
-            minute : "2-digit",
-            timeZone : "America/New_York"
+            minute : "2-digit"
         } );
 
         super( bot, { 
