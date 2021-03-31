@@ -41,7 +41,8 @@ module.exports = class CalendarCommand extends Command {
             month : "long",
             hour12 : true,
             hour : "2-digit",
-            minute : "2-digit"
+            minute : "2-digit",
+            timeZone : "America/New_York"
         } );
 
         super( bot, { 
@@ -110,9 +111,11 @@ module.exports = class CalendarCommand extends Command {
             return message.reply( "The date you provided is invalid!" );
         }
 
+        const r = d.getTime( ) + ( 1000 * 60 * 60 * 4 );
+
         embed.fields.push( { 
             name : "Event Date",
-            value : d.toLocaleString( "en-US", { 
+            value : r.toLocaleString( "en-US", { 
                 weekday : "long",
                 year : "numeric",
                 day : "2-digit",
