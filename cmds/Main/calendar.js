@@ -111,7 +111,9 @@ module.exports = class CalendarCommand extends Command {
             return message.reply( "The date you provided is invalid!" );
         }
 
-        const r = d.getTime( ) + ( 1000 * 60 * 60 * 4 );
+        const r = new Date( d.getTime( ) + ( 1000 * 60 * 60 * 4 ) );
+
+        console.log( r, d );
 
         embed.fields.push( { 
             name : "Event Date",
