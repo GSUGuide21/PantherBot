@@ -97,6 +97,8 @@ module.exports = class CalendarCommand extends Command {
      * @param {CalendarArgs} args
      */
     async run( message, args ) { 
+        console.log( scheduleSchema );
+        
         const { 
             title, 
             location, 
