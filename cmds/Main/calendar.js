@@ -140,11 +140,9 @@ module.exports = class CalendarCommand extends Command {
 
         const iso = d.toISO( );
 
-        const isoR = iso.endsWith( "Z" ) ? iso : `${iso}Z`;
+        const dateObject = new Date( iso );
 
-        console.log( isoR, iso );
-
-        const dateObject = new Date( isoR );
+        console.log( dateObject, dateObject.valueOf( ) );
 
         embed.fields.push( { 
             name : "Event Date",
