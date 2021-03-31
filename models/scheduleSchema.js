@@ -6,8 +6,7 @@ const reqString = {
 };
 
 const schema = new mongoose.Schema( { 
-    eventDate : reqString,
-    eventTime : reqString,
+    eventDate : { type : Date, required : true },
     eventTitle : reqString,
     eventLocation : { type : String },
     guildId : reqString,

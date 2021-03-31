@@ -97,8 +97,6 @@ module.exports = class CalendarCommand extends Command {
      * @param {CalendarArgs} args
      */
     async run( message, args ) { 
-        console.log( scheduleSchema );
-        
         const { 
             title, 
             location, 
@@ -113,6 +111,13 @@ module.exports = class CalendarCommand extends Command {
                 { name : "Event Title", value : title }
             ]
         } );
+
+        if ( location ) { 
+            embed.fields.push( { 
+                name : "Event Location",
+                value : location
+            } );
+        }
 
         const d = DateTime.fromFormat( date, "M/d/yyyy h:mm a", { 
             zone : "America/New_York"
@@ -141,18 +146,13 @@ module.exports = class CalendarCommand extends Command {
 
         embed.fields.push( { 
             name : "Event Date",
-            value : dateString
+            value : dateString,
+            inline : true
         }, { 
             name : "Event Time",
-            value : timeString
+            value : timeString,
+            inline : true
         } );
-
-        if ( location ) { 
-            embed.fields.push( { 
-                name : "Event Location",
-                value : location
-            } );
-        }
 
         if ( image ) { 
             const validated = validateImage( image );
@@ -161,6 +161,16 @@ module.exports = class CalendarCommand extends Command {
 
         embed.setTimestamp( Date.now( ) );
 
-        return message.channel.send( { embed } );
+        message.channel.send( { embed } );
+
+        const schema = await new scheduleSchema( { 
+            eventDate : dateObject.valueOf( ),
+            eventTitle : title,
+            eventLocation : location,
+            guildId : message.guild.id,
+            channelId : message.channel.id
+        } );
+
+        schema.save( );
     }
 }
