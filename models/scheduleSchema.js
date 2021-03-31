@@ -5,13 +5,15 @@ const reqString = {
     required : true
 };
 
-module.exports = new mongoose.Schema( { 
-    date : { 
-        type : Date,
-        required : true
-    },
+const schema = new mongoose.Schema( { 
+    eventDate : reqString,
+    eventTime : reqString,
     eventTitle : reqString,
-    eventLocation : reqString,
+    eventLocation : { type : String },
     guildId : reqString,
     channelId : reqString
 } );
+
+const name = "pantherbot-schedule";
+
+module.exports = mongoose.model[ name ] || mongoose.model( name, schema, name );
