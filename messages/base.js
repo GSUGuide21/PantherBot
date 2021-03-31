@@ -218,7 +218,12 @@ module.exports = bot => {
 
             embed.setTimestamp( new Date( ) );
 
-            uc.send( { embed } );
+            return uc.send( { embed } );
+        }
+
+        const roles = oldMember.roles.cache.intersect( newMember.roles.cache );
+        if ( roles.size > 0 ) { 
+            
         }
     } );
 };

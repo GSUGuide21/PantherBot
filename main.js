@@ -8,7 +8,7 @@ require( "module-alias/register" );
 const { Client } = require( "discord.js-commando" );
 const initMessages = require( "./messages/base" );
 const path = require( "path" );
-const fs = require("fs");
+const mongoose = require( "mongoose" );
 // const __dirname = require( "./dirname.js" );
 
 const { PANTHERBOT_TOKEN } = process.env;
@@ -37,6 +37,8 @@ bot.once( "ready", async ( ) => {
         .registerCommandsIn( path.join( __dirname, "cmds" ) );
     
     console.log( bot );
+
+    mongoose.connect( process.env.MONGO_URI );
 } );
 
 initMessages( bot );

@@ -16,7 +16,8 @@
         "@root": ".",
         "@welcome": "welcome",
         "@util": "util",
-        "@schemas": "schemas"
+        "@schemas": "schemas",
+        "@models": "models"
     },
     "repository": {
         "type": "git",
