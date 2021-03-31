@@ -36,7 +36,9 @@ module.exports = class CalendarCommand extends Command {
         const twoDays = Date.now( ) + ( 1000 * 60 * 60 * 24 * 2 );
 
         const twoDaysDateString = DateTime
-            .fromMillis( twoDays )
+            .fromMillis( twoDays, { 
+                zone : "America/New_York"
+            } )
             .toLocaleString( { 
                 weekday : "long",
                 year : "numeric",
@@ -108,7 +110,9 @@ module.exports = class CalendarCommand extends Command {
             ]
         } );
 
-        const d = DateTime.fromFormat( date, "M/d/yyyy h:mm a" );
+        const d = DateTime.fromFormat( date, "M/d/yyyy h:mm a", { 
+            zone : "America/New_York"
+        } );
 
         console.log( d );
 
