@@ -2,6 +2,7 @@ const { Command } = require( "discord.js-commando" );
 const { Message, MessageEmbed, Channel } = require( "discord.js" );
 const scheduleSchema = require( "@models/scheduleSchema" );
 const { URL } = require( "url" );
+const { DateTime } = require( "luxon" );
 
 function validateImage( url ) { 
     const urlO = new URL( url );
@@ -34,16 +35,18 @@ module.exports = class CalendarCommand extends Command {
     constructor( bot ) { 
         const twoDays = Date.now( ) + ( 1000 * 60 * 60 * 24 * 2 );
 
-        const twoDaysDateString = ( new Date( twoDays ) ).toLocaleString( "en-US", { 
-            weekday : "long",
-            year : "numeric",
-            day : "2-digit",
-            month : "long",
-            hour12 : true,
-            hour : "2-digit",
-            minute : "2-digit",
-            timeZone : "America/New_York"
-        } );
+        const twoDaysDateString = DateTime
+            .fromMillis( twoDays )
+            .toLocaleString( { 
+                weekday : "long",
+                year : "numeric",
+                day : "2-digit",
+                month : "long",
+                hour12 : true,
+                hour : "2-digit",
+                minute : "2-digit",
+                timeZone : "America/New_York"
+            } );
 
         super( bot, { 
             name : "calendar",
@@ -105,19 +108,11 @@ module.exports = class CalendarCommand extends Command {
             ]
         } );
 
-        const d = new Date( date );
-
-        if ( isNaN( d ) ) { 
-            return message.reply( "The date you provided is invalid!" );
-        }
-
-        const r = new Date( d.getTime( ) + ( 1000 * 60 * 60 * 4 ) );
-
-        console.log( r, d );
+        const d = DateTime.fromFormat( date, "f" );
 
         embed.fields.push( { 
             name : "Event Date",
-            value : r.toLocaleString( "en-US", { 
+            value : d.toLocaleString( { 
                 weekday : "long",
                 year : "numeric",
                 day : "2-digit",
@@ -140,6 +135,8 @@ module.exports = class CalendarCommand extends Command {
             const validated = validateImage( image );
             if ( validated ) embed.setImage( image );
         }
+
+        embed.setTimestamp( Date.now( ) );
 
         return message.channel.send( { embed } );
     }
