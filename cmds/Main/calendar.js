@@ -110,6 +110,8 @@ module.exports = class CalendarCommand extends Command {
 
         const d = DateTime.fromFormat( date, "M/d/yyyy h:mm a" );
 
+        console.log( d );
+
         embed.fields.push( { 
             name : "Event Date",
             value : d.toLocaleString( { 
