@@ -4,7 +4,7 @@ const { Message, MessageEmbed } = require( "discord.js" );
 const scheduleSchema = require( "@models/scheduleSchema" );
 const { URL } = require( "url" );
 const { DateTime } = require( "luxon" );
-const { Schema } = require("mongoose");
+const { Schema } = require( "mongoose" );
 
 function validateImage( url ) { 
     const urlO = new URL( url );
@@ -132,7 +132,7 @@ module.exports = class CalendarCommand extends Command {
             name : "calendar",
             memberName : "calendar",
             aliases : [ "events", "event", "schedule", "cal" ],
-            group : "main",
+            group : "schedule",
             description : "Add an event to the calendar",
             args : [
                 { 
