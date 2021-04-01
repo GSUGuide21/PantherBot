@@ -43,9 +43,7 @@ module.exports = class CancelCommand extends Command {
 
         const titlePattern = new RegExp( `^${escapedTitle}$`, "i" );
 
-        const query = { 
-            eventTitle : titlePattern
-        };
+        const query = { eventTitle : titlePattern };
 
         const result = await scheduleSchema
             .findOne( query );
