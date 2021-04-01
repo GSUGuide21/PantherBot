@@ -52,8 +52,8 @@ module.exports = class CancelCommand extends Command {
             .catch( ( ) => { error : "Error" } );
 
         console.log( await scheduleSchema.findOne( query ), query, result );
-        
-        if ( !result.error ) return message.reply( "no events with that title has been found." );
+
+        if ( result.error ) return message.reply( "no events with that title has been found." );
 
         const embed = new MessageEmbed( { 
             color : 0x081f60,
