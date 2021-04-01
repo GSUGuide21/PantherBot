@@ -21,7 +21,6 @@ module.exports = class RoleCommand extends Command {
      */
     async run( message, name ) {
         const { guild, member } = message;
-        console.log( guild, member );
 
         if ( !name ) return message.reply( "please specify a role to receive!" );
 
