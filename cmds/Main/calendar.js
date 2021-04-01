@@ -1,4 +1,4 @@
-const { Command } = require( "discord.js-commando" );
+const { Command, Client } = require( "discord.js-commando" );
 const { Message, MessageEmbed } = require( "discord.js" );
 /** @type {Schema} */
 const scheduleSchema = require( "@models/scheduleSchema" );
@@ -34,6 +34,10 @@ function validateImage( url ) {
 }
 
 module.exports = class CalendarCommand extends Command { 
+    /**
+     * Initializes the Command constructor
+     * @param {Client} bot 
+     */
     constructor( bot ) { 
         const twoDays = Date.now( ) + ( 1000 * 60 * 60 * 24 * 2 );
 
@@ -51,6 +55,83 @@ module.exports = class CalendarCommand extends Command {
                 minute : "2-digit",
                 timeZone : "America/New_York"
             } );
+
+        async function checkForEvents( ) { 
+            const query = { 
+                eventDate : { 
+                    $lte : Date.now( )
+                }
+            };
+        
+            const results = await scheduleSchema.find( query );
+        
+            for ( const event of results ) { 
+                const { 
+                    guildId,
+                    channelId,
+                    eventDay,
+                    eventTime,
+                    eventTitle,
+                    eventLocation = "",
+                    eventDescription = "",
+                    eventImage = ""
+                } = event;
+
+                const embed = new MessageEmbed( { 
+                    color : 0x081f60,
+                    title : "Calendar",
+                    fields : [ 
+                        { 
+                            name : "Title",
+                            value : eventTitle
+                        }
+                    ]
+                } );
+
+                if ( eventLocation ) { 
+                    embed.fields.push( { 
+                        name : "Location",
+                        value : eventLocation
+                    } );
+                }
+
+                if ( eventDescription ) { 
+                    embed.setDescription( eventDescription );
+                }
+
+                embed.fields.push( {
+                    name : "Date",
+                    value : eventDay,
+                    inline : true
+                },
+                { 
+                    name : "Time",
+                    value : eventTime,
+                    inline : true
+                } );
+                
+                if ( eventImage ) { 
+                    const validated = validateImage( eventImage );
+                    if ( validated ) embed.setImage( eventImage );
+                }
+
+                embed.setTimestamp( Date.now( ) );
+
+                const guild = await bot.guilds.fetch( guildId );
+                if ( !guild ) continue;
+
+                const channel = guild.channels.cache.get( channelId );
+                if ( !channel ) continue;
+
+                channel.send( { embed } );
+            }
+        
+            await scheduleSchema.deleteMany( query );
+        
+            setTimeout( checkForEvents, 1000 * 10 );
+        }
+
+        checkForEvents( );
 
         super( bot, { 
             name : "calendar",
@@ -113,7 +194,7 @@ module.exports = class CalendarCommand extends Command {
                     value : `${message.member?.displayName || message.author.username} (${message.author.tag})` 
                 },
                 { 
-                    name : "Event Title", 
+                    name : "Title", 
                     value : title 
                 }
             ],
@@ -124,7 +205,7 @@ module.exports = class CalendarCommand extends Command {
 
         if ( location ) { 
             embed.fields.push( { 
-                name : "Event Location",
+                name : "Location",
                 value : location
             } );
         }
@@ -174,11 +255,12 @@ module.exports = class CalendarCommand extends Command {
         const dateObject = new Date( iso );
 
         embed.fields.push( { 
-            name : "Event Date",
+            name : "Date",
             value : dateString,
             inline : true
-        }, { 
-            name : "Event Time",
+        }, 
+        { 
+            name : "Time",
             value : timeString,
             inline : true
         } );
@@ -194,8 +276,12 @@ module.exports = class CalendarCommand extends Command {
 
         const schema = await new scheduleSchema( { 
             eventDate : dateObject.valueOf( ),
+            eventDay : dateString,
+            eventTime : timeString,
             eventTitle : title,
             eventLocation : location,
+            eventDescription : description,
+            eventImage : image,
             guildId : message.guild.id,
             channelId : message.channel.id
         } );

@@ -7,9 +7,12 @@ const reqString = {
 
 const schema = new mongoose.Schema( { 
     eventDate : { type : Date, required : true },
+    eventDay : reqString,
+    eventTime : reqString,
     eventTitle : reqString,
     eventLocation : { type : String },
     eventDescription : { type : String },
+    eventImage : { type : String },
     guildId : reqString,
     channelId : reqString
 } );
