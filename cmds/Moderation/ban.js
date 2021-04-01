@@ -1,4 +1,5 @@
 const { Command } = require( "discord.js-commando" );
+const { Message } = require( "discord.js" );
 
 module.exports = class BanCommand extends Command { 
 	constructor( bot ) { 
@@ -12,15 +13,23 @@ module.exports = class BanCommand extends Command {
 		} );
 	}
 
-	async run( message ) { 
+	/**
+	 * @param {Message} message 
+	 * @param {string[]} args 
+	 */
+	async run( message, args ) { 
 		const target = message.mentions.users.first( );
 		if ( !target ) return message.reply( "Please specify a user to ban." );
 		const { guild } = message;
 
+		args.shift( );
+
 		const member = guild.members.cache.get( target.id );
 
+		const reason = args.join( " " );
+
 		if ( member.bannable ) { 
-			member.ban( );
+			member.ban( { reason } );
 		} else {
 			return message.reply( "you cannot ban that user!" );
 		}
