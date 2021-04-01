@@ -69,6 +69,16 @@
             "Perimeter"
         ]
     },
+    "NSFW" : { 
+        "aliases" : [ 
+            "Not Safe For Work"
+        ]
+    },
+    "Controversial" : { 
+        "aliases" : [ 
+            "Political"
+        ]
+    },
     "Guide" : { 
         "aliases" : [ 
             "GSU Guide"

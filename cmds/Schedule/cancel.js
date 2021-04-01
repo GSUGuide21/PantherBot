@@ -45,17 +45,18 @@ module.exports = class CancelCommand extends Command {
 
         const query = { eventTitle : titlePattern };
 
-        const result = await scheduleSchema
-            .findOne( query );
+        const result = await scheduleSchema.findOne( query );
 
         console.log( await scheduleSchema.findOne( query ), query, result );
 
         if ( !result ) return message.reply( "no events with that title has been found." );
 
+        const { eventTitle } = query;
+
         const embed = new MessageEmbed( { 
             color : 0x081f60,
             title : "Event Cancelled",
-            fields : [ { name : "Title", value : title } ]
+            fields : [ { name : "Title", value : eventTitle } ]
         } );
 
         message
