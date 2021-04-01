@@ -20,7 +20,7 @@ module.exports = class BanCommand extends Command {
 		const member = guild.members.cache.get( target.id );
 
 		if ( member.bannable ) { 
-			return member.ban( );
+			member.ban( );
 		} else {
 			return message.reply( "you cannot ban that user!" );
 		}

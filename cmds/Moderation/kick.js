@@ -20,7 +20,7 @@ module.exports = class KickCommand extends Command {
 		const member = guild.members.cache.get( target.id );
 
 		if ( member.kickable ) {
-			return member.kick( );
+			member.kick( );
 		} else {
 			return message.reply( "you cannot kick that user." );
 		}
