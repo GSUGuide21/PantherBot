@@ -80,12 +80,7 @@ module.exports = class CalendarCommand extends Command {
                 const embed = new MessageEmbed( { 
                     color : 0x081f60,
                     title : "Calendar",
-                    fields : [ 
-                        { 
-                            name : "Title",
-                            value : eventTitle
-                        }
-                    ]
+                    fields : [ { name : "Title", value : eventTitle } ]
                 } );
 
                 if ( eventLocation ) { 
@@ -198,9 +193,7 @@ module.exports = class CalendarCommand extends Command {
                     value : title 
                 }
             ],
-            thumbnail : message.author.displayAvatarURL( { 
-                dynamic : true
-            } )
+            thumbnail : message.author.displayAvatarURL( { dynamic : true } )
         } );
 
         if ( location ) { 
@@ -210,15 +203,18 @@ module.exports = class CalendarCommand extends Command {
             } );
         }
 
+        const collectorMsg = await message.channel.send( "What description do you want for your event?" );
+
         const collector = message.channel.awaitMessages( m => { 
             return m.author.id === message.author.id;
         }, { 
             max : 1,
-            time : 10 * 1000
+            time : 20 * 1000
         } );
 
         const description = await collector
             .then( collected => { 
+                if ( collectorMsg.deletable ) collectorMsg.delete( );
                 const msg = collected.first( );
                 if ( !msg ) throw "No description available.";
 
@@ -227,7 +223,7 @@ module.exports = class CalendarCommand extends Command {
                 if ( msg.deletable ) msg.delete( );
                 return content;
             } )
-            .catch( e => String( "No description available" ) );
+            .catch( e => String( e ) );
         
         embed.setDescription( description );
 
@@ -238,7 +234,7 @@ module.exports = class CalendarCommand extends Command {
         const dateString = d.toLocaleString( { 
             weekday : "long",
             year : "numeric",
-            day : "2-digit",
+            day : "numeric",
             month : "long",
             timeZone : "America/New_York"
         } );
