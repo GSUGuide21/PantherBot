@@ -47,7 +47,7 @@ module.exports = class CancelCommand extends Command {
             eventTitle : titlePattern
         };
 
-        const [ result ] = await scheduleSchema
+        const result = await scheduleSchema
             .findOne( query )
             .catch( ( ) => { error : "Error" } );
 
