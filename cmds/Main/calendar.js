@@ -268,7 +268,12 @@ module.exports = class CalendarCommand extends Command {
 
         embed.setTimestamp( Date.now( ) );
 
-        message.channel.send( { embed } );
+        message
+            .channel
+            .send( { embed } )
+            .then( ( ) => { 
+                if ( message.deletable ) message.delete( );
+            } );
 
         const schema = await new scheduleSchema( { 
             eventDate : dateObject.valueOf( ),
