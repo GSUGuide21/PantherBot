@@ -2,7 +2,7 @@ const { Client } = require( "discord.js-commando" );
 const { Message, GuildMember, Guild } = require( "discord.js" );
 const { Schema, Model } = require("mongoose");
 /** @type {Model} */
-const warningSchema = require( "@models/warnings" );
+const warningSchema = require( "@models/warningSchema" );
 const filters = require( "./filter.json" );
 
 /**
