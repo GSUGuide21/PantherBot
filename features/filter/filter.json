@@ -16,7 +16,7 @@
         "type" : "pattern",
         "response" : {
             "type" : "reply",
-            "content" : ""
+            "content" : "M"
         }
     }
 ]
