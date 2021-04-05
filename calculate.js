@@ -1,5 +1,29 @@
 const escapeRegexp = require( '@root/escapeRegexp.js' );
 
+class Calculator { 
+	#NUMBER_PATTERN = "\\d+";
+	#VARIABLE_PATTERN = "[a-df-hj-z]";
+	#PARENTHESIS_OPEN = "\\(";
+	#PARENTHESIS_CLOSE = "\\)";
+	#FUNCTION_PATTERN = "[a-z0-9]+\\(?:.*)";
+
+	#OPERATORS_MID = Object.freeze( [ 
+		"+",
+		"-",
+		"*",
+		"/",
+		"^",
+		"mod"
+	] );
+
+	#OPERATORS_END = Object.freeze( [ 
+		"!",
+		"%"
+	] );
+
+	
+}
+
 const factorial = n => {
 	if ( n < 0 ) return -1;
 	else if ( n === 0 ) return 1;

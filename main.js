@@ -6,10 +6,9 @@
 require( "module-alias/register" );
 
 const { Client } = require( "discord.js-commando" );
-const initMessages = require( "./messages/base" );
+const initFeatures = require( "@features/init" );
 const path = require( "path" );
 const mongoose = require( "mongoose" );
-// const __dirname = require( "./dirname.js" );
 
 const { PANTHERBOT_TOKEN } = process.env;
 
@@ -45,6 +44,6 @@ bot.once( "ready", async ( ) => {
     } );
 } );
 
-initMessages( bot );
+initFeatures( bot );
 
 bot.login( PANTHERBOT_TOKEN );

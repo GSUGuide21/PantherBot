@@ -34,6 +34,7 @@ module.exports = class VoteCommand extends Command {
 
 		const embed = new MessageEmbed( { 
             color : "RANDOM",
+            title : "VOTE",
             description : voteQuestion,
             fields : emojis.map( emoji => { 
                 const name = emoji

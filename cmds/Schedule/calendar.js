@@ -1,10 +1,10 @@
 const { Command, Client } = require( "discord.js-commando" );
 const { Message, MessageEmbed } = require( "discord.js" );
-/** @type {Schema} */
+/** @type {Model} */
 const scheduleSchema = require( "@models/scheduleSchema" );
 const { URL } = require( "url" );
 const { DateTime } = require( "luxon" );
-const { Schema } = require( "mongoose" );
+const { Model } = require( "mongoose" );
 
 function validateImage( url ) { 
     const urlO = new URL( url );

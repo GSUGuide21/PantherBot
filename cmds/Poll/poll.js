@@ -45,6 +45,7 @@ module.exports = class PollCommand extends Command {
 
 		const embed = new MessageEmbed( { 
 			color : "RANDOM",
+			title : "POLL",
 			description : pollQuestion,
 			fields : emojis.map( ( emoji, index ) => { 
 				const name = pollOptions[ index ];
