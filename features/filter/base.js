@@ -183,7 +183,7 @@ module.exports = bot => {
             const regex = [ "regex", "regexp", "pattern" ];
 
             if ( regex.includes( type ) ) { 
-                const flags = [ ], { patternFlags } = filter;
+                const flags = [ ], { patternFlags = { } } = filter;
                 const { globalMatch = false, insensitive = false, multiline = false } = patternFlags;
 
                 if ( globalMatch ) flags.push( "g" );
