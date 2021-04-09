@@ -1,5 +1,5 @@
 const { Command } = require( "discord.js-commando" );
-const calculate = require( "@root/calculate.js" );
+const calculate = require( "@features/calculator/base.js" );
 
 module.exports = class CalculatorCommand extends Command { 
 	constructor( bot ) { 

@@ -1,144 +1,198 @@
-const escapeRegexp = require( '@root/escapeRegexp.js' );
-
 class Calculator { 
-	#NUMBER_PATTERN = "\\d+";
-	#VARIABLE_PATTERN = "[a-df-hj-z]";
-	#PARENTHESIS_OPEN = "\\(";
-	#PARENTHESIS_CLOSE = "\\)";
-	#FUNCTION_PATTERN = "[a-z0-9]+\\(?:.*)";
+    constructor( ) { 
+        this.NON_CAPTURES = { };
+        this.NON_CAPTURES.CALC_VALUE = "^(?:\\-?(?:\\d+|\\d*\\.\\d+|[a-zπφϕγ]))$";
+        this.NON_CAPTURES.CALC_FUNCTION_NAMES = "[a-z]+(?:[a-zπφϕγ]*(?:\\d+|\\d*\\.\\d+)*";
+        this.NON_CAPTURES.CALC_FUNCTIONS = `^(?:${this.CALC_FUNCTION_NAMES})\\((?:.+)\\)$`;
+        this.NON_CAPTURES.CALC_FUNCTIONS2 = `^(?:${this.CALC_FUNCTION_NAMES})\\s+(?:.+)$`;
+        this.NON_CAPTURES.CALC_PARENTHESIS = `^\\((?:.+)\\)`;
 
-	#OPERATORS_MID = Object.freeze( [ 
-		"+",
-		"-",
-		"*",
-		"/",
-		"^",
-		"mod"
-	] );
+        this.OPERATORS = Object.freeze( [ "+", "-", "*", "/", "^", "mod", "×", "⋅", "÷" ] );
+        this.NON_CAPTURES.CALC_OPERATORS = `^(?:.+)\s+(?:${this.OPERATIONS.join( "|" )})\s+(?:.+)`;
 
-	#OPERATORS_END = Object.freeze( [ 
-		"!",
-		"%"
-	] );
+        this.OPERATORS2 = Object.freeze( [ "!", "%" ] );
+        this.NON_CAPTURES.CALC_OPERATORS2 = `^(?:.+)(?:${this.OPERATIONS2.join( "|" )})`;
 
-	
+		this.PATTERNS = Object.freeze( {
+            NONCAPTURE : { },
+            CAPTURE : { }
+        } );
+
+		this.OPERATIONS = Object.freeze( { 
+            // Addition
+			"+" : ( x, y ) => Number( x ) + Number( y ),
+            // Subtraction
+			"-" : ( x, y ) => x - y,
+            // Multiplication
+			"*" : ( x, y ) => x * y,
+            // Division
+			"/" : ( x, y ) => x / y,
+            // Modulo
+			"mod" : ( x, y ) => x % y,
+            // Exponentiation
+			"^" : Math.pow,
+            // Percentage
+            "%" : x => x / 100,
+            // Factorial
+            "!" : this.factorial,
+            // Aliases
+            "×" : "*",
+            "⋅" : "*",
+            "÷" : "/"
+		} );
+
+        this.FUNCTIONS = Object.freeze( { 
+			// 1. Trigonometric functions
+            // Sine
+			sin : Math.sin,
+            // Cosine
+			cos : Math.cos,
+            // Tangent
+			tan : Math.tan,
+            // Cosecant
+			csc : x => 1 / Math.sin( x ),
+            // Secant
+			sec : x => 1 / Math.cos( x ),
+            // Cotangent
+			cot : x => 1 / Math.tan( x ),
+			// 2. Inverse trigonometric functions
+            // Arcsine
+			asin : Math.asin,
+            // Arccosine
+			acos : Math.acos,
+            // Arctangent
+			atan : Math.atan,
+            // Arccosecant
+			acsc : x => Math.asin( 1 / x ),
+            // Arcsecant
+			asec : x => Math.acos( 1 / x ),
+            // Arccotangent
+			acot : x => Math.atan( 1 / x ),
+			// 3. Logarithmic functions
+            // Natural logarithm
+			ln : Math.log,
+            // Logarithm (base 10)
+			log : Math.log10,
+            // Logarithm (base x)
+			logX : this.logX,
+            // 4. Power and radical functions
+            // Square
+            sq : x => Math.pow( x, 2 ),
+            // Cube
+            cb : x => Math.pow( x, 3 ),
+            // Power
+            pow : Math.pow,
+            // Square root
+            sqrt : Math.sqrt,
+            // Cube root
+            cbrt : Math.cbrt,
+            // Nth-root
+            nthrt : this.nthrt,
+			// 5. Other
+            // Sum
+			sum : this.sum,
+            // Product
+            product : this.product,
+            // Permutation
+            nPr : this.nPr,
+            // Combination
+            nCr : this.nCr,
+			// 6. Aliases
+            arcsin : "asin",
+            arccos : "acos",
+            arctan : "atan",
+            arccsc : "acsc",
+            arcsec : "asec",
+            arccot : "acot",
+            nrt : "nthrt",
+            log_ : "logX",
+            logBase : "logX",
+            Σ : "sum",
+            Π : "product"
+		} );
+
+        this.makePatterns( );
+    }
+
+    nPr( n, r ) { 
+        return this.factorial( n ) / this.factorial( n - r );
+    }
+
+    nCr( n, r ) { 
+        return this.nPr( n, r ) / this.factorial( r );
+    }
+
+    nthrt( x, y ) {
+        return Math.pow( x, 1 / y );
+    }
+
+    logX( x, y ) { 
+        return Math.log( y ) / Math.log( x );
+    }
+
+    factorial( n ) { 
+        if ( n < 0 ) return -1;
+        if ( n === 0 ) return 1;
+        return n * this.factorial( n - 1 );
+    }
+
+    getRange( value ) { 
+        const [ x, y = x ] = String( value ).split( /\:|\.\./g );
+        if ( x === y ) return [ ];
+
+        const xn = Number( x ), yn = Number( y );
+        const min = Math.min( xn, yn ), max = Math.max( xn, yn );
+
+        const range = [ ];
+
+        for ( let i = min; i <= max; i++ ) { 
+            range.push( i );
+        }
+
+        return range;
+    }
+
+    makePatterns( ) { 
+
+    }
+
+    getPattern( type ) { 
+
+    }
+
+    extract( variableValue ) { 
+        const variablePattern = this.getPattern( "variable" );
+        if ( !variablePattern.test( variableValue ) ) return { };
+        const [ , variable, value ] = variablePattern.exec( variableValue );
+        if ( !variable || !value ) return { };
+        return { variable, value };
+    }
+
+    evaluate( equation, options ) { 
+
+    }
+
+    sum( equation, rangeByVariable ) { 
+        const { variable = null, value = null } = this.extract( rangeByVariable );
+        if ( !variable || !value ) return NaN;
+        const range = this.getRange( value );
+        return range.reduce( ( accumulator, current ) => { 
+            return this.evaluate( equation, { 
+                temporaryVariable : variable,
+                currentValue : current
+            } ) + accumulator;
+        }, 0 );
+    }
+
+    product( equation, rangeByVariable ) { 
+        const { variable = null, value = null } = this.extract( rangeByVariable );
+        if ( !variable || !value ) return NaN;
+        const range = this.getRange( value );
+        return range.reduce( ( accumulator, current ) => { 
+            return thisthis.evaluate( equation, { 
+                temporaryVariable : variable,
+                currentValue : current
+            } ) * accumulator;
+        }, 0 );
+    }
 }
-
-const factorial = n => {
-	if ( n < 0 ) return -1;
-	else if ( n === 0 ) return 1;
-	return n * factorial( n - 1 );
-};
-
-const logBase = function( x, y ) { 
-	if ( arguments.length === 0 ) return NaN;
-	if ( arguments.length === 1 ) return Math.log10( x );
-	const logrx = Math.log( x ), logry = Math.log( y );
-	return logrx / logry;
-};
-
-const operators = Object.freeze( { 
-	add : Object.freeze( { 
-		symbols : Object.freeze( [ "+" ] ),
-		position : "middle",
-		parse : ( x, y ) => Number( x ) + Number( y )
-	} ),
-	subtract : Object.freeze( { 
-		symbols : Object.freeze( [ "-" ] ),
-		singleArgument : false,
-		parse : ( x, y ) => x - y
-	} ),
-	multiply : Object.freeze( { 
-		symbols : Object.freeze( [ "*", "×", "·" ] ),
-		singleArgument : false,
-		parse : ( x, y ) => x * y
-	} ),
-	divide : Object.freeze( { 
-		symbols : Object.freeze( [ "/", "÷" ] ),
-		singleArgument : false,
-		parse : ( x, y ) => x / y
-	} ),
-	power : Object.freeze( { 
-		symbols : Object.freeze( [ "^" ] ),
-		singleArgument : false,
-		parse : ( x, y ) => Math.pow( x, y )
-	} ),
-	modulo : Object.freeze( { 
-		symbols : Object.freeze( [ "mod" ] ),
-		singleArgument : false,
-		parse : ( x, y ) => x % y
-	} ),
-	percentage : Object.freeze( { 
-		symbols : Object.freeze( [ "%" ] ),
-		singleArgument : true,
-		parse : x => Number( x ) / 100
-	} ),
-	factorial : Object.freeze( { 
-		symbols : Object.freeze( [ "!" ] ),
-		singleArgument : true,
-		parse : x => factorial( x )
-	} )
-} );
-
-const constants = Object.freeze( { 
-	pi : Object.freeze( { 
-		value : Math.PI
-	} )
-} );
-
-/**
- * @type {string[]}
- **/
-const singleOperators = 
-	Object
-		.values( operators )
-		.filter( x => x.singleArgument === true )
-		.map( x => x.symbols )
-		.flat( Infinity );
-
-/**
- * @type {string[]}
- **/
-const multiOperators =
-	Object
-		.values( operators )
-		.filter( x => x.singleArgument === false )
-		.map( x => x.symbols )
-		.flat( Infinity );
-
-const singleOperPattern = new RegExp( `(.*)(${singleOperators.map( escapeRegexp )})` );
-
-const multiOperPattern = new RegExp( `(.*)(${multiOperators.map( escapeRegexp )})(.*)` );
-
-const mathFunctions = Object.freeze( { 
-	// Trigonometric functions
-	sin : Math.sin,
-	cos : Math.cos,
-	tan : Math.tan,
-	csc : value => 1 / Math.sin( value ),
-	sec : value => 1 / Math.cos( value ),
-	cot : value => 1 / Math.tan( value ),
-	// Inverse trigonometric functions
-	asin : Math.asin,
-	acos : Math.acos,
-	atan : Math.atan,
-	acsc : value => Math.asin( 1 / value ),
-	asec : value => Math.acos( 1 / value ),
-	acot : value => Math.atan( 1 / value ),
-	// Logarithmic functions
-	log : logBase,
-	ln : Math.log,
-	// Other functions
-	factorial,
-	sqrt : Math.sqrt,
-	cbrt : Math.cbrt,
-	nrt : ( x, y ) => Math.pow( x, 1 / y ),
-	pow : Math.pow
-} );
-
-function calculate( value ) { 
-	console.log( value );
-	return "TODO";
-}
-
-module.exports = calculate;
