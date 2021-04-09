@@ -205,6 +205,10 @@ module.exports = bot => {
         if ( oldMember.displayName !== newMember.displayName ) { 
             embed.setTitle( "NICKNAME CHANGE" );
 
+            embed.setThumbnail( newMember.user.displayAvatarURL( { 
+                dynamic : true 
+            } ) );
+
             embed.fields.push( { 
                 name : "User tag",
                 value : newMember.user.tag
@@ -221,9 +225,53 @@ module.exports = bot => {
             return uc.send( { embed } );
         }
 
-        const roles = oldMember.roles.cache.intersect( newMember.roles.cache );
-        if ( roles.size > 0 ) { 
-            
+        const oldRoles = oldMember.roles.cache;
+        const newRoles = newMember.roles.cache;
+
+        if ( oldRoles.size < newRoles.size ) { 
+            const addedRoles = newRoles.difference( oldRoles );
+            embed.setTitle( "USER ROLE(S) ADDED" );
+
+            embed.setThumbnail( newMember.user.displayAvatarURL( { 
+                dynamic : true 
+            } ) );
+
+            embed.fields.push( { 
+                name : "User tag",
+                value : newMember.user.tag
+            }, { 
+                name : "Added roles",
+                value : addedRoles
+                    .map( role => role.name )
+                    .join( ", " )
+            } );
+
+            embed.setTimestamp( new Date( ) );
+
+            return uc.send( { embed } );
+        }
+
+        if ( oldRoles.size > newRoles.size ) { 
+            const addedRoles = newRoles.difference( oldRoles );
+            embed.setTitle( "USER ROLE(S) REMOVED" );
+
+            embed.setThumbnail( newMember.user.displayAvatarURL( { 
+                dynamic : true 
+            } ) );
+
+            embed.fields.push( { 
+                name : "User tag",
+                value : newMember.user.tag
+            }, { 
+                name : "Removed roles",
+                value : addedRoles
+                    .map( role => role.name )
+                    .join( ", " )
+            } );
+
+            embed.setTimestamp( new Date( ) );
+
+            return uc.send( { embed } );
         }
     } );
 };

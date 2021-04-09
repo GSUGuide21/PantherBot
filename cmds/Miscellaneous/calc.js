@@ -9,7 +9,7 @@ module.exports = class CalculatorCommand extends Command {
 			argsType : "single",
 			group : "miscellaneous",
 			memberName : "calc",
-			description : "Coming soon!"
+			description : "Evaluates an expression"
 		} );
 	}
 
