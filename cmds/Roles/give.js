@@ -6,10 +6,10 @@ module.exports = class GiveRoleCommand extends Command {
     constructor( bot ) {
         super( bot, { 
             name : "give",
-            aliases : [ "give-role", "g", "gr" ],
+            aliases : [ "give-role", "g", "gr", "make" ],
             argsType : "multiple",
             memberName : "give",
-            group : "main",
+            group : "roles",
             description : "Similar to the **role** command; however, it gives another member a role.",
             userPermissions : [ "ADMINISTRATOR" ],
             clientPermissions : [ "ADMINISTRATOR" ]
@@ -50,9 +50,7 @@ module.exports = class GiveRoleCommand extends Command {
         }
 
         if ( !role ) return message.reply( "the role is not found." );
-
-        console.log( role );
-
+        
         member
             .roles
             .add( role )
@@ -60,6 +58,9 @@ module.exports = class GiveRoleCommand extends Command {
             .catch( ( e ) => {
                 console.log( e );
                 return message.channel.send( `Error adding role: ${roleName}` ) 
+            } )
+            .finally( ( ) => { 
+                if ( message.deletable ) message.delete( );
             } );
     }
 }

@@ -8,7 +8,7 @@ module.exports = class GuideCommand extends Command {
             aliases : [ "gsu-guide", "gsu" ],
             argsType : "single",
             memberName : "guide",
-            group : "main",
+            group : "roles",
             description : 'This is a shorthand command for `$role Guide`.'
         } );
     }

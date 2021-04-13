@@ -8,7 +8,7 @@ module.exports = class NSFWCommand extends Command {
             aliases : [ "not-safe-for-work" ],
             argsType : "single",
             memberName : "nsfw",
-            group : "main",
+            group : "roles",
             description : 'This is a shorthand command for `$role NSFW`.'
         } );
     }

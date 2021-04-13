@@ -31,7 +31,8 @@ bot.once( "ready", async ( ) => {
             [ "games", "Games" ],
             [ "music", "Music" ],
             [ "miscellaneous", "Miscellaneous" ],
-            [ "schedule", "Schedule" ]
+            [ "schedule", "Schedule" ],
+            [ "roles", "Roles" ]
         ] )
         .registerDefaults( )
         .registerCommandsIn( path.join( __dirname, "cmds" ) );

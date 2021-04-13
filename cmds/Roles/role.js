@@ -9,7 +9,7 @@ module.exports = class RoleCommand extends Command {
             aliases : [ "r" ],
             argsType : "single",
             memberName : "role",
-            group : "main",
+            group : "roles",
             description : "Gives the member a role in the Discord server"
         } );
     }
@@ -22,7 +22,11 @@ module.exports = class RoleCommand extends Command {
     async run( message, name ) {
         const { guild, member } = message;
 
-        if ( !name ) return message.reply( "please specify a role to receive!" );
+        if ( !name ) return message
+            .reply( "please specify a role to receive!" )
+            .finally( ( ) => { 
+                if ( message.deletable ) message.delete( );
+            } );
 
         for ( const [ roleName, options ] of Object.entries( roles ) ) { 
             const names = [ roleName, ...( Array.isArray( options.aliases ) ? options.aliases : ( [ options.aliases || "" ] ) ) ];
@@ -34,7 +38,11 @@ module.exports = class RoleCommand extends Command {
                 const role = guild.roles.cache.find( r => r.name.toLowerCase( ) === roleName.toLowerCase( ) );
 
                 if ( member.roles.cache.has( role.id ) ) {
-                    return message.reply( `you already have that role (${roleName}).` );
+                    return message
+                        .reply( `you already have that role (${roleName}).` )
+                        .finally( ( ) => { 
+                            if ( message.deletable ) message.delete( );
+                        } );
                 }
 
                 return member
@@ -44,10 +52,17 @@ module.exports = class RoleCommand extends Command {
                     .catch( e => { 
                         console.log( e );
                         message.channel.send( `Error adding role: ${roleName}` ); 
+                    } )
+                    .finally( ( ) => { 
+                        if ( message.deletable ) message.delete( );
                     } );
             }
         }
 
-        return message.reply( "the role is not found." );
+        return message
+            .reply( "the role is not found." )
+            .finally( ( ) => { 
+                if ( message.deletable ) message.delete( );
+            } );
     }
 }

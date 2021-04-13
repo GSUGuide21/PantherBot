@@ -41,8 +41,7 @@ module.exports = bot => {
      */
 
     /**
-
-    * Warns users when the filter is triggered
+     * Warns users when the filter is triggered
      * @param {WarnOptions} options 
      */
     async function warnUser( { 

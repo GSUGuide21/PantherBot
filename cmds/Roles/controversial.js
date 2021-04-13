@@ -8,7 +8,7 @@ module.exports = class ControversialCommand extends Command {
             aliases : [ "political", "tea" ],
             argsType : "single",
             memberName : "controversial",
-            group : "main",
+            group : "roles",
             description : 'This is a shorthand command for `$role Controversial`.'
         } );
     }
