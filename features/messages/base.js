@@ -67,6 +67,7 @@ module.exports = bot => {
         } );
 
         const uc = member.guild.channels.cache.find( c => c.name === "update" );
+        const wc = member.guild.channels.cache.find( c => c.name === "welcome" );
 
         const fetchedLogs = await member.guild.fetchAuditLogs( { 
             limit : 1,
@@ -121,6 +122,14 @@ module.exports = bot => {
                     dynamic : true
                 } ) );
 
+                const km = messages.kicked;
+                const kickedMessage = km[ Math.floor( Math.random( ) * km.length ) ];
+
+                const kickedMessageResult = kickedMessage
+                    .replace( "$U", member.user.tag )
+                    .replace( "$G", member.guild.name );
+
+                wc.send( kickedMessageResult );
                 return uc.send( { embed } );
             }
         }
@@ -132,6 +141,13 @@ module.exports = bot => {
             if ( ( target.id === member.user.id ) && diffBan < delay ) return;
         }
 
+        const lm = messages.left;
+        const leftMessage = lm[ Math.floor( Math.random( ) * lm.length ) ];
+
+        const leftMessageResult = leftMessage
+            .replace( "$U", member.user.tag )
+            .replace( "$G", member.guild.name );
+
         embed.setTitle( "LEFT" );
 
         embed.fields.push( { 
@@ -140,6 +156,8 @@ module.exports = bot => {
             inline : true
         } );
         
+        wc.send( leftMessageResult );
+
         return uc.send( { embed } );
     } );
 
@@ -190,6 +208,16 @@ module.exports = bot => {
         } );
 
         const uc = guild.channels.cache.find( c => c.name === "update" );
+        const wc = guild.channels.cache.find( c => c.name === "welcome" );
+
+        const bm = messages.banned;
+        const bannedMessage = bm[ Math.floor( Math.random( ) * bm.length ) ];
+
+        const bannedMessageResult = bannedMessage
+            .replace( "$U", member.user.tag )
+            .replace( "$G", member.guild.name );
+
+        wc.send( bannedMessageResult );
         return uc.send( { embed } );
     } );
 
@@ -241,9 +269,7 @@ module.exports = bot => {
                 value : newMember.user.tag
             }, { 
                 name : "Added roles",
-                value : addedRoles
-                    .map( role => role.name )
-                    .join( ", " )
+                value : addedRoles.map( role => role.name ).join( ", " )
             } );
 
             embed.setTimestamp( new Date( ) );
@@ -264,9 +290,7 @@ module.exports = bot => {
                 value : newMember.user.tag
             }, { 
                 name : "Removed roles",
-                value : addedRoles
-                    .map( role => role.name )
-                    .join( ", " )
+                value : addedRoles.map( role => role.name ).join( ", " )
             } );
 
             embed.setTimestamp( new Date( ) );

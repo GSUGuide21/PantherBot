@@ -7,6 +7,14 @@
         "$M, say hello to my little friend."
     ],
     "left": [ 
-        "$M has left"
+        "$U has left the building.",
+        "$U has gotten the hell on.",
+        "$U has went to the Dark Side"
+    ],
+    "kicked": [
+        "$U has been given a time out!"
+    ],
+    "banned": [
+        "$M has been sent to the Shadow Realm."
     ]
 }
