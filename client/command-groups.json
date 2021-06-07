@@ -1,0 +1,11 @@
+{
+	"main": "Main",
+	"moderation": "Moderation",
+	"integration": "Integration",
+	"poll": "Poll",
+	"games": "Games",
+	"music": "Music",
+	"miscellaneous": "Miscellaneous",
+	"schedule": "Schedule",
+	"roles": "Roles"
+}
