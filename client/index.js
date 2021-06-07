@@ -15,7 +15,7 @@ const filterEmojis = string => {
 };
 
 module.exports = class PantherBotClient extends Client {
-	constructor( opts ) { 
+	constructor( opts = { } ) { 
 		opts.name = "PantherBot";
 		opts.owner = "707779366318243840";
 		opts.commandPrefix = "$";
