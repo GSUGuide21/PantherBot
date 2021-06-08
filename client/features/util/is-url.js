@@ -6,9 +6,8 @@ module.exports = string => {
 
 	try { 
 		new URL( string );
+		return true;
 	} catch { 
 		return false;
 	}
-
-	return true;
 };
