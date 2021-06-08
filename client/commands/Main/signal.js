@@ -1,6 +1,6 @@
 const { Command } = require( "discord.js-commando" );
 const { MessageEmbed } = require( "discord.js" );
-const urlExists = require( "url-exist" );
+const urlExists = require( "../../features/util/url-exists" );
 
 const slug = title => String( title )
 	.toLowerCase( )
