@@ -6,7 +6,7 @@ module.exports = async url => {
 		throw new TypeError( `The URL must be a string. The type of value provided is ${typeof url}` );
 	}
 
-	console.log( url );
+	console.log( url, isUrl( url ) );
 	if ( !isUrl( url ) ) return false;
 
 	const response = await axios.head( url );
