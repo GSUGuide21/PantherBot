@@ -387,7 +387,7 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {Collection<string, Role>} addedRoles
 	 */
 	async initRolesAdded( member, addedRoles ) { 
-		const uc = newMember.guild.channels.cache.find( c => c.name === "update" );
+		const uc = member.guild.channels.cache.find( c => c.name === "update" );
 
 		const embed = new MessageEmbed( { 
 			title: "USER ROLE(S) ADDED",
@@ -416,7 +416,7 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {Collection<string, Role>} removedRoles
 	 */
 	async initRolesRemoved( member, removedRoles ) { 
-		const uc = newMember.guild.channels.cache.find( c => c.name === "update" );
+		const uc = member.guild.channels.cache.find( c => c.name === "update" );
 
 		const embed = new MessageEmbed( { 
 			title: "USER ROLE(S) REMOVED",
