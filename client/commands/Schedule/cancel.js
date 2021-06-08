@@ -1,7 +1,7 @@
 const { Command } = require( "discord.js-commando" );
 const { Message, MessageEmbed } = require( "discord.js" );
 const { Schema } = require( "mongoose" );
-const escapeRegexp = require( "@root/escapeRegexp" );
+const escapeRegexp = require( "../../features/util/escape-regexp" );
 
 /** @type {Model} */
 const scheduleSchema = require( "../../features/models/scheduleSchema" );
