@@ -21,7 +21,7 @@ module.exports = class SignalCommand extends Command {
 	}
 
 	async run( { channel }, title ) { 
-		const slugged = slug( "title" );
+		const slugged = slug( title );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
 		const image = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";
