@@ -201,7 +201,12 @@ module.exports = class PantherBotClient extends Client {
 		const embed = new MessageEmbed( { 
 			color: 0x56afff,
 			title: "LEFT",
-			timestamp: new Date( )
+			timestamp: new Date( ),
+			fields: [ { 
+				name: "User",
+				value: `${member?.displayName ?? member.user.username}`,
+				inline: true
+			} ]
 		} );
 		
 		wc.send( message );

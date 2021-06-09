@@ -1,28 +1,28 @@
 { 
     "welcome": [ 
-        "$M, welcome to the Salty Spitoon. How tough are you?",
-        "$M, welcome to Good Burger, home of the Good Burger. Can I take your order?",
-        "$M, welcome to the Cesspool. How the fuck are you?",
-        "Welcome aboard, $M! Enjoy your stay in the Panther's Den.",
-        "Welcome to the Starfleet Academy, $M. Don't destroy anything while you're here.",
-        "Welcome to the Thunderdome, $M! I hope you enjoy your stay.",
-        "$M, say hello to my little friend.",
-        "$M, thank you for joining the GSU (#NotSouthern) Discord server."
+        "__M__, welcome to the Salty Spitoon. How tough are you?",
+        "__M__, welcome to Good Burger, home of the Good Burger. Can I take your order?",
+        "__M__, welcome to the Cesspool. How the fuck are you?",
+        "Welcome aboard, __M__! Enjoy your stay in the Panther's Den.",
+        "Welcome to the Starfleet Academy, __M__. Don't destroy anything while you're here.",
+        "Welcome to the Thunderdome, __M__! I hope you enjoy your stay.",
+        "__M__, say hello to my little friend.",
+        "__M__, thank you for joining the GSU (#NotSouthern) Discord server."
     ],
     "left": [ 
-        "$U has left the building.",
-        "$U has gotten the hell on.",
-        "$U has went to the Dark Side",
-        "$U went the way of the dodo.",
-        "Ah shit, there goes $U.",
+        "__U__ has left the building.",
+        "__U__ has gotten the hell on.",
+        "__U__ has went to the Dark Side",
+        "__U__ went the way of the dodo.",
+        "Ah shit, there goes __U__.",
         "We appreciate you for coming to the GSU (#NotSouthern) Inn. Come back soom.",
-        "$U, thank you, come again."
+        "__U__, thank you, come again."
     ],
     "kicked": [
-        "$U has been given a time out!",
-        "$U, you have earned yourself some time off this server."
+        "__U__ has been given a time out!",
+        "__U__, you have earned yourself some time off this server."
     ],
     "banned": [
-        "$M has been sent to the Shadow Realm."
+        "__M__ has been sent to the Shadow Realm."
     ]
 }

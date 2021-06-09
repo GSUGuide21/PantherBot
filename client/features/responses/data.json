@@ -1,0 +1,9 @@
+{ 
+	"colleges": { 
+		"ask": "What colleges $do $gsu have?",
+		"patterns": { 
+			"gsu": "GSU|Georgia State(?:\\s+University|)|GaState",
+			"do": "do(?:es|)"
+		}
+	}
+}
