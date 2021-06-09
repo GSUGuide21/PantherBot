@@ -1,5 +1,6 @@
 const { Command } = require( "discord.js-commando" );
-const randomPuppy = require( "random-puppy" );
+const { MessageEmbed, TextChannel, Message, MessageAttachment } = require( "discord.js" );
+const axios = require( "axios" ).default;
 
 const DEFAULT_SUBS = Object.freeze( [ 
 	"meme",
@@ -43,12 +44,19 @@ module.exports = class MemeCommand extends Command {
 			memberName : "meme",
 			aliases : [ "m" ],
 			group : "miscellaneous",
-			description : "Sends a random meme to the chat."
+			description : "Sends a random meme to the chat.",
+			argsType: "multiple"
 		} );
 	}
 
-	async run( { channel } ) { 
+	/**
+	 * @param {Message} message 
+	 * @param {string[]} args 
+	 */
+	async run( { channel }, args ) { 
 		const subs = [ ...DEFAULT_SUBS ];
+
+		const hasEmbed = args.length > 0;
 
 		switch ( channel.name ) { 
 			case "gaming" :
@@ -68,11 +76,36 @@ module.exports = class MemeCommand extends Command {
 
 		channel.startTyping( );
 
-		return await randomPuppy( sub )
-			.then( async url => await channel.send( { 
-				files : [ { attachment : url, name : `meme.${sub}.png` } ]
-			} ) )
-			.catch( e => console.log( e ) )
-			.finally( ( ) => channel.stopTyping( ) );
+		try { 
+			const { data } = await axios.get( `https://meme-api.herokuapp.com/gimme/${sub}` );
+
+			const { 
+				title,
+				url,
+				subreddit,
+				postLink: link,
+				author: name
+			} = data;
+
+			const embed = new MessageEmbed( { 
+				title,
+				author: { name },
+				image: { url },
+				footer: `${subreddit} (${link})`
+			} );
+
+			const randomKey = Math.floor( Math.random( ) * 1.5e12 );
+
+			channel.send( hasEmbed ? { 
+				files: [ { 
+					attachment: url,
+					name: `${subreddit}${randomKey}.jpg`
+				} ]
+			} : { embed } );
+		} catch ( e ) { 
+			console.log( e );
+		} finally { 
+			channel.stopTyping( );
+		}
 	}
 }

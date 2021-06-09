@@ -86,6 +86,7 @@ module.exports = class PantherBotClient extends Client {
 
 	async initCommands( ) { 
 		this.log( "Initialization completed. Loading commands now." );
+		this.user.setActivity( "PantherBot", { type: "PLAYING" } );
 
 		const groups = require( "./command-groups.json" );
 
