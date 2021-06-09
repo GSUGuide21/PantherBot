@@ -90,7 +90,8 @@ module.exports = class MemeCommand extends Command {
 				subreddit,
 				postLink: link,
 				author: name,
-				ups
+				ups,
+				nsfw
 			} = data;
 
 			const embed = new MessageEmbed( { 
