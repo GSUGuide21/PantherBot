@@ -53,10 +53,15 @@ module.exports = class MemeCommand extends Command {
 	 * @param {Message} message 
 	 * @param {string[]} args 
 	 */
-	async run( { channel }, args ) { 
+	async run( message, args ) { 
 		const subs = [ ...DEFAULT_SUBS ];
 
-		const hasEmbed = args.length > 0;
+		const [ a = "0" ] = args;
+
+		const { channel, member, author } = message;
+		const { id } = author;
+
+		const hasEmbed = !( [ "0", "" ].includes( a ) );
 
 		switch ( channel.name ) { 
 			case "gaming" :
@@ -84,24 +89,73 @@ module.exports = class MemeCommand extends Command {
 				url,
 				subreddit,
 				postLink: link,
-				author: name
+				author: name,
+				ups
 			} = data;
 
 			const embed = new MessageEmbed( { 
 				title,
 				author: { name },
 				image: { url },
-				footer: `${subreddit} (${link})`
+				fields: [ { 
+					name: "Subreddit",
+					value: subreddit
+				}, { 
+					name: "Score",
+					value: ups,
+					inline: true
+				} ],
+				description: `This meme has been requested by ${member} on ${channel}.`,
+				footer: { 
+					text: `${subreddit} (${link})`
+				}
 			} );
 
 			const randomKey = Math.floor( Math.random( ) * 1.5e12 );
 
-			channel.send( hasEmbed ? { 
+			const content = hasEmbed ? { 
 				files: [ { 
 					attachment: url,
 					name: `${subreddit}${randomKey}.jpg`
 				} ]
-			} : { embed } );
+			} : { embed };
+
+			if ( nsfw ) { 
+				const isNFSW = channel.name.trim( ) === "nsfw" || channel.name.trim( ) === "dank-memes";
+
+				if ( !isNFSW ) { 
+					message
+						.edit( "The following meme is considered NSFW. Do you want to display it?" )
+						.then( async ( ) => { 
+							const limit = 30;
+
+							try {
+								const collected = await channel.awaitMessages( m => m.author.id === id, { 
+									max: 1,
+									time: limit * 1000
+								} );
+
+								const { content } = collected.first( );
+
+								const yes = /^y(?:es|)|1$/i;
+
+								if ( yes.test( content.trim( ) ) ) { 
+									message.edit( content );
+								} else { 
+									message.edit( `${member} has not consented to have the meme shown.` );
+								}
+							} catch ( e ) {
+								console.log( e );
+								message.edit( `${member} has not responded in ${limit} seconds. The meme will not display.` );
+							}
+						} )
+						.catch( ( ) => message.edit( "Error: Cannot show NSFW image." ) );
+				} else { 
+					message.edit( content );
+				}
+			} else { 
+				message.edit( content );
+			}
 		} catch ( e ) { 
 			console.log( e );
 		} finally { 
