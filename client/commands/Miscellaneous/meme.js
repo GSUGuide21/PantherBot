@@ -50,15 +50,14 @@ module.exports = class MemeCommand extends Command {
 	}
 
 	/**
-	 * @param {Message} message 
+	 * @param {Message} message
 	 * @param {string[]} args 
 	 */
-	async run( message, args ) { 
+	async run( { channel, member, author }, args ) { 
 		const subs = [ ...DEFAULT_SUBS ];
 
 		const [ a = "0" ] = args;
 
-		const { channel, member, author } = message;
 		const { id } = author;
 
 		const hasEmbed = !( [ "0", "" ].includes( a ) );
@@ -80,6 +79,8 @@ module.exports = class MemeCommand extends Command {
 		const sub = subs[ randomIndex ];
 
 		channel.startTyping( );
+
+		const fetchMessage = await channel.send( `Fetching the meme requested by ${member}! Please wait.` );
 
 		try { 
 			const { data } = await axios.get( `https://meme-api.herokuapp.com/gimme/${sub}` );
@@ -125,7 +126,7 @@ module.exports = class MemeCommand extends Command {
 				const isNFSW = channel.name.trim( ) === "nsfw" || channel.name.trim( ) === "dank-memes";
 
 				if ( !isNFSW ) { 
-					message
+					fetchMessage
 						.edit( "The following meme is considered NSFW. Do you want to display it?" )
 						.then( async ( ) => { 
 							const limit = 30;
@@ -141,21 +142,21 @@ module.exports = class MemeCommand extends Command {
 								const yes = /^y(?:es|)|1$/i;
 
 								if ( yes.test( content.trim( ) ) ) { 
-									message.edit( content );
+									fetchMessage.edit( content );
 								} else { 
-									message.edit( `${member} has not consented to have the meme shown.` );
+									fetchMessage.edit( `${member} has not consented to have the meme shown.` );
 								}
 							} catch ( e ) {
 								console.log( e );
-								message.edit( `${member} has not responded in ${limit} seconds. The meme will not display.` );
+								fetchMessage.edit( `${member} has not responded in ${limit} seconds. The meme will not display.` );
 							}
 						} )
-						.catch( ( ) => message.edit( "Error: Cannot show NSFW image." ) );
+						.catch( ( ) => fetchMessage.edit( "Error: Cannot show NSFW image." ) );
 				} else { 
-					message.edit( content );
+					fetchMessage.edit( content );
 				}
 			} else { 
-				message.edit( content );
+				fetchMessage.edit( content );
 			}
 		} catch ( e ) { 
 			console.log( e );
