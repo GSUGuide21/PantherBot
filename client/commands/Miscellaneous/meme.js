@@ -19,7 +19,6 @@ const DEFAULT_SUBS = Object.freeze( [
 ] );
 
 const DANK_MEMES = Object.freeze( [ 
-	"deepfriedmemes",
 	"surrealmemes",
 	"nukedmemes",
 	"BlackPeopleTwitter"
