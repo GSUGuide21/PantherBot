@@ -159,6 +159,7 @@ module.exports = class MemeCommand extends Command {
 			}
 		} catch ( e ) { 
 			console.log( e );
+			fetchMessage.edit( "Error fetching the meme. Please try again." );
 		} finally { 
 			channel.stopTyping( );
 		}
