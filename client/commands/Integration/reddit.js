@@ -6,7 +6,7 @@ module.exports = class RedditCommand extends Command {
 	constructor( bot ) { 
 		super( bot, { 
 			name: "reddit",
-			aliases: [ "r" ],
+			aliases: [ "rd", "rdt" ],
 			memberName: "reddit",
 			group: "integration",
 			description: "Creates a detailed Reddit embed.",
