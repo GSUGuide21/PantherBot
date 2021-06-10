@@ -35,11 +35,15 @@ module.exports = class RedditCommand extends Command {
 		const suburl = `${base}/${subreddit.split( /\/|\s+/g )[ 0 ]}`;
 		const jsonurl = `${suburl}/${canonicalType}.json?limit=${limit}`;
 
+		console.log( suburl, subreddit, jsonurl );
+
 		channel.startTyping( );
 
 		try { 
 			const { data } = await axios.get( jsonurl, { responseType: "json" } );
 			const { children: posts = [ ] } = data;
+
+			console.log( data, posts );
 
 			const index = Math.floor( Math.random( ) * children.length );
 			const post = posts[ index ];
