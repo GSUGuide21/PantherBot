@@ -28,7 +28,9 @@ module.exports = class SubredditCommand extends Command {
 		try { 
 			const response = await axios.get( apiURL, { responseType: "json" } );
 			const { data } = response;
-			const post = data?.children?.[ 0 ];
+			const { data: subdata } = data;
+			
+			const post = subdata?.children?.[ 0 ];
 
 			const { 
 				title, selftext, url, num_comments,
