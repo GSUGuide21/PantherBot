@@ -20,7 +20,7 @@ module.exports = class RedditCommand extends Command {
 	 */
 	async run( { channel }, args ) { 
 		if ( !args?.length ) return channel.send( "A subreddit must be specified. Please try again." );
-		const base = "https://www.reddit.com/r/";
+		const base = "https://www.reddit.com/r";
 		const [ subreddit = "AskReddit", type = "top", limitString = 5 ] = args;
 
 		let limit = parseInt( limitString );
