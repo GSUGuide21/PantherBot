@@ -33,12 +33,12 @@ module.exports = class RedditCommand extends Command {
 		const canonicalType = allowedTypes.includes( type ) ? type : "top";
 
 		const suburl = `${base}/${subreddit.split( /\/|\s+/g )[ 0 ]}`;
-		const url = `${suburl}/${canonicalType}.json?limit=${limit}`;
+		const jsonurl = `${suburl}/${canonicalType}.json?limit=${limit}`;
 
 		channel.startTyping( );
 
 		try { 
-			const { data } = await axios.get( url, { responseType: "json" } );
+			const { data } = await axios.get( jsonurl, { responseType: "json" } );
 			const { children: posts = [ ] } = data;
 
 			const index = Math.floor( Math.random( ) * children.length );
