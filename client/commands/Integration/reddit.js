@@ -43,7 +43,9 @@ module.exports = class RedditCommand extends Command {
 			const { children: posts = [ ] } = subdata;
 
 			const index = Math.floor( Math.random( ) * posts.length );
-			const post = posts[ index ];
+			const post = posts[ index ]?.data;
+
+			console.log( post );
 
 			const { 
 				title,
