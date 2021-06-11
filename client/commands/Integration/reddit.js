@@ -39,12 +39,10 @@ module.exports = class RedditCommand extends Command {
 
 		try { 
 			const { data } = await axios.get( jsonurl, { responseType: "json" } );
-			console.log( data );
 			const { data: subdata } = data;
-			console.log( subdata );
 			const { children: posts = [ ] } = subdata;
 
-			const index = Math.floor( Math.random( ) * children.length );
+			const index = Math.floor( Math.random( ) * posts.length );
 			const post = posts[ index ];
 
 			const { 
