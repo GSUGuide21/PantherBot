@@ -117,8 +117,8 @@ module.exports = class PantherBotClient extends Client {
 		const message = wm[ Math.floor( Math.random( ) * wm.length ) ];
 
 		const result = message
-			.replace( "__M__", member )
-			.replace( "__G__", member.guild.name );
+			.replace( /\$(?:M|U)\$/g, member )
+			.replace( /\$G\$/g, member.guild.name );
 		
 		embed.fields.push( { 
 			name: "USER NAME",
@@ -196,8 +196,8 @@ module.exports = class PantherBotClient extends Client {
 		const result = lm[ Math.floor( Math.random( ) * lm.length ) ];
 		
 		const message = result
-			.replace( "__M__", member )
-			.replace( "__G__", member.guild.name );
+			.replace( /\$(?:M|U)\$/g, member )
+			.replace( /\$G\$/g, member.guild.name );
 		
 		const embed = new MessageEmbed( { 
 			color: 0x56afff,
@@ -258,9 +258,9 @@ module.exports = class PantherBotClient extends Client {
 		const result = km[ Math.floor( Math.random( ) * km.length ) ];
 
 		const message = result
-			.replace( "__E__", execMember )
-			.replace( "__T__", targetMember )
-			.replace( "__G__", guild.name );
+			.replace( /\$(?:E|U)\$/g, execMember )
+			.replace( /\$T\$/g, targetMember )
+			.replace( /\$G\$/g, guild.name );
 
 		wc.send( message );
 		uc.send( { embed } );
@@ -322,8 +322,8 @@ module.exports = class PantherBotClient extends Client {
 		const result = bm[ Math.floor( Math.random( ) * bm.length ) ];
 
 		const message = result
-			.replace( "__U__", user )
-			.replace( "__G__", guild.name );
+			.replace( /\$U\$/g, user )
+			.replace( /\$G\$/g, guild.name );
 		
 		wc.send( message );
 		return uc.send( { embed } );
@@ -406,7 +406,7 @@ module.exports = class PantherBotClient extends Client {
 				value: member.user.tag,
 				inline: true
 			}, { 
-				name: "Added roles",
+				name: "Added role(s)",
 				value: addedRoles.map( role => role.name ).join( ", " ),
 				inline: true
 			} ],
@@ -435,7 +435,7 @@ module.exports = class PantherBotClient extends Client {
 				value: member.user.tag,
 				inline: true
 			}, { 
-				name: "Removed roles",
+				name: "Removed role(s)",
 				value: removedRoles.map( role => role.name ).join( ", " ),
 				inline: true
 			} ],
@@ -447,7 +447,7 @@ module.exports = class PantherBotClient extends Client {
 
 	async isActive( ) { 
 		return new Promise( ( resolve, reject ) => { 
-			( this.active ? resolve : reject )( );
+			( this.active ? resolve : reject )( this.active );
 		} );
 	}
 
