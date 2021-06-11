@@ -45,8 +45,6 @@ module.exports = class RedditCommand extends Command {
 			const index = Math.floor( Math.random( ) * posts.length );
 			const post = posts[ index ]?.data;
 
-			console.log( post );
-
 			const { 
 				title,
 				selftext,
@@ -69,7 +67,8 @@ module.exports = class RedditCommand extends Command {
 			const embed = new MessageEmbed( { 
 				author: { 
 					name: author,
-					url: `https://www.reddit.com/u/${author}`
+					url: `https://www.reddit.com/u/${author}`,
+					iconURL: "https://www.redditinc.com/assets/images/site/reddit-logo.png"
 				},
 				title,
 				url,
