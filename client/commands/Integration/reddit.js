@@ -60,7 +60,7 @@ module.exports = class RedditCommand extends Command {
 				thumbnail = ""
 			} = postdata;
 
-			const description = `${selftext.slice( 0, 450 )}`;
+			const description = `${selftext.slice( 0, 450 )}...`;
 
 			const timestamp = new Date( created * 1000 );
 			
