@@ -193,7 +193,9 @@ module.exports = class CalendarCommand extends Command {
                     value : title 
                 }
             ],
-            thumbnail : message.author.displayAvatarURL( { dynamic : true } )
+            thumbnail : message.author.displayAvatarURL( { 
+                dynamic : true 
+            } )
         } );
 
         if ( location ) { 

@@ -11,7 +11,7 @@ const filterEmojis = string => {
 		"\\)", "\\[", "\\]"
 	] );
 	const pattern = new RegExp( "[^" + allowedChars.join( "" ) + "]", "gi" );
-	return string.replace( pattern, "" );
+	return string.replace( pattern, "" ).trim( );
 };
 
 module.exports = class PantherBotClient extends Client {
@@ -25,6 +25,8 @@ module.exports = class PantherBotClient extends Client {
 		this.active = true;
 
 		this.log( this );
+
+		console.log( this.getUpdateChannel( ), this.getWelcomeChannel( ) );
 	}
 
 	toggle( msg ) { 
@@ -47,29 +49,38 @@ module.exports = class PantherBotClient extends Client {
 		console.error( message );
 	}
 
+	getChannelName( name ) { 
+		return filterEmojis( name )
+			.toLowerCase( )
+			.replace( /\s+/g, " " )
+			.trim( );
+	}
+
 	/**
+	 * @param {string|RegExp} name 
 	 * @param {Guild} guild 
+	 * @returns 
 	 */
-	getUpdateChannel( guild ) { 
+	getChannel( name, guild ) { 
 		return guild.channels.cache.find( c => { 
-			const t = filterEmojis( c.name )
-				.toLowerCase( )
-				.replace( /\s+/g, " " )
-				.trim( );
-			return t === "update";
+			const isPattern = name instanceof RegExp;
+			const channelName = getChannelName( c.name );
+			return isPattern ? name.test( channelName ) : channelName === String( name );
 		} );
 	}
 
 	/**
 	 * @param {Guild} guild 
 	 */
+	getUpdateChannel( guild ) { 
+		return this.getChannel( "update", guild );
+	}
+
+	/**
+	 * @param {Guild} guild 
+	 */
 	 getWelcomeChannel( guild ) { 
-		return guild.channels.cache.find( c => { 
-			const t = filterEmojis( c.name )
-				.toLowerCase( )
-				.trim( );
-			return t === "welcome";
-		} );
+		return this.getChannel( "welcome", guild );
 	}
 
 	async initFeatures( ) { 
@@ -110,8 +121,8 @@ module.exports = class PantherBotClient extends Client {
 			title: "JOINED"
 		} );
 
-		const uc = member.guild.channels.cache.find( c => c.name === "update" );
-		const wc = member.guild.channels.cache.find( c => c.name === "welcome" );
+		const uc = this.getUpdateChannel( member.guild );
+		const wc = this.getWelcomeChannel( member.guild );
 
 		const wm = messages.welcome;
 		const message = wm[ Math.floor( Math.random( ) * wm.length ) ];
@@ -189,8 +200,8 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {GuildMember} member
 	 */
 	async initLeft( member ) { 
-		const uc = member.guild.channels.cache.find( c => c.name === "update" );
-		const wc = member.guild.channels.cache.find( c => c.name === "welcome" );
+		const uc = this.getUpdateChannel( member.guild );
+		const wc = this.getWelcomeChannel( member.guild );
 
 		const lm = messages.left;
 		const result = lm[ Math.floor( Math.random( ) * lm.length ) ];
@@ -225,8 +236,8 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {string|void} event.reason
 	 */
 	async initKicked( { executor, target, guild, targetMember, execMember, reason = "" } ) { 
-		const uc = member.guild.channels.cache.find( c => c.name === "update" );
-		const wc = member.guild.channels.cache.find( c => c.name === "welcome" );
+		const uc = this.getUpdateChannel( guild );
+		const wc = this.getWelcomeChannel( guild );
 
 		const embed = new MessageEmbed( { 
 			color: 0xdfaaa0,
@@ -272,8 +283,8 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {User} user
 	 */
 	async initBanned( guild, user ) { 
-		const uc = guild.channels.cache.find( c => c.name === "update" );
-		const wc = guild.channels.cache.find( c => c.name === "welcome" );
+		const uc = this.getUpdateChannel( guild );
+		const wc = this.getWelcomeChannel( guild );
 
 		const embed = new MessageEmbed( { 
 			color: 0x964f4f,
@@ -361,7 +372,7 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {GuildMember} newMember 
 	 */
 	async initNickChange( oldMember, newMember ) { 
-		const uc = newMember.guild.channels.cache.find( c => c.name === "update" );
+		const uc = this.getUpdateChannel( newMember.guild );
 
 		const embed = new MessageEmbed( { 
 			color: 0xdf9a3f,
@@ -393,7 +404,7 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {Collection<string, Role>} addedRoles
 	 */
 	async initRolesAdded( member, addedRoles ) { 
-		const uc = member.guild.channels.cache.find( c => c.name === "update" );
+		const uc = this.getUpdateChannel( member.guild );
 
 		const embed = new MessageEmbed( { 
 			title: "USER ROLE(S) ADDED",
@@ -422,7 +433,7 @@ module.exports = class PantherBotClient extends Client {
 	 * @param {Collection<string, Role>} removedRoles
 	 */
 	async initRolesRemoved( member, removedRoles ) { 
-		const uc = member.guild.channels.cache.find( c => c.name === "update" );
+		const uc = this.getUpdateChannel( member.guild );
 
 		const embed = new MessageEmbed( { 
 			title: "USER ROLE(S) REMOVED",
