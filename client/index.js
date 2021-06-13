@@ -109,6 +109,8 @@ module.exports = class PantherBotClient extends Client {
 			channel
 		} = message;
 
+		console.log( message );
+
 		if ( author.bot ) return;
 
 		const key = Object.getOwnPropertyNames( responses ).find( k => { 
@@ -118,9 +120,13 @@ module.exports = class PantherBotClient extends Client {
 			return regex.test( content );
 		} );
 
+		console.log( key );
+
 		if ( !key ) return;
 
 		const response = responses[ key ];
+
+		console.log( response );
 
 		const { 
 			prep = { },
