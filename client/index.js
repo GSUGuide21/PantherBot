@@ -25,8 +25,6 @@ module.exports = class PantherBotClient extends Client {
 		this.active = true;
 
 		this.log( this );
-
-		console.log( this.getUpdateChannel( this.guilds.cache.first( ) ), this.getWelcomeChannel( this.guilds.cache.first( ) ) );
 	}
 
 	toggle( msg ) { 
@@ -62,9 +60,8 @@ module.exports = class PantherBotClient extends Client {
 	 * @returns 
 	 */
 	getChannel( name, guild ) { 
-		console.log( guild );
 		return guild.channels.cache.find( c => { 
-			const isPattern = name instanceof RegExp;
+			const isPattern = Object( name ) instanceof RegExp;
 			const channelName = getChannelName( c.name );
 			return isPattern ? name.test( channelName ) : channelName === String( name );
 		} );
