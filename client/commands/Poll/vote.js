@@ -14,10 +14,10 @@ module.exports = class VoteCommand extends Command {
 	}
 
 	/**
-	 * @param {Message} message 
-	 * @param {string[]} args 
+	 * @param {Message} message
 	 */
-	async run( { mentions, guild, channel, member, author } ) { 
+	async run( message ) { 
+        const { mentions, guild, channel, member, author } = message;
         const types = Object.freeze( [ "support", "neutral", "oppose" ] );
         const emojis = types.map( type => guild.emojis.cache.find( em => em.name === type ) );
 
@@ -46,14 +46,16 @@ module.exports = class VoteCommand extends Command {
                     inline: true
                 } ) ),
                 footer: { 
-                    iconURL: message.author.displayAvatarURL( { 
+                    iconURL: author.displayAvatarURL( { 
                         dynamic: true
                     } ),
-                    text: `${message.member}`
+                    text: `${member}`
                 }
             } );
 
-            return target.send( { embed } );
+            const comp = await target.send( { embed } );
+
+            for ( const ej of emojis ) await comp.react( ej );
         } catch { 
             return channel.send( "No description has been provided." );
         }
