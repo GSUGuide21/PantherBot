@@ -17,46 +17,45 @@ module.exports = class VoteCommand extends Command {
 	 * @param {Message} message 
 	 * @param {string[]} args 
 	 */
-	async run( message, args ) { 
-        const emojiNames = Object.freeze( [ "support", "neutral", "oppose" ] );
+	async run( { mentions, guild, channel, member, author } ) { 
+        const types = Object.freeze( [ "support", "neutral", "oppose" ] );
+        const emojis = types.map( type => guild.emojis.cache.find( em => em.name === type ) );
 
-        const emojis = emojiNames.map( emoji => message.guild.emojis.cache.find( em => em.name === emoji ) );
+        const target = mentions.channels.first( ) ?? channel;
+        const initial = await channel.send( `${member}, please describe what the user is voting on.` );
 
-        const mention = message.mentions.channels.first( );
-
-        const argIndex = mention ? 1 : 0;
-
-        const channel = mention ? mention : message.channel;
-
-        const voteQuestion = args.slice( argIndex ).join( " " );
-
-		const embed = new MessageEmbed( { 
-            color : "RANDOM",
-            title : "VOTE",
-            description : voteQuestion,
-            fields : emojis.map( emoji => { 
-                const name = emoji
-                    .name
-                    .toUpperCase( )
-                    .replace( /^:|:$/g, "" );
-
-                const value = emoji;
-
-                return { name, value, inline : true };
-            } ),
-            footer: { 
-				iconURL: message.author.displayAvatarURL( { 
-					dynamic: true
-				} ),
-				text: `${message.member}`
-			}
-        } );
-
-        channel
-            .send( { embed } )
-            .then( msg => { 
-                if ( message.deletable ) message.delete( );
-                for ( const emoji of emojis ) msg.react( emoji );
+        try { 
+            const collected = await channel.awaitMessages( m => m.author.tag === author.tag, { 
+                time: 30 * 1000,
+                max: 1
             } );
+
+            const { content = "" } = collected.first( );
+
+            if ( content === "" ) return channel.send( "No description has been provided." );
+
+            initial.delete( );
+
+            const embed = new MessageEmbed( { 
+                description: content,
+                color: 0x344480,
+                title: "VOTE",
+                fields: emojis.map( emoji => ( { 
+                    value: emoji, 
+                    name: emoji.name.toUpperCase( ).replace( /^:|:$/g, "" ),
+                    inline: true
+                } ) ),
+                footer: { 
+                    iconURL: message.author.displayAvatarURL( { 
+                        dynamic: true
+                    } ),
+                    text: `${message.member}`
+                }
+            } );
+
+            return target.send( { embed } );
+        } catch { 
+            return channel.send( "No description has been provided." );
+        }
 	}
 }
