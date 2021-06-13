@@ -51,7 +51,7 @@ module.exports = class VoteCommand extends Command {
                     iconURL: author.displayAvatarURL( { 
                         dynamic: true
                     } ),
-                    text: `${author.username}`
+                    text: `${member.displayName ?? author.username}`
                 }
             } );
 

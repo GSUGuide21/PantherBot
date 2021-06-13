@@ -61,7 +61,7 @@ module.exports = class PollCommand extends Command {
                     iconURL: author.displayAvatarURL( { 
                         dynamic: true
                     } ),
-                    text: `${author.username}`
+                    text: `${member.displayName ?? author.username}`
                 }
 			} );
 
