@@ -62,7 +62,7 @@ module.exports = class PantherBotClient extends Client {
 	getChannel( name, guild ) { 
 		return guild.channels.cache.find( c => { 
 			const isPattern = Object( name ) instanceof RegExp;
-			const channelName = getChannelName( c.name );
+			const channelName = this.getChannelName( c.name );
 			return isPattern ? name.test( channelName ) : channelName === String( name );
 		} );
 	}
