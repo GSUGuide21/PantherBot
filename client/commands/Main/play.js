@@ -7,6 +7,7 @@ module.exports = class PlayCommand extends Command {
 			name: "play",
 			memberName: "play",
 			aliases: [ "game" ],
+			group: "main",
 			description: "This command sets the activity for you."
 		} );
 	}
