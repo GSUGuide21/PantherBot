@@ -26,7 +26,7 @@ module.exports = class PantherBotClient extends Client {
 
 		this.log( this );
 
-		console.log( this.getUpdateChannel( ), this.getWelcomeChannel( ) );
+		console.log( this.getUpdateChannel( this.guilds.cache.first( ) ), this.getWelcomeChannel( this.guilds.cache.first( ) ) );
 	}
 
 	toggle( msg ) { 
