@@ -52,7 +52,8 @@ module.exports = class VoteCommand extends Command {
                         dynamic: true
                     } ),
                     text: `${member.displayName ?? author.username}`
-                }
+                },
+                timestamp: new Date( )
             } );
 
             const comp = await target.send( { embed } );
