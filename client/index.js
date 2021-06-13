@@ -144,7 +144,7 @@ module.exports = class PantherBotClient extends Client {
 			.replace( /\$G\$/g, guild.name )
 			.replace( /\$U\$/g, author )
 			.replace( /\$C\$/g, channel.name )
-			.replace( /\$O\$/g, this.owners[ 0 ] );
+			.replace( /\$O\$/g, this.owners[ 0 ].tag );
 
 		return channel.send( text );
 	}
