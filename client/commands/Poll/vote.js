@@ -56,6 +56,8 @@ module.exports = class VoteCommand extends Command {
             const comp = await target.send( { embed } );
 
             for ( const ej of emojis ) await comp.react( ej );
+
+            message.delete( );
         } catch { 
             return channel.send( "No description has been provided." );
         }
