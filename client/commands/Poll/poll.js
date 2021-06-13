@@ -18,55 +18,64 @@ module.exports = class PollCommand extends Command {
 	 * @param {Message} message 
 	 * @param {string[]} args 
 	 */
-	async run( message, args ) { 
-		if ( !args?.length ) return message.reply( "a poll must have at least 1 option." );
+	async run( message ) { 
+		const { mentions, guild, channel, member, author } = message;
+		const target = mentions.channels.first( ) ?? channel;
+		const initial = await channel.send( `${member}, please state your question!` );
 
-		const mention = message.mentions.channels.first( );
+		try { 
+			const collectedQ = await channel.awaitMessages( m => m.author.tag === author.tag, { 
+				time: 20 * 1000,
+				max: 1
+			} );
 
-		const argIndex = mention ? 1 : 0;
+			const collectedQMsg = collectedQ.first( );
+			const { content: pollQuestion } = collectedQMsg;
 
-		const channel = mention ? mention : message.channel;
+			if ( pollQuestion === "" ) return channel.send( "Please specify a poll question." );
+			collectedQMsg.delete( );
+			initial.delete( );
 
-		const pollOptions = args.slice( argIndex );
+			const selectOptions = await channel.send( `${member}, please choose your poll options.` );
 
-		const pollQuestion = pollOptions.shift( );
+			const collected = await channel.awaitMessages( m => m.author.tag === author.tag, { 
+				time: 45 * 1000,
+				max: this.client.pollLimit ?? 15
+			} );
 
-		const emojiNames = [ ];
+			const options = collected.map( m => m.content );
+			collected.forEach( m => m.delete( ) );
 
-		for ( let i = 0; i < pollOptions.length; i++ ) { 
-			emojiNames[ i ] = `Number${String( i + 1 )}`;
-		}
+			selectOptions.delete( );
 
-		const emojis = emojiNames.map( emoji => { 
-			return message.guild.emojis.cache.find( 
-				em => em.name === emoji
+			const embed = new MessageEmbed( { 
+				description: pollQuestion,
+				color: 0x6576ad,
+				title: "POLL",
+				fields: options.map( ( option, index ) => ( { 
+					value: guild.emojis.cache.find( em => em.name === `Number${index + 1}` ),
+					name: option,
+					inline: true
+				} ) ),
+                footer: { 
+                    iconURL: author.displayAvatarURL( { 
+                        dynamic: true
+                    } ),
+                    text: `${author.username}`
+                }
+			} );
+
+			const comp = await target.send( { embed } );
+			const emojis = Array.from( 
+				{ length: options.length }, 
+				( _, i ) => guild.emojis.cache.find( em => em.name === `Number${i + 1}` ) 
 			);
-		} );
 
-		const embed = new MessageEmbed( { 
-			color : "RANDOM",
-			title : "POLL",
-			description : pollQuestion,
-			fields : emojis.map( ( emoji, index ) => { 
-				const name = pollOptions[ index ];
-
-                const value = emoji;
-
-                return { name, value, inline : true };
-			} ),
-			footer: { 
-				iconURL: message.author.displayAvatarURL( { 
-					dynamic: true
-				} ),
-				text: `${message.member}`
-			}
-		} );
-
-		channel
-            .send( { embed } )
-            .then( msg => { 
-                if ( message.deletable ) message.delete( );
-                for ( const emoji of emojis ) msg.react( emoji );
-            } );
+			for ( const ej of emojis ) await comp.react( ej );
+			
+			message.delete( );
+		} catch { 
+			return channel.send( "Failed to create a poll. Please try again." );
+		}
 	}
 }

@@ -23,6 +23,7 @@ module.exports = class PantherBotClient extends Client {
 		super( opts );
 
 		this.active = true;
+		this.pollLimit = 16;
 
 		this.log( this );
 	}
