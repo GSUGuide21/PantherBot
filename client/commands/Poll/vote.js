@@ -30,11 +30,13 @@ module.exports = class VoteCommand extends Command {
                 max: 1
             } );
 
-            const { content = "" } = collected.first( );
+            const collectedMsg = collected.first( );
+            const { content } = collectedMsg;
 
             if ( content === "" ) return channel.send( "No description has been provided." );
 
             initial.delete( );
+            collectedMsg.delete( );
 
             const embed = new MessageEmbed( { 
                 description: content,
@@ -49,7 +51,7 @@ module.exports = class VoteCommand extends Command {
                     iconURL: author.displayAvatarURL( { 
                         dynamic: true
                     } ),
-                    text: `${member}`
+                    text: `${author.tag}`
                 }
             } );
 
