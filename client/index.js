@@ -116,8 +116,7 @@ module.exports = class PantherBotClient extends Client {
 		const key = Object.getOwnPropertyNames( responses ).find( k => { 
 			const { pattern } = responses[ k ];
 
-			const regex = new RegExp( `^${pattern.replace( /(\!|\?|\.)$/, "\\&1" )}$`, "i" );
-			console.log( regex, regex.test( content ), responses, responses[ k ] );
+			const regex = new RegExp( `^${pattern.replace( /(\!|\?|\.)$/, "\\$1" )}$`, "i" );
 			return regex.test( content );
 		} );
 
