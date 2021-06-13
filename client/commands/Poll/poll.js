@@ -53,7 +53,13 @@ module.exports = class PollCommand extends Command {
                 const value = emoji;
 
                 return { name, value, inline : true };
-			} )
+			} ),
+			footer: { 
+				iconURL: message.author.displayAvatarURL( { 
+					dynamic: true
+				} ),
+				text: `${message.member}`
+			}
 		} );
 
 		channel

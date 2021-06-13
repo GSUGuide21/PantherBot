@@ -20,9 +20,7 @@ module.exports = class VoteCommand extends Command {
 	async run( message, args ) { 
         const emojiNames = Object.freeze( [ "support", "neutral", "oppose" ] );
 
-        const emojis = emojiNames.map( emoji => { 
-            return message.guild.emojis.cache.find( em => em.name === emoji );
-        } );
+        const emojis = emojiNames.map( emoji => message.guild.emojis.cache.find( em => em.name === emoji ) );
 
         const mention = message.mentions.channels.first( );
 
@@ -45,7 +43,13 @@ module.exports = class VoteCommand extends Command {
                 const value = emoji;
 
                 return { name, value, inline : true };
-            } )
+            } ),
+            footer: { 
+				iconURL: message.author.displayAvatarURL( { 
+					dynamic: true
+				} ),
+				text: `${message.member}`
+			}
         } );
 
         channel
