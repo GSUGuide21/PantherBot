@@ -15,8 +15,7 @@ module.exports = class TestCommand extends Command {
 	/**
 	 * @param {Message} message
 	 */
-	async run( { member, channel } ) { 
-		this.client.initLeft( member );
-		return channel.send( "Test completed!" );
+	async run( { channel } ) { 
+		return channel.send( `${this.client.active ? "ACTIVE" : "NOT ACTIVE"}` );
 	}
 }
