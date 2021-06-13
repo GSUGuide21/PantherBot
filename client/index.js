@@ -1,7 +1,9 @@
-const { MessageEmbed, GuildMember, User, Guild, Collection, Role, GuildChannel } = require( "discord.js" );
+const { MessageEmbed, GuildMember, User, Guild, Collection, Role, GuildChannel, Message } = require( "discord.js" );
 const { Client } = require( "discord.js-commando" );
 const path = require( "path" );
+const fs = require( "fs-extra" );
 const messages = require( "./features/messages.json" );
+const responses = require( "./features/responses/data.json" );
 const mongoose = require( "mongoose" );
 
 const filterEmojis = string => { 
@@ -88,10 +90,62 @@ module.exports = class PantherBotClient extends Client {
 	}
 
 	async initMessages( ) { 
+		this.on( "message", this.initResponses.bind( this ) );
 		this.on( "guildMemberAdd", this.initJoin.bind( this ) );
 		this.on( "guildMemberRemove", this.initRemove.bind( this ) );
 		this.on( "guildBanAdd", this.initBanned.bind( this ) );
 		this.on( "guildMemberUpdate", this.initUpdate.bind( this ) );
+	}
+
+	/**
+	 * @param {Message} message 
+	 */
+	async initResponses( message ) {
+		const { 
+			author,
+			content,
+			member,
+			guild,
+			channel
+		} = message;
+
+		if ( author.bot ) return;
+
+		const key = Object.getOwnPropertyNames( responses ).find( k => { 
+			const { pattern } = responses[ k ];
+
+			const regex = new RegExp( `^${pattern.replace( /(\!|\?|\.)$/, "\\&1" )}$`, "i" );
+			return regex.test( content );
+		} );
+
+		if ( !key ) return;
+
+		const response = responses[ key ];
+
+		const { 
+			prep = { },
+			respond
+		} = response;
+
+		let text = respond;
+
+		if ( Object.getOwnPropertyNames( prep ).length ) { 
+			for ( const prop of Object.getOwnPropertyNames( prep ) ) { 
+				const url = prep[ prop ].replace( "$dir$", __dirname );
+				const data = await fs.readFile( url, "utf-8" );
+				const p = new RegExp( `\\$${prop}\\$`, "gi" );
+
+				text = text.replace( p, data );
+			}
+		}
+
+		text = text
+			.replace( /\$M\$/g, member )
+			.replace( /\$G\$/g, guild.name )
+			.replace( /\$U\$/g, author )
+			.replace( /\$C\$/g, channel.name );
+
+		return channel.send( text );
 	}
 
 	async initCommands( ) { 
