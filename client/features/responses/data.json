@@ -2,7 +2,7 @@
 	"colleges": { 
 		"pattern": "What colleges do(?:es|) G(?:eorgia State(?: U(?:niversity|)|)|SU) have\\?",
 		"prep": { 
-			"colleges": "/respond/colleges.txt"
+			"colleges": "/features/responses/respond/colleges.txt"
 		},
 		"respond": "The following colleges are: \n$colleges$"
 	},
