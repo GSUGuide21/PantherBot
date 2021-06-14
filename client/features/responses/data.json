@@ -2,20 +2,20 @@
 	"colleges": { 
 		"pattern": "What colleges do(?:es|) G(?:eorgia State(?: U(?:niversity|)|)|SU) have\\?",
 		"prep": { 
-			"colleges": "$dir$/respond/colleges.txt"
+			"colleges": "/respond/colleges.txt"
 		},
 		"respond": "The following colleges are: \n$colleges$"
 	},
 	"whois": { 
-		"pattern": "What is PantherBot?",
+		"pattern": "What is PantherBot\\?",
 		"respond": "Hello, $M$, I am PantherBot. I am a bot created by $O$ and I am here to provide an ease of access for Georgia State University"
 	},
 	"channel": { 
-		"pattern": "What is the name of this channel?",
+		"pattern": "What is the name of this channel\\?",
 		"respond": "The name of this channel is $C$!"
 	},
 	"server": { 
-		"pattern": "What is the name of this server?",
+		"pattern": "What is the name of this server\\?",
 		"respond": "The name of this server is $G$!"
 	}
 }
