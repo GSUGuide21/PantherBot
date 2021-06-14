@@ -131,7 +131,7 @@ module.exports = class PantherBotClient extends Client {
 
 		if ( Object.getOwnPropertyNames( prep ).length ) { 
 			for ( const prop of Object.getOwnPropertyNames( prep ) ) { 
-				const url = prep[ prop ].replace( "$dir$", __dirname );
+				const url = path.join( __dirname, prep[ prop ] );
 				const data = await fs.readFile( url, "utf-8" );
 				const p = new RegExp( `\\$${prop}\\$`, "gi" );
 
