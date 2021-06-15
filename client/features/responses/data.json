@@ -17,5 +17,11 @@
 	"server": { 
 		"pattern": "What is the name of this server\\?",
 		"respond": "The name of this server is $G$!"
+	},
+	"roll": { 
+		"pattern": "(?:PantherBot,\\s*r|R)oll (?:a die|the dice)!"
+	},
+	"flip": { 
+		"pattern": "(?:(?:PantherBot,\\s*f|F)lip (?:a|the) coin!|(?:PantherBot,\\s*d|D)o a coin flip!)"
 	}
 }

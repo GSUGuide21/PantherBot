@@ -27,6 +27,7 @@ module.exports = class PantherBotClient extends Client {
 
 		this.active = true;
 		this.pollLimit = 16;
+		this.afk = false;
 
 		this.log( this );
 	}
@@ -81,8 +82,36 @@ module.exports = class PantherBotClient extends Client {
 	/**
 	 * @param {Guild} guild 
 	 */
-	 getWelcomeChannel( guild ) { 
+	getWelcomeChannel( guild ) { 
 		return this.getChannel( "welcome", guild );
+	}
+
+	// Shorthand activity functions
+	setGame( game ) { 
+		return this.user.setPresence( { 
+			status: "online",
+			activity: { 
+				name: game, 
+				type: "PLAYING" 
+			} 
+		} );
+	}
+
+	setMusic( music ) { 
+		return this.user.setPresence( { 
+			status: "online",
+			activity: { 
+				name: music,
+				type: "LISTENING"
+			}
+		} );
+	}
+
+	toggleAFK( ) { 
+		const afk = this.afk;
+		return this.user.setPresence( { 
+			afk: ( this.afk = !afk )
+		} );
 	}
 
 	async initFeatures( ) { 
@@ -121,6 +150,9 @@ module.exports = class PantherBotClient extends Client {
 
 		if ( !key ) return;
 
+		if ( responseCallbacks?.[ key ] && typeof responseCallbacks[ key ] === "function" )
+			return responseCallbacks[ key ]( message, this );
+
 		const response = responses[ key ];
 
 		const { 
@@ -152,7 +184,7 @@ module.exports = class PantherBotClient extends Client {
 
 	async initCommands( ) { 
 		this.log( "Initialization completed. Loading commands now." );
-		this.user.setActivity( "PantherBot", { type: "PLAYING" } );
+		this.setGame( "PantherBot" );
 
 		const groups = require( "./command-groups.json" );
 
