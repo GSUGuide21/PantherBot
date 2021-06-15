@@ -4,6 +4,7 @@ const path = require( "path" );
 const fs = require( "fs-extra" );
 const messages = require( "./features/messages.json" );
 const responses = require( "./features/responses/data.json" );
+const responseCallbacks = require( "./features/responses/respond" );
 const mongoose = require( "mongoose" );
 
 const filterEmojis = string => { 
