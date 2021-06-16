@@ -23,5 +23,8 @@
 	},
 	"flip": { 
 		"pattern": "(?:(?:PantherBot,\\s*f|F)lip (?:a|the) coin!|(?:PantherBot,\\s*d|D)o a coin flip!)"
+	},
+	"riddle": { 
+		"pattern": "(?:((?:PantherBot,\\s*t|T)ell|(?:PantherBot,\\s*g|G)ive me)) a riddle!"
 	}
 }

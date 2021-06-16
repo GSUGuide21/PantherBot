@@ -9,7 +9,7 @@ const PantherBotClient = require( "../../.." );
 /**
  * @type {ResponseObject}
  */
-module.exports = { 
+module.exports = Object.freeze( { 
 	roll: async message => { 
 		const { channel } = message;
 
@@ -24,5 +24,14 @@ module.exports = {
 		const coin = coins[ index ];
 
 		return channel.send( `PantherBot has flipped a coin. You got ${coin}!` );
+	},
+	riddle: async message => { 
+		const { channel } = message;
+
+		const { riddles } = require( "../../riddles.json" );
+		const index = Math.floor( Math.random( ) * riddles.length );
+		const riddle = riddles[ index ];
+
+		return channel.send( riddle );
 	}
-};
+} );
