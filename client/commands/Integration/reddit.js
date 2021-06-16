@@ -53,8 +53,16 @@ module.exports = class RedditCommand extends Command {
 				author,
 				score,
 				created,
-				data: postdata = { }
+				data: postdata = { },
+				ups,
+				downs
 			} = post;
+
+			const percentage = ( ups - downs ) / score;
+			const rate = Number( percentage ).toLocaleString( "en-US", { 
+				minimumFractionDigits: 2,
+				style: "percent"
+			} );
 
 			const { 
 				thumbnail = ""
@@ -81,6 +89,10 @@ module.exports = class RedditCommand extends Command {
 				}, { 
 					name: "Score",
 					value: Number( score ).toLocaleString( "en-US" ),
+					inline: true
+				}, { 
+					name: "Upvote Rate",
+					value: rate,
 					inline: true
 				} ],
 				footer: { 
