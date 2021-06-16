@@ -58,7 +58,7 @@ module.exports = class RedditCommand extends Command {
 				downs
 			} = post;
 
-			const percentage = ( ups - downs ) / score;
+			const percentage = ups / score;
 			const rate = Number( percentage ).toLocaleString( "en-US", { 
 				minimumFractionDigits: 2,
 				style: "percent"
