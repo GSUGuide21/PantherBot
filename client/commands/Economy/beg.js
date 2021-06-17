@@ -22,7 +22,7 @@ module.exports = class BegCommand extends Command {
 			userId: message.author.id
 		}, { 
 			$inc: { 
-				coins: random
+				balance: random
 			}
 		} );
 
