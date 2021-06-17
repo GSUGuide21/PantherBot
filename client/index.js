@@ -2,10 +2,13 @@ const { MessageEmbed, GuildMember, User, Guild, Collection, Role, GuildChannel, 
 const { Client } = require( "discord.js-commando" );
 const path = require( "path" );
 const fs = require( "fs-extra" );
+
 const messages = require( "./features/messages.json" );
 const responses = require( "./features/responses/data.json" );
 const responseCallbacks = require( "./features/responses/respond" );
+
 const mongoose = require( "mongoose" );
+const profileModel = require( "./features/models/profileSchema" );
 
 const filterEmojis = string => { 
 	const allowedChars = Object.freeze( [ 
@@ -141,6 +144,16 @@ module.exports = class PantherBotClient extends Client {
 
 		if ( author.bot ) return;
 
+		try { 
+			const data = await profileModel.findOne( { 
+				userId: author.id
+			} );
+
+			if ( !data ) this.initProfileFromMessage( message );
+		} catch ( err ) { 
+			console.log( err );
+		}
+
 		const key = Object.getOwnPropertyNames( responses ).find( k => { 
 			const { pattern } = responses[ k ];
 
@@ -229,6 +242,37 @@ module.exports = class PantherBotClient extends Client {
 
 		wc.send( result );
 		return uc.send( { embed } );
+	}
+
+	/**
+	 * Initializes the profile for our member
+	 * @param {GuildMember} member 
+	 */
+	async initProfile( member ) { 
+		const profile = await profileModel.create( { 
+			userId: member.id,
+			guildId: member.guild.id,
+			balance: 0,
+			bank: 0
+		} );
+
+		profile.save( );
+	}
+
+	/**
+	 * Initializes the profile for our member 
+	 * from a message.
+	 * @param {Message} message
+	 */
+	 async initProfileFromMessage( message ) { 
+		const profile = await profileModel.create( { 
+			userId: message.author.id,
+			guildId: message.guild.id,
+			balance: 0,
+			bank: 0
+		} );
+
+		profile.save( );
 	}
 
 	/**
