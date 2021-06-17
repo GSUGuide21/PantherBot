@@ -39,7 +39,7 @@ module.exports = class BalanceCommand extends Command {
 			} ]
 		} );
 
-		return channel.send( { embed } );
+		return message.channel.send( { embed } );
 	}
 
 	/**
