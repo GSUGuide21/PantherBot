@@ -28,8 +28,6 @@ module.exports = class MembersCommand extends Command {
 		if ( !members.size ) return message.reply( `the role you have specified does not contain members.` );
 		
 		const names = members.map( member => member.displayName ?? member.user.username );
-		return channel.send( `The member${members.size > 1 ? "s" : ""} of the ${name} role are: \n ${
-			names.map( ( n, index ) => `${index === names.length - 1 ? n : `${n}\n` }` )
-		}` );
+		return channel.send( `The member${members.size > 1 ? "s" : ""} of the ${name} role are: \n${names.join( "\n" )}` );
 	}
 }
