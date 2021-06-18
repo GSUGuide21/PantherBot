@@ -19,10 +19,10 @@
         "$U$, thank you, come again."
     ],
     "kicked": [
-        "$U$ has been given a time out!",
-        "$U$, you have earned yourself some time off this server."
+        "$T$ has been given a time out by $U$!",
+        "$T$, you have earned yourself some time off this server."
     ],
     "banned": [
-        "$M$ has been sent to the Shadow Realm."
+        "$U$ has sent $T$ to the Shadow Realm."
     ]
 }

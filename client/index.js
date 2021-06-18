@@ -444,7 +444,7 @@ module.exports = class PantherBotClient extends Client {
 		const result = lm[ Math.floor( Math.random( ) * lm.length ) ];
 		
 		const message = result
-			.replace( /\$(?:M|U)\$/g, member )
+			.replace( /\$(?:M|U)\$/g, member.user.tag )
 			.replace( /\$G\$/g, member.guild.name );
 		
 		const embed = new MessageEmbed( { 
@@ -506,8 +506,8 @@ module.exports = class PantherBotClient extends Client {
 		const result = km[ Math.floor( Math.random( ) * km.length ) ];
 
 		const message = result
-			.replace( /\$(?:E|U)\$/g, execMember )
-			.replace( /\$T\$/g, targetMember )
+			.replace( /\$(?:E|U)\$/g, execMember.user.tag )
+			.replace( /\$T\$/g, targetMember.user.tag )
 			.replace( /\$G\$/g, guild.name );
 
 		wc.send( message );
@@ -535,10 +535,11 @@ module.exports = class PantherBotClient extends Client {
 		} );
 
 		const log = logs.entries.first( );
+		let executorMember = { };
 
 		if ( log ) { 
 			const { executor, target, reason } = log;
-			const executorMember = guild.member( executor );
+			executorMember = guild.member( executor );
 
 			if ( target.id === user.id ) { 
 				if ( reason ) embed.fields.push( { 
@@ -570,7 +571,8 @@ module.exports = class PantherBotClient extends Client {
 		const result = bm[ Math.floor( Math.random( ) * bm.length ) ];
 
 		const message = result
-			.replace( /\$U\$/g, user )
+			.replace( /\$T\$/g, user.tag )
+			.replace( /\$(?:E|U)\$/g, executorMember?.user?.tag || "Unknown" )
 			.replace( /\$G\$/g, guild.name );
 		
 		wc.send( message );
