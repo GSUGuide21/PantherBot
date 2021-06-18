@@ -27,6 +27,8 @@ module.exports = class PromoteCommand extends Command {
 				const currentRole = guild.roles.cache.find( role => role.name.toLowerCase( ) === roleName );
 				return member.roles.cache.has( currentRole );
 			} );
+
+			console.log( currentRoleName );
 	
 			if ( !currentRoleName ) { 
 				const lastIndex = order.length - 1;
@@ -35,6 +37,8 @@ module.exports = class PromoteCommand extends Command {
 				const lastRole = guild.roles.cache.find( role => role.name.toLowerCase( ) === lastRoleName );
 				return await member.roles.add( lastRole );
 			}
+
+			console.log( currentRoleName );
 	
 			const topRoleName = order[ 0 ];
 	
@@ -45,9 +49,13 @@ module.exports = class PromoteCommand extends Command {
 			const currentRoleIndex = order.indexOf( currentRoleName );
 			const currRole = guild.roles.cache.find( role => role.name.toLowerCase( ) === currentRoleName );
 
+			console.log( currRole, currentRoleIndex );
+
 			const nextRoleIndex = currentRoleIndex - 1;
 			const nextRoleName = order[ nextRoleIndex ];
 			const nextRole = guild.roles.cache.find( role => role.name.toLowerCase( ) === nextRoleName );
+
+			console.log( nextRole, nextRoleIndex, nextRoleName );
 
 			return await member
 				.roles
