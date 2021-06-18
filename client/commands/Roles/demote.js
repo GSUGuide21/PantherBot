@@ -4,10 +4,10 @@ const { Message } = require( "discord.js" );
 module.exports = class PromoteCommand extends Command { 
 	constructor( bot ) { 
 		super( bot, { 
-			name: "promote",
-			memberName: "promote",
+			name: "demote",
+			memberName: "demote",
 			group: "roles",
-			description: "Promotes a user to the next group."
+			description: "Demotes a user to the previous group."
 		} );
 	}
 
