@@ -25,8 +25,8 @@ module.exports = class PromoteCommand extends Command {
 		members.forEach( async member => { 
 			const currentRoleName = order.find( roleName => { 
 				const currentRole = guild.roles.cache.find( role => role.name.toLowerCase( ) === roleName );
-				console.log( currentRole );
-				return member.roles.cache.has( currentRole );
+				console.log( currentRole )
+				return member.roles.cache.has( currentRole.id );
 			} );
 
 			console.log( currentRoleName );
