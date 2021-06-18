@@ -1,0 +1,13 @@
+{ 
+	"filter": {
+		"hitler": { 
+			"pattern": "Heil Hitler!?",
+			"action": "warn",
+			"matchExact": false
+		},
+		"essay": { 
+			"pattern": "https?:\\/\\/(?:essayhelp|extraessays)\\.(?:[^\\.\\/&\\?]*)(?:\\/.*|)",
+			"action": "ban"
+		}
+	}
+}

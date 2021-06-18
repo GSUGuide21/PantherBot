@@ -26,5 +26,15 @@
 	},
 	"riddle": { 
 		"pattern": "(?:((?:PantherBot,\\s*t|T)ell|(?:PantherBot,\\s*g|G)ive me)) a riddle!"
+	},
+	"southern": { 
+		"pattern": "\\#SouthernNotState",
+		"matchExact": false,
+		"respond": "#StateNotSouthern"
+	},
+	"southern2": { 
+		"pattern": "Southern, not State",
+		"matchExact": false,
+		"respond": "State, not Southern"
 	}
 }

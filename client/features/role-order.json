@@ -1,0 +1,10 @@
+{ 
+	"order": [ 
+		"co-owner",
+		"senior admin",
+		"admin",
+		"head moderator",
+		"moderator",
+		"ambassador"
+	]
+}

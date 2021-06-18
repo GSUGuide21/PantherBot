@@ -1,5 +1,5 @@
 const profileModel = require( "../../features/models/profileSchema" );
-const { Message, MessageEmbed } = require( "discord.js" );
+const { Message } = require( "discord.js" );
 const { Command } = require( "discord.js-commando" );
 
 module.exports = class BegCommand extends Command { 

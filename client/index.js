@@ -123,11 +123,119 @@ module.exports = class PantherBotClient extends Client {
 	}
 
 	async initMessages( ) { 
-		this.on( "message", this.initResponses.bind( this ) );
+		this.on( "message", this.initMessageSent.bind( this ) );
 		this.on( "guildMemberAdd", this.initJoin.bind( this ) );
 		this.on( "guildMemberRemove", this.initRemove.bind( this ) );
 		this.on( "guildBanAdd", this.initBanned.bind( this ) );
 		this.on( "guildMemberUpdate", this.initUpdate.bind( this ) );
+	}
+
+	/**
+	 * @param {Message} message
+	 */
+	async initMessageSent( message ) { 
+		const { author } = message;
+		if ( author.bot ) return;
+		this.initResponses( message );
+		this.initFilter( message );
+	}
+
+	/**
+	 * @param {Message} message
+	 */
+	async initFilter( message ) { 
+		const { 
+			author,
+			content,
+			member,
+			guild,
+			channel
+		} = message;
+
+		const filter = require( "./features/filter/data.json" );
+
+		const properties = Object.getOwnPropertyNames( filter );
+
+		const prop = properties.find( p => { 
+			const { pattern, matchExact = true, flags = "i" } = filter[ p ];
+
+			const regex = new RegExp( `${ matchExact ? `^${pattern}$` : `${pattern}` }`, flags );
+			return regex.test( content );
+		} );
+
+		if ( !prop ) return false;
+
+		const f = filter[ prop ];
+
+		const { 
+			pattern,
+			action,
+			matchExact = true,
+			flags = "i"
+		} = f;
+
+		const r = new RegExp( `${ matchExact ? `^${pattern}$` : `${pattern}` }`, flags );
+		const [ match ] = r.exec( content );
+
+		const reason = `${member.displayName} has been found playing foul with our filter system. Word/phrase found: ${match}`;
+
+		switch ( action ) { 
+			case ( "warn" ): { 
+				try { 
+					const data = await profileModel.findOne( { 
+						userId: author.id
+					} );
+
+					if ( !data ) break;
+
+					const { warnings } = data;
+
+					if ( warnings === 2 ) { 
+						await member.kick( { reason } );
+
+						await profileModel.findOneAndUpdate( { 
+							userId: author.id
+						}, { 
+							$inc: { 
+								warnings: 1
+							}
+						} );
+					} else if ( warnings === 3 ) { 
+						await member.ban( { reason } );
+
+						await profileModel.findOneAndRemove( { 
+							userId: author.id
+						} );
+					} else { 
+						await profileModel.findOneAndUpdate( { 
+							userId: author.id
+						}, { 
+							$inc: { 
+								warnings: 1
+							}
+						} );
+
+						return message.reply( `Warning ${warnings + 1}: you have been found playing foul with our filter system. Word/phrase found: ${match}` );
+					}
+				} catch ( e ) { 
+					console.log( e );
+				} finally { 
+					break;
+				}
+			}
+
+			case ( "kick" ): { 
+				return await member.kick( reason );
+			}
+
+			case ( "ban" ): { 
+				return await member.ban( reason );
+			}
+
+			default: { 
+				console.log( match );
+			}
+		}
 	}
 
 	/**
@@ -142,8 +250,6 @@ module.exports = class PantherBotClient extends Client {
 			channel
 		} = message;
 
-		if ( author.bot ) return;
-
 		try { 
 			const data = await profileModel.findOne( { 
 				userId: author.id
@@ -155,9 +261,9 @@ module.exports = class PantherBotClient extends Client {
 		}
 
 		const key = Object.getOwnPropertyNames( responses ).find( k => { 
-			const { pattern } = responses[ k ];
+			const { pattern, matchExact = true, flags = "i" } = responses[ k ];
 
-			const regex = new RegExp( `^${pattern}$`, "i" );
+			const regex = new RegExp( `${ matchExact ? `^${pattern}$` : `${pattern}` }`, flags );
 			return regex.test( content );
 		} );
 
