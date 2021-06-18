@@ -25,8 +25,11 @@ module.exports = class PromoteCommand extends Command {
 		members.forEach( async member => { 
 			const currentRoleName = order.find( roleName => { 
 				const currentRole = guild.roles.cache.find( role => role.name.toLowerCase( ) === roleName );
+				console.log( currentRole, currentRole.id );
 				return member.roles.cache.has( currentRole.id );
 			} );
+
+			console.log( currentRoleName );
 
 			if ( !currentRoleName ) { 
 				return message.reply( `you cannot demote this user (${member.displayName}).` );
