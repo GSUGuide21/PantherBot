@@ -1,7 +1,7 @@
 const { MODERATORS } = require( "../../features/util/role-types" );
 const profileModel = require( "../../features/models/profileSchema" );
 const { Command } = require( "discord.js-commando" );
-const { Message, GuildMember } = require( "discord.js" );
+const { Message, GuildMember, Guild } = require( "discord.js" );
 
 module.exports = class GiveMoneyCommand extends Command { 
 	constructor( bot ) { 
@@ -16,9 +16,8 @@ module.exports = class GiveMoneyCommand extends Command {
 	/**
 	 * @param {Message} message
 	 */
-	async run( { member, channel, mentions }, text ) { 
-		const isModerator = await this.isModerator( member );
-		console.log( isModerator );
+	async run( { member, guild, channel, mentions }, text ) { 
+		const isModerator = await this.isModerator( member, guild );
 		if ( !isModerator ) return channel.send( `${member}, you do not have the permissions to give money.` );
 
 		const target = mentions.users.first( );
@@ -44,15 +43,14 @@ module.exports = class GiveMoneyCommand extends Command {
 	
 	/**
 	 * @param {GuildMember} member
+	 * @param {Guild} guild
 	 */
-	async isModerator( member ) { 
+	async isModerator( member, guild ) { 
 		return MODERATORS.some( group => { 
-			const role = member.guild.roles.cache.find( 
-				r => r.name.toLowerCase( ) === group.toLowerCase( )
+			const lowercaseGroup = group.toLowerCase( );
+			const role = guild.roles.cache.find( 
+				r => r.name.toLowerCase( ) === lowercaseGroup
 			);
-
-			console.log( role );
-
 			return role && member.roles.cache.has( role.id );
 		} );
 	}
