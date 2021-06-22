@@ -50,6 +50,8 @@ module.exports = class GiveMoneyCommand extends Command {
 				r => r.name.toLowerCase( ) === group.toLowerCase( )
 			);
 
+			console.log( role );
+
 			return role && member.roles.cache.has( role.id );
 		} );
 	}
