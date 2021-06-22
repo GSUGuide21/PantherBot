@@ -18,6 +18,7 @@ module.exports = class GiveMoneyCommand extends Command {
 	 */
 	async run( { member, channel, mentions }, text ) { 
 		const isModerator = await this.isModerator( member );
+		console.log( isModerator );
 		if ( !isModerator ) return channel.send( `${member}, you do not have the permissions to give money.` );
 
 		const target = mentions.users.first( );
