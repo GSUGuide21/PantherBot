@@ -8,7 +8,7 @@ class FastTypeGame extends Game {
 		super( { 
 			counters: { 
 				STARTING: 8,
-				IN_GAME: 45
+				IN_GAME: 75
 			},
 			message 
 		} );
