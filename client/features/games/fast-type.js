@@ -68,10 +68,7 @@ class FastTypeController extends Controller {
 		channel
 			.send( `Preparing a ${this.name} game!` )
 			.then( message => { 
-				this.games.set( channel.id, new FastTypeGame( { 
-					message,
-					...options
-				} ) );
+				this.games.set( channel.id, new FastTypeGame( message ) );
 			} );
 	}
 
