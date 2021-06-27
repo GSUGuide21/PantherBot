@@ -44,7 +44,7 @@ module.exports = class GameController {
 			--game.counter;
 		} );
 
-		this.setTimeout( ( ) => this.loop( ), 1000 );
+		setTimeout( ( ) => this.loop( ), 1000 );
 	}
 
 	addGame( msg, text, options ) { 
