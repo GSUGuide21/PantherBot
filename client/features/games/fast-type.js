@@ -108,7 +108,7 @@ class FastTypeController extends Controller {
 			const f = n => `${parseInt( n ).toLocaleString( "en-US" )}${t[ o.select( parseInt( n ) ) ]}`;
 			return Object.freeze( [ 
 				`***${f( i + 1 )} place***`, 
-				`<@${key}> (${p} point${p === 1 ? "" : "s"}, ${c})` 
+				`<@${x}> (${p} point${p === 1 ? "" : "s"}, ${c})` 
 			] ).join( ": " );
 		} );
 
