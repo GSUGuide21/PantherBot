@@ -21,6 +21,9 @@ module.exports = class GiveMoneyCommand extends Command {
 		if ( !isModerator ) return channel.send( `${member}, you do not have the permissions to give money.` );
 
 		const target = mentions.users.first( );
+
+		console.log( target );
+		
 		const pattern = /^<@!?(?:\d+)>$/g;
 
 		const money = text.replace( pattern, "" ).trim( );

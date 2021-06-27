@@ -1,96 +1,34 @@
 const { Message } = require( "discord.js" );
-const PantherBotClient = require( "../.." );
 
-class Game { 
-	constructor( options = { } ) { 
-		this.points = { };
-		this.stage = "STARTING";
-		this.options = { };
-		this.counter = 0;
-		this.message = null;
+module.exports = class Game { 
+	/** @typedef {Object<string, number>} Points */
+	/** @typedef {Object<string, number>} Counters */
 
-		const __PROPERTIES__ = Object.freeze( [ 
-			"counter",
-			"message"
-		] );
-
-		Object
-			.getOwnPropertyNames( options )
-			.forEach( key => { 
-				if ( __PROPERTIES__.includes( key ) ) { 
-					this[ key ] = options?.[ key ] ?? this[ key ];
-				} else { 
-					this.options[ key ] = options?.[ key ] ?? this.options[ key ];
-				}
-			} );
-	}
-
-	start( ) { 
-		this.stage = "STARTING";
-	}
-
-	inGame( ) { 
-		this.stage = "IN_GAME";
-	}
-
-	end( ) { 
-		this.stage = "ENDING";
-	}
-};
-
-class GameController { 
-	constructor( options = { } ) {
-		/** @type {Object<string, Game>} */
-		this.activeGames = { };
-		/** @type {PantherBotClient} */
-		this.client = null;
-
-		this.options = { };
-
-		const __PROPERTIES__ = Object.freeze( [ 
-			"client"
-		] );
-
-		Object
-			.getOwnPropertyNames( options )
-			.forEach( key => { 
-				if ( __PROPERTIES__.includes( key ) ) { 
-					this[ key ] = options?.[ key ] ?? this[ key ];
-				} else { 
-					this.options[ key ] = options?.[ key ] ?? this.options[ key ];
-				}
-			} );
-	}
+	/** 
+	 * @typedef {Object} GameOptions
+	 * @property {Message} message
+	 * @property {string} stage
+	 * @property {Object<string, Points>} points
+	 * @property {Object<string, Counters>} counters
+	 */
 
 	/**
-	 * @param {Message} msg
-	 * @param {Object} options
+	 * @param {GameOptions} options
 	 */
-	async prepareGame( msg, options ) { 
-		const { channel } = msg;
-		const { id } = channel;
-		await msg.delete( );
+	constructor( options ) {
+		const { 
+			message, 
+			points = { },
+			counters = { },
+			stage = "STARTING"
+		} = options;
 
-		try { 
-			const message = await channel.send( this.prepMessage );
-			await this.createGame( id, message, options );
-		} catch ( e ) { 
-			this.client.warn( e );
-			await channel.send( this.errorMessage );
-		}
+		this.counters = counters;
+		this.counter = this.counters?.[ stage ] ?? 5;
+
+		this.message = message;
+		this.points = points;
+
+		this.stage = stage;
 	}
-
-	/**
-	 * @param {string} id 
-	 * @param {Message} message 
-	 * @param {*} options 
-	 */
-	async createGame( id, message, options ) { 
-		this.activeGames[ id ] = new Game( { 
-			message,
-			...options
-		} );
-	}
-};
-
-module.exports = { Game, GameController };
+}
