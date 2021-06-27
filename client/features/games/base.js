@@ -16,7 +16,7 @@ module.exports = class GameController {
 				stage
 			} = game;
 
-			console.log( message );
+			console.log( message, stage );
 
 			if ( stage === "STARTING" ) { 
 				let string = this.start( game );
