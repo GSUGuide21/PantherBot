@@ -39,7 +39,7 @@ class FastTypeGame extends Game {
 	}
 
 	async givePoint( member, message ) { 
-		if ( game.stage !== "IN_GAME" ) return console.error( "The givePoint() method must be dispatched when a game is in progress." );
+		if ( this.stage !== "IN_GAME" ) return console.error( "The givePoint() method must be dispatched when a game is in progress." );
 		const { points } = this;
 		this.points[ member.id ] = this.points[ member.id ] ?? 0;
 
@@ -49,7 +49,7 @@ class FastTypeGame extends Game {
 		const timeout = setTimeout( ( ) => { 
 			target.delete( );
 			clearTimeout( timeout );
-			if ( game.stage !== "IN_GAME" ) return;
+			if ( this.stage !== "IN_GAME" ) return;
 			this.selectWord( );
 			this.message.edit( this.changeWord( ) );
 		}, 2000 );
@@ -61,7 +61,7 @@ class FastTypeController extends Controller {
 		super( { name: "Fast Type" } );
 	}
 
-	addGame( msg, options ) { 
+	addGame( msg ) { 
 		const { channel } = msg;
 		msg.delete( );
 
