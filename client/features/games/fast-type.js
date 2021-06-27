@@ -79,7 +79,7 @@ class FastTypeController extends Controller {
 
 	init( game ) { 
 		game.stage = "IN_GAME";
-		game.counter = game.counters[ game.stage ];
+		game.counter = game.counters.IN_GAME;
 
 		game.selectWord( );
 
