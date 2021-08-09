@@ -12,6 +12,7 @@ module.exports = class PantherBotButtonController extends EventEmitter {
 	 * @param {ButtonControllerOptions} options 
 	 */
 	constructor( { target, button, timeout = 30000 } ) { 
+		super( );
 		this.button = button;
 		this.collector = target.createButtonCollector( this.checkButton, { time: timeout } );
 		this.collector.on( "collect", this.handleButton );
