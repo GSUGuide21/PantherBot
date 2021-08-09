@@ -1,5 +1,6 @@
 const { MessageEmbed, GuildMember, User, Guild, Collection, Role, GuildChannel, Message } = require( "discord.js" );
 const { Client } = require( "discord.js-commando" );
+const DiscordButton = require( "discord-buttons" );
 const path = require( "path" );
 const fs = require( "fs-extra" );
 
@@ -33,6 +34,7 @@ module.exports = class PantherBotClient extends Client {
 		this.afk = false;
 
 		this.log( this );
+		DiscordButton( this );
 	}
 
 	toggle( msg ) { 
