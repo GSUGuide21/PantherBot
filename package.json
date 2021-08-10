@@ -1,11 +1,11 @@
 {
 	"name": "pantherbot",
-	"version": "2.0.6",
+	"version": "3.0.1",
 	"main": "index.js",
 	"module": "main.js",
 	"description": "A Discord bot that posts announcements and information. Note: This bot is not affiliated with Georgia State University.",
 	"engines": {
-		"node": "15.x"
+		"node": "16.x"
 	},
 	"scripts": {
 		"start": "node main.js",
@@ -14,8 +14,8 @@
 	"_moduleAliases": {
 		"@root": ".",
 		"@client": "client",
-		"@commands": "client/commands",
 		"@features": "client/features",
+		"@commands": "client/features/commands",
 		"@models": "client/features/models",
 		"@games": "client/features/games",
 		"@responses": "client/features/responses",
@@ -45,8 +45,9 @@
 		"2d-context": "^1.3.0",
 		"@mapbox/node-pre-gyp": "^1.0.1",
 		"axios": "github:axios/axios",
+		"cheerio": "^1.0.0-rc.10",
 		"discord-buttons": "^4.0.0",
-		"discord.js": "^12.5.1",
+		"discord.js": "^13.0.1",
 		"discord.js-commando": "github:discordjs/Commando",
 		"dotenv": "^8.2.0",
 		"emoji-regex": "^9.2.2",
