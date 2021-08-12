@@ -1,11 +1,7 @@
-const { AliasStore } = require( "@sapphire/framework" );
+const { CommandStore } = require( "@sapphire/framework" );
 // const { PantherBotCommand } = require( "./command" );
 
-module.exports = class PantherBotCommandStore extends AliasStore { 
-	constructor( client ) { 
-		super( client, { name: "commands" } );
-	}
-
+module.exports = class PantherBotCommandStore extends CommandStore { 
 	fetchCategory = category => { 
 		if ( !this.categories.includes( category ) ) return undefined;
 		const filter = this.filter( command => command.category === category );
