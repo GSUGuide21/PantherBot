@@ -19,8 +19,8 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		.replace( /\s+/g, "-" )
 		.replace( /[^\u0100-\uFFFF\w-]/g, '-' )
 		.replace( /--+/g, "-" )
-		.replace( /^-+|^\'+/, "" )
-		.replace( /-+$/g, "" );
+		.replace( /-+$/g, "" )
+		.replace( /[^\w ]+/g, '' );
 	
 	trunc = ( text, length ) => `${text.slice( 0, length - 3 )}...`;
 
