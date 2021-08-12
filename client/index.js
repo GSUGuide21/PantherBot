@@ -5,7 +5,7 @@ const path = require( "path" );
 const fs = require( "fs-extra" );
 const mongoose = require( "mongoose" );
 
-const CommandStore = require( "./store" );
+const PantherBotCommandStore = require( "./store" );
 const messages = require( "./features/messages.json" );
 // const { responses, handlers } = require( "./features/responses" );
 const profileModel = require( "./features/models/profileSchema" );
