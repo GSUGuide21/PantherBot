@@ -38,10 +38,11 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 
 		try { 
 			const response = await axios.get( apiUrl, { responseType: "json" } );
-			const { data: { data } } = response;
-			const post = data?.children?.[ 0 ];
+			const { data } = response;
+			const child = data?.children?.[ 0 ];
+			const { data: post } = child;
 
-			console.log( data, response );
+			console.log( post, data, response );
 
 			const { title, selftext = "", url, num_comments, author, score, created } = post;
 			const description = this.trunc( selftext, 200 );
