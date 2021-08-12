@@ -23,7 +23,23 @@ module.exports = class PantherBotClient extends SapphireClient {
 					type: "PLAYING",
 					name: "PantherBot"
 				} ]
-			}
+			},
+			intents: [ 
+				"DIRECT_MESSAGES",
+				"DIRECT_MESSAGE_REACTIONS",
+				"DIRECT_MESSAGE_TYPING",
+				"GUILDS",
+				"GUILD_BANS",
+				"GUILD_EMOJIS_AND_STICKERS",
+				"GUILD_INTEGRATIONS",
+				"GUILD_INVITES",
+				"GUILD_MEMBERS",
+				"GUILD_MESSAGES",
+				"GUILD_MESSAGE_REACTIONS",
+				"GUILD_MESSAGE_TYPING",
+				"GUILD_PRESENCES",
+				"GUILD_VOICE_STATES"
+			]
 		} );
 
 		this.commands = new CommandStore( this )
