@@ -44,7 +44,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 		const response = await axios.head( url );
 		const { status = 400 } = response;
-
+		console.log( response );
 		return response && ( status < 400 || status >= 500 );
 	};
 	
@@ -78,7 +78,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 	 */
 	run = async ( { channel }, args ) => { 
 		const title = await args.pick( "string" );
-		if ( !title ) channel.send( { content: "Failed to fetch the Signal article" } );
+		if ( !title ) channel.send( { content: "Failed to fetch the Signal article." } );
 		const slugged = this.slug( title );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
