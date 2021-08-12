@@ -1,5 +1,6 @@
 const { MessageEmbed, Message } = require( "discord.js" );
 const axios = require( "axios" ).default;
+const { Args } = require( "@sapphire/framework" );
 const cheerio = require( "cheerio" );
 const PantherBotCommand = require( "../../../command" );
 
@@ -70,9 +71,16 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		return { category, actualTitle, date, author, thumbnail, content };
 	};
 
-	run = async ( { channel }, title ) => { 
-		console.log( title, Array.from( title ) );
-		const slugged = this.slug( Array.from( title ).join( " " ) );
+	/**
+	 * @param {Message} message
+	 * @param {Args} args 
+	 * @returns 
+	 */
+	run = async ( { channel }, args ) => { 
+		const title = await args.restResult( "string" );
+		if ( !title.success ) channel.send( { content: "Failed to fetch the Signal article" } );
+		console.log( title, title.value );
+		const slugged = this.slug( Array.from( title.value ).join( " " ) );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
 		const image = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";
