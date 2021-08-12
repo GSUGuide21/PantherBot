@@ -18,7 +18,6 @@ module.exports = class PantherBotClient extends SapphireClient {
 		super( { 
 			defaultPrefix: opts.commandPrefix,
 			baseUserDirectory: path.join( __dirname, "features/commands" ),
-			shards: true,
 			caseInsensitiveCommands: true,
 			presence: { 
 				status: "online",
