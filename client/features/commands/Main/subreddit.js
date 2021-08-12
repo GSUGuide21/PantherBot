@@ -34,9 +34,10 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 		const types = Object.freeze( [ "new", "top", "rising", "hot" ] );
 		const type = types.includes( args[ 0 ] ) ? type : "new";
 
+		const apiUrl = `https://www.reddit.com/r/GaState/${type}.json?limit=1`;
+
 		try { 
-			const url = `https://www.reddit.com/r/GaState/${type}.json?limit=1`;
-			const response = await axios.get( url, { responseType: "json" } );
+			const response = await axios.get( apiUrl, { responseType: "json" } );
 			const { data: { data } } = response;
 			const post = data?.children?.[ 0 ];
 
