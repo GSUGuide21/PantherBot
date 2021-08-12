@@ -13,7 +13,7 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 	}
 
 	log = console.log;
-	
+
 	trunc = ( text, length ) => `${text.slice( 0, length - 3 )}...`;
 	pad = n => ( n < 10 && n > -10 ) ? ( `${( n < 0 ) ? "-" : ""}0${Math.abs( n )}` ) : String( n );
 	parse = d => { 
@@ -34,9 +34,8 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 		const types = Object.freeze( [ "new", "top", "rising", "hot" ] );
 		const type = types.includes( args[ 0 ] ) ? type : "new";
 
-		const url = `https://www.reddit.com/r/GaState/${type}.json?limit=1`;
-
 		try { 
+			const url = `https://www.reddit.com/r/GaState/${type}.json?limit=1`;
 			const response = await axios.get( url, { responseType: "json" } );
 			const { data: { data } } = response;
 			const post = data?.children?.[ 0 ];
