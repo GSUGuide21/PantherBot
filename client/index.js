@@ -42,8 +42,8 @@ module.exports = class PantherBotClient extends SapphireClient {
 			]
 		} );
 
-		this.commands = new PantherBotCommandStore( this )
-			.registerPath( path.join( __dirname, "/features/commands" ) );
+		this.commands = new PantherBotCommandStore( this );
+		this.commands.registerPath( path.join( __dirname, "/features/commands" ) );
 		
 		this.stores.register( this.command );
 
