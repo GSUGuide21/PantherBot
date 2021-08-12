@@ -20,8 +20,8 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 		const month = d.getMonth( ) + 1, day = d.getDate( ), year = d.getFullYear( );
 		const hours = d.getHours( ), minutes = d.getMinutes( ), seconds = d.getSeconds( );
 
-		const dString = [ month, day, year ].map( pad ).join( "/" );
-		const tString = [ hours, minutes, seconds ].map( pad ).join( ":" );
+		const dString = [ month, day, year ].map( this.pad ).join( "/" );
+		const tString = [ hours, minutes, seconds ].map( this.pad ).join( ":" );
 
 		return `${dString} ${tString}`;
 	};
