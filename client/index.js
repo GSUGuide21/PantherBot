@@ -6,8 +6,8 @@ const fs = require( "fs-extra" );
 const mongoose = require( "mongoose" );
 
 const messages = require( "./features/messages.json" );
-const { responses, handlers } = require( "./features/responses" );
-const profileModel = require( "./features/models/profileSchema" );
+// const { responses, handlers } = require( "./features/responses" );
+// const profileModel = require( "./features/models/profileSchema" );
 
 module.exports = class PantherBotClient extends SapphireClient { 
 	constructor( opts = { } ) { 
@@ -197,7 +197,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 	/**
 	 * @param {Message} message
 	 */
-	initFilter = async message => { 
+	/* initFilter = async message => { 
 		const {
 			author,
 			content,
@@ -285,7 +285,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 				console.log( match );
 			}
 		}
-	};
+	};*/
 
 	initResponses = async message => { 
 		const { 
