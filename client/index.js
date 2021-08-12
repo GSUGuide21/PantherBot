@@ -176,7 +176,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 	};
 
 	initFeatures = ( ) => { 
-		this.on( "message", this.initMessage.bind( this ) );
+		this.on( "messageCreate", this.initMessage.bind( this ) );
 		this.on( "guildMemberAdd", this.initJoin.bind( this ) );
 		this.on( "guildMemberRemove", this.initRemove.bind( this ) );
 		this.on( "guildBanAdd", this.initBanned.bind( this ) );
@@ -190,8 +190,8 @@ module.exports = class PantherBotClient extends SapphireClient {
 	initMessage = async message => { 
 		const { author: { bot } } = message;
 		if ( bot ) return;
-		this.initResponses( message );
-		this.initFilter( message );
+		// this.initResponses( message );
+		// this.initFilter( message );
 	};
 
 	/**
