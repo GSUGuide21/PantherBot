@@ -1,14 +1,12 @@
-const { Command } = require( "discord.js-commando" );
+const { Command } = require( "@sapphire/framework" );
 const { MessageEmbed, Message } = require( "discord.js" );
 const axios = require( "axios" ).default;
 const cheerio = require( "cheerio" );
 
 module.exports = class SignalCommand extends Command { 
-	constructor( bot ) {
-		super( bot, { 
+	constructor( context ) {
+		super( context, { 
 			name: "signal",
-			memberName: "signal",
-			group: "main",
 			aliases: [ "gsu-signal" ],
 			description: "Sends an article link from the Signal."
 		} );
@@ -71,10 +69,10 @@ module.exports = class SignalCommand extends Command {
 
 	/**
 	 * @param {Message} message
-	 * @param {string} title
+	 * @param {string[]} title
 	 */
 	run = async ( { channel }, title ) => { 
-		const slugged = this.slug( title );
+		const slugged = this.slug( title.join( " " ) );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
 		const image = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";

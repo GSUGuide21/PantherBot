@@ -1,4 +1,4 @@
-const { Command } = require( "discord.js-commando" );
+const { Command } = require( "@sapphire/framework" );
 const { MessageEmbed, DMChannel, TextChannel, NewsChannel, ThreadChannel, Message } = require( "discord.js" );
 const axios = require( "axios" ).default;
 
@@ -6,11 +6,8 @@ module.exports = class SubredditCommand extends Command {
 	constructor( bot ) { 
 		super( bot, { 
 			name: "subreddit",
-			memberName: "subreddit",
-			group: "main",
 			aliases: [ "gsu-reddit", "gsureddit", "sr" ],
-			description: "Creates an embed with information about the latest post on r/GaState",
-			argsType: "multiple"
+			description: "Creates an embed with information about the latest post on r/GaState"
 		} );
 	}
 

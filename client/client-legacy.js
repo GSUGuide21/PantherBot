@@ -1,50 +1,33 @@
-const { MessageEmbed, GuildMember, Role, User, Guild, Collection, GuildChannel, Message } = require( "discord.js" );
-const { SapphireClient } = require( "@sapphire/framework" );
-
+const { MessageEmbed, GuildMember, Role, User, Guild, Collection, GuildChannel, Message, MessageButton, MessageActionRow, Interaction, ButtonInteraction } = require( "discord.js" );
+const { SapphireClient: Client } = require( "@sapphire/framework" );
 const path = require( "path" );
 const fs = require( "fs-extra" );
-const mongoose = require( "mongoose" );
+const Package = require( "../package.json" );
 
 const messages = require( "./features/messages.json" );
-const { responses, handlers } = require( "./features/responses" );
+const responses = require( "./features/responses/data.json" );
+const responseHandlers = require( "./features/responses/respond" );
+
+const mongoose = require( "mongoose" );
 const profileModel = require( "./features/models/profileSchema" );
 
-module.exports = class PantherBotClient extends SapphireClient { 
+const filterEmojis = string => { 
+	const allowedChars = Object.freeze( [ 
+		"a-z", "0-9", "\\s", "\\-", "_",
+		"\\&", "\\$", "\\#", "\\!", "\\(",
+		"\\)", "\\[", "\\]"
+	] );
+	const pattern = new RegExp( `[^${allowedChars.join( "" )}]`, "gi" );
+	return string.replace( pattern, "" ).trim( );
+};
+
+module.exports = class PantherBotClient extends Client { 
 	constructor( opts = { } ) { 
 		opts.name = "PantherBot";
 		opts.owner = "707779366318243840";
 		opts.commandPrefix = "$";
 
-		super( { 
-			defaultPrefix: opts.commandPrefix,
-			baseUserDirectory: path.join( __dirname, "features/commands" ),
-			shards: true,
-			caseInsensitiveCommands: true,
-			presence: { 
-				status: "online",
-				activities: [ { 
-					type: "PLAYING",
-					name: "PantherBot"
-				} ]
-			},
-			intents: [ 
-				"DIRECT_MESSAGES",
-				"DIRECT_MESSAGE_REACTIONS",
-				"DIRECT_MESSAGE_TYPING",
-				"GUILDS",
-				"GUILD_BANS",
-				"GUILD_EMOJIS_AND_STICKERS",
-				"GUILD_INTEGRATIONS",
-				"GUILD_INVITES",
-				"GUILD_MEMBERS",
-				"GUILD_MESSAGES",
-				"GUILD_MESSAGE_REACTIONS",
-				"GUILD_MESSAGE_TYPING",
-				"GUILD_PRESENCES",
-				"GUILD_VOICE_STATES"
-			],
-			...opts
-		} );
+		super( opts );
 
 		this.ACTIVE = true;
 		this.POLL_LIMIT = 20;
@@ -61,7 +44,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 	} );
 
 	get isActive( ) { 
-		return new Promise( ( resolve, reject ) => ( this.ACTIVE ? resolve : reject )( this.ACTIVE ) );
+		return new Promise( ( resolve, reject ) => ( this.active ? resolve : reject )( this.active ) );
 	}
 
 	toggle = msg => { 
@@ -170,7 +153,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 	};
 	
 	init = async ( ) => { 
-		this.once( "ready", this.initConnection.bind( this ) );
+		this.once( "ready", this.initCommands.bind( this ) );
 		this.initFeatures( );
 		return this.login( process.env.PANTHERBOT_TOKEN );
 	};
@@ -315,8 +298,8 @@ module.exports = class PantherBotClient extends SapphireClient {
 
 		if ( !key ) return;
 
-		if ( handlers?.[ key ] && typeof handlers[ key ] === "function" )
-			return handlers[ key ]( message, this );
+		if ( responseHandlers?.[ key ] && typeof responseHandlers[ key ] === "function" )
+			return responseHandlers[ key ]( message, this );
 
 		const response = responses[ key ];
 
@@ -345,9 +328,17 @@ module.exports = class PantherBotClient extends SapphireClient {
 		return channel.send( text );
 	};
 
-	initConnection = async ( ) => { 
+	initCommands = async ( ) => { 
 		this.log( "Initialization completed. Loading commands for PantherBot now." );
+		this.setGame( "PantherBot" );
+
 		this.log( `PantherBot version: ${Package.version}.` );
+
+		const groups = require( "./groups.json" );
+		this.registry.registerGroups( Object.entries( groups ) )
+			.registerDefaults( )
+			.registerCommandsIn( path.join( __dirname, "commands" ) );
+		
 		this.connect( );
 	};
 
@@ -512,7 +503,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 	 * @param {User} event.executor
 	 * @param {User} event.target
 	 * @param {Guild} event.guild
-	 * @param {GuildMember} event.executorMember
+	 * @param {GuildMember} event.execMember
 	 * @param {GuildMember} event.targetMember
 	 * @param {string|void} event.reason
 	 */
@@ -525,7 +516,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 			title: "KICKED",
 			fields: [ { 
 				name: "Performer",
-				value: `${executorMember?.displayName ?? executor.username} (${executor.tag})`,
+				value: `${execMember?.displayName ?? executor.username} (${executor.tag})`,
 				inline: true
 			}, { 
 				name: "Target",
