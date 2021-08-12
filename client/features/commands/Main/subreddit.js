@@ -38,7 +38,7 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 
 		try { 
 			const response = await axios.get( apiUrl, { responseType: "json" } );
-			const { data } = response;
+			const { data: { data } } = response;
 			const child = data?.children?.[ 0 ];
 			const { data: post } = child;
 
