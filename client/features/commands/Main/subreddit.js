@@ -28,7 +28,6 @@ module.exports = class SubredditCommand extends Command {
 	 * @param {string[]} args 
 	 */
 	run = async ( { channel }, args ) => { 
-		console.log( channel );
 		const types = Object.freeze( [ "new", "top", "rising", "hot" ] );
 		const type = types.includes( args[ 0 ] ) ? type : "new";
 

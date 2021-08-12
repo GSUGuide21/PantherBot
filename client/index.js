@@ -190,6 +190,8 @@ module.exports = class PantherBotClient extends SapphireClient {
 	initMessage = async message => { 
 		const { author: { bot } } = message;
 		if ( bot ) return;
+
+		console.log( message );
 		// this.initResponses( message );
 		// this.initFilter( message );
 	};
