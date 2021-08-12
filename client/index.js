@@ -42,10 +42,10 @@ module.exports = class PantherBotClient extends SapphireClient {
 			]
 		} );
 
-		this.commands = new CommandStore( this )
+		this.commands = new PantherBotCommandStore( this )
 			.registerPath( path.join( __dirname, "/features/commands" ) );
-
-		this.registerStore( this.commands );
+		
+		this.stores.register( this.command );
 
 		this.ACTIVE = true;
 		this.POLL_LIMIT = 20;
