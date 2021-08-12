@@ -41,6 +41,8 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 			const { data: { data } } = response;
 			const post = data?.children?.[ 0 ];
 
+			console.log( data, response );
+
 			const { title, selftext = "", url, num_comments, author, score, created } = post;
 			const description = this.trunc( selftext, 200 );
 			const date = new Date( created * 1000 );
