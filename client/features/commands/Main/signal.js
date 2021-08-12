@@ -13,8 +13,6 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		} );
 	}
 
-	log = console.log;
-
 	slug = title => String( title )
 		.toLowerCase( )
 		.replace( /\s+/g, "-" )
@@ -24,6 +22,8 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		.replace( /-+$/g, "" );
 	
 	trunc = ( text, length ) => `${text.slice( 0, length - 3 )}...`;
+
+	log = console.log;
 	
 	isUrl = string => { 
 		if ( typeof string !== "string" ) throw new TypeError( "The URL must be a string." );
@@ -75,6 +75,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 	 * @param {string[]} title
 	 */
 	run = async ( { channel }, title ) => { 
+		console.log( title );
 		const slugged = this.slug( title.join( " " ) );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
