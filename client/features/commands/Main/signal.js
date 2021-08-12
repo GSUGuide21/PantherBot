@@ -70,13 +70,9 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		return { category, actualTitle, date, author, thumbnail, content };
 	};
 
-	/**
-	 * @param {Message} message
-	 * @param {string[]} title
-	 */
 	run = async ( { channel }, title ) => { 
-		console.log( title );
-		const slugged = this.slug( title.join( " " ) );
+		console.log( title, Array.from( title ) );
+		const slugged = this.slug( Array.from( title ).join( " " ) );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
 		const image = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";
