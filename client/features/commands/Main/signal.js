@@ -1,9 +1,9 @@
-const { Command } = require( "@sapphire/framework" );
 const { MessageEmbed, Message } = require( "discord.js" );
 const axios = require( "axios" ).default;
 const cheerio = require( "cheerio" );
+const PantherBotCommand = require( "../../../command" );
 
-module.exports = class SignalCommand extends Command { 
+module.exports = class SignalCommand extends PantherBotCommand { 
 	constructor( context, options ) {
 		super( context, { 
 			...options,
@@ -12,6 +12,8 @@ module.exports = class SignalCommand extends Command {
 			description: "Sends an article link from the Signal."
 		} );
 	}
+
+	log = console.log;
 
 	slug = title => String( title )
 		.toLowerCase( )

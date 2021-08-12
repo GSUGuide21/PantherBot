@@ -1,8 +1,8 @@
-const { Command } = require( "@sapphire/framework" );
 const { MessageEmbed, DMChannel, TextChannel, NewsChannel, ThreadChannel, Message } = require( "discord.js" );
 const axios = require( "axios" ).default;
+const PantherBotCommand = require( "../../../command" );
 
-module.exports = class SubredditCommand extends Command { 
+module.exports = class SubredditCommand extends PantherBotCommand { 
 	constructor( context, options ) { 
 		super( context, {
 			...options, 
@@ -12,6 +12,8 @@ module.exports = class SubredditCommand extends Command {
 		} );
 	}
 
+	log = console.log;
+	
 	trunc = ( text, length ) => `${text.slice( 0, length - 3 )}...`;
 	pad = n => ( n < 10 && n > -10 ) ? ( `${( n < 0 ) ? "-" : ""}0${Math.abs( n )}` ) : String( n );
 	parse = d => { 
