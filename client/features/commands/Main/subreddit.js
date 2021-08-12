@@ -3,8 +3,9 @@ const { MessageEmbed, DMChannel, TextChannel, NewsChannel, ThreadChannel, Messag
 const axios = require( "axios" ).default;
 
 module.exports = class SubredditCommand extends Command { 
-	constructor( bot ) { 
-		super( bot, { 
+	constructor( context, options ) { 
+		super( context, {
+			...options, 
 			name: "subreddit",
 			aliases: [ "gsu-reddit", "gsureddit", "sr" ],
 			description: "Creates an embed with information about the latest post on r/GaState"

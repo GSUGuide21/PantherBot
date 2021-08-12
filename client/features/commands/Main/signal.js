@@ -4,8 +4,9 @@ const axios = require( "axios" ).default;
 const cheerio = require( "cheerio" );
 
 module.exports = class SignalCommand extends Command { 
-	constructor( context ) {
+	constructor( context, options ) {
 		super( context, { 
+			...options,
 			name: "signal",
 			aliases: [ "gsu-signal" ],
 			description: "Sends an article link from the Signal."
