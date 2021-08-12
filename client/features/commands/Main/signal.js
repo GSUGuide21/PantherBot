@@ -77,12 +77,13 @@ module.exports = class SignalCommand extends PantherBotCommand {
 	 * @returns 
 	 */
 	run = async ( { channel }, args ) => { 
-		console.log( args );
 		const title = await args.pick( "string" );
 		if ( !title ) channel.send( { content: "Failed to fetch the Signal article." } );
 		const slugged = this.slug( title );
+		console.log( slugged )
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
+		console.log( url );
 		const image = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";
 
 		try { 
