@@ -1,7 +1,7 @@
-const { BaseAliasStore } = require( "@sapphire/framework" );
+const { AliasStore } = require( "@sapphire/framework" );
 const { PantherBotCommand } = require( "./command" );
 
-module.exports = class PantherBotCommandStore extends BaseAliasStore { 
+module.exports = class PantherBotCommandStore extends AliasStore { 
 	constructor( client ) { 
 		super( client, PantherBotCommand, { name: "commands" } );
 	}
