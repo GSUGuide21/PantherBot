@@ -1,7 +1,7 @@
 {
 	"name": "pantherbot",
 	"version": "3.0.1",
-	"main": "index.js",
+	"main": "main.js",
 	"module": "main.js",
 	"description": "A Discord bot that posts announcements and information. Note: This bot is not affiliated with Georgia State University.",
 	"engines": {
