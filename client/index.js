@@ -1,50 +1,35 @@
 const { MessageEmbed, GuildMember, Role, User, Guild, Collection, GuildChannel, Message } = require( "discord.js" );
-const { SapphireClient } = require( "@sapphire/framework" );
+const { SapphireClient, CommandStore } = require( "@sapphire/framework" );
 
 const path = require( "path" );
 const fs = require( "fs-extra" );
 const mongoose = require( "mongoose" );
 
+const CommandStore = require( "./store" );
 const messages = require( "./features/messages.json" );
 // const { responses, handlers } = require( "./features/responses" );
 const profileModel = require( "./features/models/profileSchema" );
 const Package = require( "../package.json" );
 
 module.exports = class PantherBotClient extends SapphireClient { 
-	constructor( opts = { } ) { 
-		opts.name = "PantherBot";
-		opts.owner = "707779366318243840";
-		opts.commandPrefix = "$";
-
+	constructor( options ) {
 		super( { 
-			defaultPrefix: opts.commandPrefix,
-			baseUserDirectory: path.join( __dirname, "features/commands" ),
+			...options,
 			caseInsensitiveCommands: true,
+			fetchPrefix: ( ) => "$",
 			presence: { 
 				status: "online",
 				activities: [ { 
 					type: "PLAYING",
 					name: "PantherBot"
 				} ]
-			},
-			intents: [ 
-				"DIRECT_MESSAGES",
-				"DIRECT_MESSAGE_REACTIONS",
-				"DIRECT_MESSAGE_TYPING",
-				"GUILDS",
-				"GUILD_BANS",
-				"GUILD_EMOJIS_AND_STICKERS",
-				"GUILD_INTEGRATIONS",
-				"GUILD_INVITES",
-				"GUILD_MEMBERS",
-				"GUILD_MESSAGES",
-				"GUILD_MESSAGE_REACTIONS",
-				"GUILD_MESSAGE_TYPING",
-				"GUILD_PRESENCES",
-				"GUILD_VOICE_STATES"
-			],
-			...opts
+			}
 		} );
+
+		this.commands = new CommandStore( this )
+			.registerPath( path.join( __dirname, "/features/commands" ) );
+
+		this.registerStore( this.commands );
 
 		this.ACTIVE = true;
 		this.POLL_LIMIT = 20;
