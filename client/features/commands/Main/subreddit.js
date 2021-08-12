@@ -42,7 +42,7 @@ module.exports = class SubredditCommand extends PantherBotCommand {
 			const child = data?.children?.[ 0 ];
 			const { data: post } = child;
 
-			console.log( post, data, response );
+			console.log( post, child );
 
 			const { title, selftext = "", url, num_comments, author, score, created } = post;
 			const description = this.trunc( selftext, 200 );
