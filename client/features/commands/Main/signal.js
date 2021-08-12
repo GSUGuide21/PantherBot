@@ -77,6 +77,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 	 * @returns 
 	 */
 	run = async ( { channel }, args ) => { 
+		console.log( args );
 		const title = await args.pick( "string" );
 		if ( !title ) channel.send( { content: "Failed to fetch the Signal article." } );
 		const slugged = this.slug( title );
