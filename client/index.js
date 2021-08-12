@@ -7,7 +7,7 @@ const mongoose = require( "mongoose" );
 
 const messages = require( "./features/messages.json" );
 // const { responses, handlers } = require( "./features/responses" );
-// const profileModel = require( "./features/models/profileSchema" );
+const profileModel = require( "./features/models/profileSchema" );
 
 module.exports = class PantherBotClient extends SapphireClient { 
 	constructor( opts = { } ) { 
