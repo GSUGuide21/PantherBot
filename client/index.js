@@ -1,5 +1,5 @@
 const { MessageEmbed, GuildMember, Role, User, Guild, Collection, GuildChannel, Message } = require( "discord.js" );
-const { SapphireClient, CommandStore } = require( "@sapphire/framework" );
+const { SapphireClient } = require( "@sapphire/framework" );
 
 const path = require( "path" );
 const fs = require( "fs-extra" );
@@ -42,8 +42,8 @@ module.exports = class PantherBotClient extends SapphireClient {
 			]
 		} );
 
-		this.commands = new PantherBotCommandStore( this );
-		this.commands.registerPath( path.join( __dirname, "/features/commands" ) );
+		this.commands = new PantherBotCommandStore( this ).registerPath( path.join( __dirname, "/features/commands" ) );
+		console.log( this.commands );
 		
 		this.stores.register( this.command );
 
