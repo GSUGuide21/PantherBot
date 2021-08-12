@@ -348,6 +348,7 @@ module.exports = class PantherBotClient extends SapphireClient {
 	initConnection = async ( ) => { 
 		this.log( "Initialization completed. Loading commands for PantherBot now." );
 		this.log( `PantherBot version: ${Package.version}.` );
+		this.log( `Current prefix: ${this.options.defaultPrefix}` );
 		this.connect( );
 	};
 
