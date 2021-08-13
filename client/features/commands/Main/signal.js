@@ -125,6 +125,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 			return channel.send( { embeds: [ embed ] } );
 		} catch ( e ) { 
+			console.warn( e );
 			return channel.send( "The Signal article you are seeking does not exist." );
 		}
 	};
