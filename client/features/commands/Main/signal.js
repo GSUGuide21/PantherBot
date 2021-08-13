@@ -65,10 +65,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 		const $wrapper = $entry.find( ".wpb_text_column > .wpb_wrapper" );
 
-		const category = $categories.map( ( i, el ) => {
-			console.log( el, $main.find( el ) );
-			return $main.find( el ).text( ) 
-		} ), actualTitle = $title.text( );
+		const category = $categories.map( ( i, el ) => $( el ).text( ) ).toArray( ).join( ", " ), actualTitle = $title.text( );
 		const date = $date.text( ), author = $author.text( );
 		const thumbnail = $thumbnail.attr( "src" ), content = $wrapper.text( ).trim( );
 		
