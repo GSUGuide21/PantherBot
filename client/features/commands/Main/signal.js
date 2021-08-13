@@ -81,14 +81,13 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		const title = await args.restResult( "string" );
 		if ( !title.success ) channel.send( { content: "Failed to fetch the Signal article." } );
 		const slugged = this.slug( title.value );
-		console.log( slugged );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
-		console.log( url );
 		const image = "https://s4844.pcdn.co/wp-content/uploads/2020/08/Signal-Logo-Signal-Blue-03.png";
 
 		try { 
 			const exists = await this.urlExists( url );
+			console.log( url, exists );
 			if ( !exists ) return channel.send( "The Signal article you are seeking does not exist." );
 
 			const { data } = await axios.get( url, { responseType: "text" } );
