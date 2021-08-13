@@ -96,7 +96,8 @@ module.exports = class SignalCommand extends PantherBotCommand {
 			const $main = $( "#breaking-main-content" )
 			const details = this.scrape( $main, $ );
 
-			const { content, author, actualTitle, date, category, thumbnail = image } = details;
+			const { content, author, actualTitle, date, category = "None", thumbnail = image } = details;
+			console.log( details );
 
 			const embed = new MessageEmbed( { 
 				color: 0x35bfef,
