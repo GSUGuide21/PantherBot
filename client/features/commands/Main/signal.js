@@ -45,7 +45,6 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 		const response = await axios.head( url );
 		const { status = 400 } = response;
-		console.log( response );
 		return response && ( status < 400 || status >= 500 );
 	};
 	
@@ -87,7 +86,6 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 		try { 
 			const exists = await this.urlExists( url );
-			console.log( url, exists );
 			if ( !exists ) return channel.send( "The Signal article you are seeking does not exist." );
 
 			const { data } = await axios.get( url, { responseType: "text" } );
@@ -97,7 +95,6 @@ module.exports = class SignalCommand extends PantherBotCommand {
 			const details = this.scrape( $main, $ );
 
 			const { content, author, actualTitle, date, category = "None", thumbnail = image } = details;
-			console.log( details );
 
 			const embed = new MessageEmbed( { 
 				color: 0x35bfef,
@@ -120,8 +117,8 @@ module.exports = class SignalCommand extends PantherBotCommand {
 					value: category,
 					inline: true
 				} ],
-				thumbnail,
-				description: this.trunc( content, 300 )
+				description: this.trunc( content, 300 ),
+				thumbnail: { url: thumbnail }
 			} );
 
 			return channel.send( { embeds: [ embed ] } );
