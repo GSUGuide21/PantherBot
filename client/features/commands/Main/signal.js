@@ -53,7 +53,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 	 * Scrapes the article for its details
 	 * @param {cheerio.Cheerio<cheerio.Element>} $main 
 	 */
-	scrape = $main => { 
+	scrape = ( $main, $ ) => { 
 		const $categories = $main.find( ".breaking-title-category > a" );
 		const $title = $main.find( ".breaking-title" );
 		const $authorDate = $main.find( ".breaking-title-date-author" );
@@ -65,7 +65,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 		const $wrapper = $entry.find( ".wpb_text_column > .wpb_wrapper" );
 
-		const category = $categories.map( ( i, el ) => el.textContent.trim( ) ).join( ", " ), actualTitle = $title.text( );
+		const category = $categories.map( ( i, el ) => $main.find( el ).text( ) ), actualTitle = $title.text( );
 		const date = $date.text( ), author = $author.text( );
 		const thumbnail = $thumbnail.attr( "src" ), content = $wrapper.text( ).trim( );
 		
@@ -94,7 +94,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 			const $ = cheerio.load( data );
 
 			const $main = $( "#breaking-main-content" )
-			const details = this.scrape( $main );
+			const details = this.scrape( $main, $ );
 
 			const { content, author, actualTitle, date, category, thumbnail = image } = details;
 
