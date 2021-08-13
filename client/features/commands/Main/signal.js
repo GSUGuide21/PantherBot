@@ -118,7 +118,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 					inline: true
 				} ],
 				description: this.trunc( content, 300 ),
-				thumbnail: { url: thumbnail }
+				image: { url: thumbnail }
 			} );
 
 			return channel.send( { embeds: [ embed ] } );
