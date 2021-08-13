@@ -53,7 +53,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 	 * @param {cheerio.Cheerio<cheerio.Element>} $main 
 	 */
 	scrape = $main => { 
-		const $category = $main.find( ".breaking-title-category > a" );
+		const $categories = $main.find( ".breaking-title-category > a" );
 		const $title = $main.find( ".breaking-title" );
 		const $authorDate = $main.find( ".breaking-title-date-author" );
 		const $date = $authorDate.children( ":first-child" );
@@ -64,7 +64,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 
 		const $wrapper = $entry.find( ".wpb_text_column > .wpb_wrapper" );
 
-		const category = $category.text( ), actualTitle = $title.text( );
+		const category = $categories.map( ( index, $category ) => $category.text( ) ).join( ", " ), actualTitle = $title.text( );
 		const date = $date.text( ), author = $author.text( );
 		const thumbnail = $thumbnail.attr( "src" ), content = $wrapper.text( ).trim( );
 		
@@ -80,7 +80,7 @@ module.exports = class SignalCommand extends PantherBotCommand {
 		const title = await args.restResult( "string" );
 		if ( !title.success ) channel.send( { content: "Failed to fetch the Signal article." } );
 		const slugged = this.slug( title.value );
-		console.log( slugged )
+		console.log( slugged );
 		const base = "https://www.georgiastatesignal.com";
 		const url = `${base}/${slugged}`;
 		console.log( url );
